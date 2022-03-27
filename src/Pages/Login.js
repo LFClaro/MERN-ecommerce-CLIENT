@@ -27,8 +27,8 @@ const Login = ({ setAuthorized }) => {
 
     //***************back end link changes may needed */
     const onSubmit = async (values) => {
-        console.log(process.env.BACKEND_API);
-        const res = await fetch(process.env.BACKEND_API+`/api/auth`, {
+        console.log(process.env.REACT_APP_API_URL);
+        const res = await fetch(process.env.REACT_APP_API_URL+`/api/auth`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
