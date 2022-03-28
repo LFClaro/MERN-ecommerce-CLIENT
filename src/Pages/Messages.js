@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+// api
+import { getAllMessages, getContacts, getMessages, sendMessage } from '../Api/messageApi'
 
 // components
 import MessagesContact from '../Components/Messages/MessagesContact'
@@ -6,122 +9,130 @@ import MessagesConversation from '../Components/Messages/MessagesConversation'
 
 const Messages = () => {
 
-    // dummy data
-    const contacts = [
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Christine"
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Angela"
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Tommy"
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Hilfiger"
+    // tmp
+    let conversatiomImg = "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png"
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Chanel"
+    const [token, setToken] = useState([])
+    const [contacts, setContacts] = useState([])
+    const [selectedMessages, setSelectedMessages] = useState([])
+    const [receiverId, setReceiverId] = useState("")
+    const [receiverDisplayName, setReceiverDisplayName] = useState("")
+    const [messageData, setMessageData] = useState("")
+    const [isMessageSelected, setIsMessageSelected] = useState(false)
+    // TODO call this before loading this page
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Bobby"
+    const handleSelectMsg = (e, displayName) => {
+        // if it's the same user, dont do anything
+        if (e.currentTarget.id === receiverId) {
+            return;
+        }
+        setSelectedMessages([]) // clear messages first, then use effect will repopulate
+        setIsMessageSelected(true)
+        setReceiverId(e.currentTarget.id)
+        setReceiverDisplayName(displayName)
+    }
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Cereal"
+    const handleInputChange = (input) => {
+        setMessageData(input.target.value)
+    }
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Flakes"
+    const handleMessageSend = (event) => {
+        event.preventDefault();
+        // call api to send message
+        sendMessage(token, receiverId, messageData)
+            .then((data) =>
+                // get updated messages
+                handleRefresh()
+            )
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Banana"
+        // clear the textarea
+        setMessageData("")
+    }
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Bread"
+    const handleRefresh = ()  => {
+        getMessages(token, receiverId).then((data) =>
+            setSelectedMessages(data))
+    }
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Grapes"
+    useEffect(() => {
+        // check if this user is authenticated
+        let storageToken = localStorage.getItem("token");
 
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Grapes"
-
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Grapes"
-
-        },
-        {
-            contactImg: "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png",
-            contactName: "Grapes"
+        // set the token and load initial api calls here
+        if (storageToken) {
+            setToken(storageToken)
+            setIsAuthenticated(true)
+            // call api here
+            getContacts(storageToken).then((data) => {
+                setContacts(data)
+            })
 
         }
 
+    }, []);
 
-    ]
-
-    const [selectedMsg, setSelectedMsg] = useState("")
-
-    const handleSelectMsg = (name) => {
-        setSelectedMsg(name)
-    }
+    useEffect(() => {
+        handleRefresh()
+    }, [receiverId]);
 
     return (
         <section className="messages section-bg">
             <div className="container" data-aos="fade-up">
                 <div className="row">
 
-                    <div className="col-sm-2 messages-contacts">
+                    <div className="col-lg-2 messages-contacts">
                         <h3>
                             CONTACTS
                         </h3>
                         <div className="messages-contacts-list">
                             {contacts.map((c) => (
-                                <button onClick={() => handleSelectMsg(c.contactName)}>
-                                    <MessagesContact key={c.contactName} img={c.contactImg} name={c.contactName} />
-                                </button>
+                                <>
+                                    <button id={c._id} onClick={(e) => handleSelectMsg(e, c.fname + " " + c.lname)}>
+                                        <MessagesContact img={conversatiomImg} name={c.fname + " " + c.lname} />
+                                    </button>
+                                </>
                             ))}
                         </div>
 
                     </div>
+
+
+
                     <div className="col messages-convo">
+
                         <h3>
-                            MESSAGES
+                            {receiverDisplayName}
+                            <button className="btn btn-primary" style={{ float: "right" }} onClick={handleRefresh} >Refresh Chat</button>
                         </h3>
-                        <div className="messages-chat-history">
+                        {isMessageSelected &&
+                            <>
+                                <div className="messages-chat-history">
+                                    {selectedMessages.map((m) => {
 
-                            <MessagesConversation user={selectedMsg} />
+                                        if (m.receiverId === receiverId) {
+                                            return <MessagesConversation message={m} position="right" />
+                                        } else {
+                                            return <MessagesConversation message={m} position="left" />
+                                        }
 
-                        </div>
-                        <div className="messages-chat-box">
-                            <form className="d-flex">
-                                <textarea className="form-control messages-textarea"></textarea>
-                                <button type="submit" className="btn btn-primary">Send</button>
-                            </form>
-                        </div>
+                                    })}
 
+
+                                </div>
+                                <div className="messages-chat-box">
+                                    <form className="d-flex">
+                                        <textarea className="form-control messages-textarea" value={messageData} onChange={handleInputChange}></textarea>
+                                        <button className="btn btn-primary" onClick={handleMessageSend}>Send</button>
+                                    </form>
+                                </div>
+                            </>
+                        }
                     </div>
+
+
 
                 </div>
 

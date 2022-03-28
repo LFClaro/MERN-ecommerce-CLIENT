@@ -33,7 +33,32 @@
 .messages-chat-history {
     background-color: #f0f0f0;
     margin-top: 10px;
-    height: 80%;
+    overflow: auto;
+    height: 70vh;
+}
+
+.messages-chat-history-data-right {
+    background-color: rgba(116, 15, 214, 0.9) ;
+    padding: 10px;
+    margin: 10px;
+    float: right;
+    margin-top: 10px;
+    width: 30%;
+    display:block;
+    clear: both;
+    color: #fff;
+}
+
+.messages-chat-history-data-left {
+    background-color: rgba(86, 58, 250, 0.9);
+    padding: 10px;
+    margin: 10px;
+    float: left;
+    margin-top: 10px;
+    width: 30%;
+    display:block;
+    clear: both;
+    color: #fff;
 }
 
 .messages-chat-box {
