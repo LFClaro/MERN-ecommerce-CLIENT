@@ -75,7 +75,7 @@ const Login = ({ setAuthorized }) => {
                     style={{ background: "white", minWidth: "20em", maxWidth: "30em", minHeight: "70vh", maxHeight: "40em" }}>
 
                     <form className="justify-content-center" onSubmit={formik.handleSubmit}>
-                        <h3 class="">Sign In</h3><br />
+                        <h3 className="">Sign In</h3><br />
 
                         {/* email TextField */}
                         <div>
@@ -118,7 +118,7 @@ const Login = ({ setAuthorized }) => {
                         </div>
 
                         <div className='d-flex flex-column align-items-center justify-content-center'>
-                            <div><button type='submit' class="btn btn-primary mb-2">Get Started!</button></div>
+                            <div><button type='submit' className="btn btn-primary mb-2">Get Started!</button></div>
                             <div><Link to="../signup" >  <u>Create Account</u></Link></div>
                         </div>
 

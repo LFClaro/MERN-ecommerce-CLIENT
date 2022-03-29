@@ -4,14 +4,14 @@ import HeaderAvatar from './HeaderAvatar';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 export default function Header({ authorized, setAuthorized }) {
-    return (
-        <>
-            <header id="header" className="fixed-top ">
-                <div className="container d-flex align-items-center justify-content-between">
-                    <h1 className="logo"><a href="index.html">MERN Maniacs</a></h1>
+  return (
+    <>
+      <header id="header" className="fixed-top ">
+        <div className="container d-flex align-items-center justify-content-between">
+          <h1 className="logo"><a href="/">MERN Maniacs</a></h1>
 
 
-                     {/* <a href="index.html" className="logo"><img src="assets/img/logo.png" alt="" className="img-fluid" /></a>
+          {/* <a href="index.html" className="logo"><img src="assets/img/logo.png" alt="" className="img-fluid" /></a>
 
                      <nav id="navbar" className="navbar">
                          <ul>
@@ -40,82 +40,68 @@ export default function Header({ authorized, setAuthorized }) {
               </a>
             </div>
           </Navbar.Brand>*/}
-          <Navbar>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav" >
-            <Nav className="mr-auto ">
-              <Nav.Link className="text-light" href="#features">
-                <Link className="nav-link scrollto" to="about">
+
+
+          <Navbar collapseOnSelect expand="lg" variant="dark">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav" >
+              <Nav className="mr-auto ">
+                <Nav.Link href="about">
                   About
-                </Link>
-              </Nav.Link>
-              <Nav.Link className="text-light" href="#pricing">
-                <Link className="nav-link scrollto" to="services">
+                </Nav.Link>
+                <Nav.Link href="services">
                   Services
-                </Link>
-              </Nav.Link>
-              <Nav.Link className="text-light" href="#pricing">
-                <Link className="nav-link scrollto" to="team">
+                </Nav.Link>
+                <Nav.Link href="team">
                   Team
-                </Link>
-              </Nav.Link>
-              <Nav.Link className="text-light" href="#pricing">
-                <Link className="nav-link scrollto " to="profile">
+                </Nav.Link>
+                <Nav.Link href="profile">
                   Profile
-                </Link>
-              </Nav.Link>
-              <Nav.Link className="text-light" href="#pricing">
-                <Link className="nav-link scrollto " to="community">
+                </Nav.Link>
+                <Nav.Link href="community">
                   Community
-                </Link>
-              </Nav.Link>
-              <NavDropdown
-                title="Products"
-                id="collasible-nav-dropdown"
-                menuVariant="light"
-              >
-                <NavDropdown.Item
-                  href="#action/3.1"
-                  style={{ color: "indigo" }}
-                >
-                  Category 0
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  href="#action/3.2"
-                  style={{ color: "indigo" }}
-                >
-                  Category 1
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  href="#action/3.3"
-                  style={{ color: "indigo" }}
-                >
-                  Category 2
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item
-                  href="#action/3.4"
-                  style={{ color: "indigo" }}
-                >
-                  All Products
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Nav>
-              <Nav.Link className="text-light" href="#deets">
-                <Link className="nav-link scrollto" to="contact">
+                </Nav.Link>
+                {authorized &&
+                  <NavDropdown
+                    title="Items"
+                    id="collapsible-nav-dropdown"
+                    menuVariant="light"
+                  >
+                    <NavDropdown.Item
+                      href="addItem"
+                      style={{ color: "indigo" }}
+                    >
+                      Add Item
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href="#action/3.2"
+                      style={{ color: "indigo" }}
+                    >
+                      Rent Item
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item
+                      href="#action/3.4"
+                      style={{ color: "indigo" }}
+                    >
+                      See your Items
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                }
+              </Nav>
+              <Nav>
+                <Nav.Link href="contact">
                   Contact
-                </Link>
-              </Nav.Link>
-              <Nav.Link className="text-light" eventKey={2} href="#memes">
-                <Link className="nav-link scrollto" to="faq">
+                </Nav.Link>
+                <Nav.Link href="faq">
                   FAQ
-                </Link>
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar> 
-        </div>      
+                </Nav.Link>
+                {authorized === false && <Link className="getstarted scrollto" to="login">Get Started</Link>}
+                {authorized && <HeaderAvatar setAuthorized={setAuthorized} />}
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </div>
       </header>
     </>
   );

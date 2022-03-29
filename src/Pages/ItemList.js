@@ -5,7 +5,7 @@ import InputBase from '@mui/material/InputBase';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Typography } from '@mui/material';
 import ItemCard from '../Components/ItemCard';
 
-const categories = ["House", "Cars", 'Baby', 'Beauty', 'Books', 'Boys', 'Clothing', 'Camera', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
+const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
 const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", title: 'sdgfdsfggsdffgsd', rate: 2.5 },]
 const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
