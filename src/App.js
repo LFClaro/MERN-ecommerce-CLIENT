@@ -33,7 +33,7 @@ import ItemList from './Pages/ItemList';
 
 
 function App() {
-  const [authorized, setAuthorized] = useState(false);
+  const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
 
   return (
     <BrowserRouter>
@@ -51,7 +51,7 @@ function App() {
         <Route path='team' element={<Team />} />
         <Route path='terms' element={<Terms />} />
         <Route path='admin' element={<AdminMain />} />
-        <Route path='users' element={<AdminUsers />} />  
+        <Route path='users' element={<AdminUsers />} />
         <Route path='profile' element={<Profile />} />
         <Route path='community' element={<Community />} />
         <Route path='addItem' element={<AddItem />} />
