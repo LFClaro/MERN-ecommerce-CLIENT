@@ -33,7 +33,7 @@ import ItemList from './Pages/ItemList';
 
 
 function App() {
-  const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
+  const [authorized, setAuthorized] = useState(true); //default value false, set to true for testing purpose
 
   return (
     <BrowserRouter>

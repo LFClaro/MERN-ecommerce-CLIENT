@@ -6,6 +6,8 @@ import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, P
 import ItemCard from '../Components/ItemCard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MapIcon from '@mui/icons-material/Map';
+import GoogleMapStyle from '../Components/GoogleMapStyle';
+import { GoogleMap, InfoWindow, LoadScript, Marker, useLoadScript, } from '@react-google-maps/api';
 import axios from 'axios';
 
 const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
@@ -50,6 +52,13 @@ const ItemList = () => {
     const indexOfFirstPost = indexOfLastPost - postsPerPage; // first post in current page
     const currentPagePosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
+    //GoogleMap settings
+    // console.log(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
+    const [pinSelected, setPinSelected] = useState();
+    const [userLocations, setUserLocations] = useState([{ lat: 43.6532, lng: -79.3832, }])
+    const mapRef = React.useRef();
+    const onMapLoad = React.useCallback((map) => {mapRef.current = map;}, []);
+
     return (
         <div>
             <section id="hero" className="d-flex justify-content-center h-auto">
@@ -76,7 +85,7 @@ const ItemList = () => {
                             </FormGroup>
                         </div>
 
-                        <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid black'}>
+                        <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid yellow'}>
 
                             <Grid border={'1px solid black'} paddingRight={1}>
                                 <IconButton onClick={() => { setListMode('normal'); console.log(listMode) }} >
@@ -99,10 +108,38 @@ const ItemList = () => {
                                 <Pagination count={Math.ceil(posts.length / postsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
                             </>}
 
+                            {/* Display when the user click the map option */}
                             {listMode === 'map' && <>
-                                <Grid>
-                                    
-                                </Grid>
+                                <>
+                                    <div className='mapWrap' style={{ width: 500 + 'px', height: 500 + 'px', border: '1px solide black' }}>
+                                        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
+                                            <GoogleMap
+                                                mapContainerStyle={{
+                                                    width: '100vw',
+                                                    height: '100vh'
+                                                }}
+                                                center={{ lat: 43.6532, lng: -79.3832, }}
+                                                zoom={13}
+                                                options={{ disableDefaultUI: true, styles: GoogleMapStyle }}
+                                                onLoad={onMapLoad}
+                                            >
+                                                { /* Child components, such as markers, info windows, etc. */}
+                                                {userLocations.map((userLocation, index) => (
+                                                    <Marker key={index} position={userLocation} onClick={() => { setPinSelected(userLocation) }} />
+
+                                                ))}
+
+                                                {/* ^^^^^^^^^^^^^^^^^^^need to connect with the real data */}
+                                                {pinSelected ?
+                                                    <InfoWindow position={pinSelected} onCloseClick={() => { setPinSelected(null); }}>
+                                                        <Grid>
+                                                            <ItemCard image={dummy[0].image} price={dummy[0].price} title={dummy[0].name} rate={dummy[0].overallRating} />
+                                                        </Grid>
+                                                    </InfoWindow> : null}
+                                            </GoogleMap>
+                                        </LoadScript>
+                                    </div>
+                                </>
                             </>}
                         </Grid>
 
