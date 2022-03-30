@@ -10,7 +10,7 @@ import { Rating } from '@mui/material';
 
 const ItemCard = ({ image, price, title, rate }) => {
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 260, border:"1px solid #fbc01c" }}>
             {/* <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -30,6 +30,7 @@ const ItemCard = ({ image, price, title, rate }) => {
                 height="194"
                 image={image}
                 alt="item image"
+                style={{padding: 4}}
             />
             <CardContent>
                 <Typography>${price}</Typography>

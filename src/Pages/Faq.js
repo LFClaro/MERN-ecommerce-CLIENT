@@ -8,7 +8,7 @@ const Faq = () => {
     const [LoadingStatus, setLoadingStatus] = useState(true);
 
     useEffect(async () => {
-        await axios.get('http://localhost:5000/faqs')
+        await axios.get(`${process.env.REACT_APP_API_URL}/api/faqs`)
             .then((res) => {
                 console.log(res.data);
                 setFaqs(res.data);
@@ -20,7 +20,8 @@ const Faq = () => {
     }, []);
 
     if (LoadingStatus === true) {
-        return <div className="d-flex align-items-center justify-content-center"><CircularProgress /></div>
+        return <section id="hero" className="d-flex align-items-center">
+            <div className="d-flex align-items-center justify-content-center"><CircularProgress /></div></section>
     }
 
     return (

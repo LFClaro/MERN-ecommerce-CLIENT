@@ -1,16 +1,28 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Typography } from '@mui/material';
-import ItemCard from '../Components/Item/ItemCard';
+import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Pagination, Typography } from '@mui/material';
+import ItemCard from '../Components/ItemCard';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import MapIcon from '@mui/icons-material/Map';
 import axios from 'axios';
-import decode from 'jwt-decode';
 
 const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
-const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", title: 'sdgfdsfggsdffgsd', rate: 2.5 },]
+const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '1Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '2Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '3Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '4Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '5Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '6Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '7Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '8Hololens/Microsoft/2nd generation', overallRating: 2.5 },
+]
+
+// TODO: only get partial data from the database according to the pagination
 const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
+
     const [categorySelected, setcategorySelected] = useState([]);
     const [items, setItems] = useState([]);
 
@@ -41,21 +53,45 @@ const ItemList = () => {
 
     const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length
 
+    // Get Posts from database
+    // useEffect(async () => {
+    //     await axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             setPosts(res.data);
+    //             setLoadingStatus(false);
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         })
+    // }, []);
+    const [posts, setPosts] = useState(dummy);
+    const [LoadingStatus, setLoadingStatus] = useState(true);
+
+    // pagination settings
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(3); //############set the number of posts per page#########
+    const handlePageChange = (e, p) => { setCurrentPage(p); }
+
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage; //last post in curernt page
+    const indexOfFirstPost = indexOfLastPost - postsPerPage; // first post in current page
+    const currentPagePosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
     return (
         <div>
-            <section id="hero" className="d-flex justify-content-center">
+            <section id="hero" className="d-flex justify-content-center h-auto">
                 {/* searchBar
                 <div className='searchBar'>
                 </div> */}
 
-                <div className='container bg-light'>
-
+                <div className='container bg-light pb-5'>
 
                     {/* content for filter and itemList */}
                     <div className="d-flex flex-row justify-content-center">
 
-                        {/* Filters */}
-                        <div className="col-3">
+                        {/* Category Filters */}
+                        <div className="col-3 ps-1">
                             <p className='h6 fw-bold'>Departments</p>
                             <FormGroup>
                                 {categories.map((category) => {
@@ -66,17 +102,38 @@ const ItemList = () => {
                                     )
                                 })}
                             </FormGroup>
-
-
                         </div>
 
-                        {/* itemList */}
-                        <div className="container col-9">
-                            {items.map((item) => (
-                                console.log(arrAvg(item.overallRating)),
-                                <ItemCard image={item.image} price={item.price} title={item.name} rate={arrAvg(item.overallRating)} key={item._id} />
-                            ))}
-                        </div>
+                        <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid black'}>
+
+                            <Grid border={'1px solid black'} paddingRight={1}>
+                                <IconButton onClick={() => { setListMode('normal'); console.log(listMode) }} >
+                                    <ListAltIcon />
+                                </IconButton>
+                                <IconButton onClick={() => { setListMode('map'); console.log(listMode) }}>
+                                    <MapIcon />
+                                </IconButton>
+                            </Grid>
+
+                            {listMode === 'normal' && <>
+                                {/* itemList */}
+                                <Grid container spacing={1} justifyContent={'space-evenly'} alignItems={'center'} border={'1px solid black'}>
+                                    {currentPagePosts.map(item => (
+                                        <Grid item><ItemCard image={item.image} price={item.price} title={item.name} rate={item.overallRating} /></Grid>
+                                    ))}
+                                </Grid>
+
+                                {/* Pagination */}
+                                <Pagination count={Math.ceil(posts.length / postsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
+                            </>}
+
+                            {listMode === 'map' && <>
+                                <Grid>
+                                    
+                                </Grid>
+                            </>}
+                        </Grid>
+
                     </div>
                 </div>
             </section>

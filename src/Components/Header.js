@@ -74,7 +74,7 @@ export default function Header({ authorized, setAuthorized }) {
                       Add Item
                     </NavDropdown.Item>
                     <NavDropdown.Item
-                      href="#action/3.2"
+                      href="products"
                       style={{ color: "indigo" }}
                     >
                       Rent Item
