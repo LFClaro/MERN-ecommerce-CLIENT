@@ -3,10 +3,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Pagination, Typography } from '@mui/material';
-import ItemCard from '../Components/ItemCard';
+import ItemCard from '../Components/Item/ItemCard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MapIcon from '@mui/icons-material/Map';
 import axios from 'axios';
+import decode from 'jwt-decode';
 
 const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
 const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '1Hololens/Microsoft/2nd generation', overallRating: 2.5 },
