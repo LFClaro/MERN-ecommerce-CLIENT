@@ -3,12 +3,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Pagination, Typography } from '@mui/material';
-import ItemCard from '../Components/ItemCard';
+import ItemCard from '../Components/Item/ItemCard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MapIcon from '@mui/icons-material/Map';
 import GoogleMapStyle from '../Components/GoogleMapStyle';
 import { GoogleMap, InfoWindow, LoadScript, Marker, useLoadScript, } from '@react-google-maps/api';
 import axios from 'axios';
+import decode from 'jwt-decode';
 
 const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
 const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '1Hololens/Microsoft/2nd generation', overallRating: 2.5 },
@@ -26,6 +27,34 @@ const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
 
     const [categorySelected, setcategorySelected] = useState([]);
+    const [items, setItems] = useState([]);
+
+    let decodetoken = decode(localStorage.getItem('token'));
+
+    useEffect(() => {
+        sendApiRequest();
+    }, []);
+    const sendApiRequest = async () => {
+        try {
+            let token = localStorage.getItem('token');
+            let config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': token,
+                },
+            };
+            const response = await axios.get(
+                process.env.REACT_APP_API_URL + '/api/items/',
+                config
+            );
+            setItems(response.data);
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length
 
     // Get Posts from database
     // useEffect(async () => {
@@ -145,11 +174,11 @@ const ItemList = () => {
 
                     </div>
                 </div>
-            </section >
-        </div >
+            </section>
+        </div>
 
-    )
-}
+    );
+};
 
 export default ItemList
 

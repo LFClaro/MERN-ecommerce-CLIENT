@@ -1,11 +1,13 @@
 import React from 'react'
 
-const MessagesConversation = ({user}) => {
+const MessagesConversation = ({message, position}) => {
     return (
-        <div>
-            {user}
-             
-        </div>
+        <>
+            <div className={"messages-chat-history-data-" + position}>
+                {message.messageData}
+            </div>
+
+        </>
     )
 }
 
