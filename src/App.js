@@ -29,6 +29,7 @@ import AdminMain from './Admin/AdminMain';
 import AdminUsers from './Admin/AdminUsers';
 import FooterAdm from './Admin/FooterAdm';
 import HeaderAdm from './Admin/HeaderAdm';
+import AdminContext from './Context/AdminContext';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ItemList from './Pages/ItemList';
@@ -36,26 +37,34 @@ import ItemList from './Pages/ItemList';
 
 function App() {
   const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
-  const [isAdminLogged, setIsAdminLogged] = useState(false);
+  const [isAdminLogged, setIsAdminLogged] = useState(true);
 
   //This function is used to redirect user to admin panel
   const adminLogInFun = () => {
     setIsAdminLogged(true);
   }
   let redirectAppRoutes;
+
+
   if (isAdminLogged) {
-    redirectAppRoutes = (
-      <Routes>
-        <HeaderAdm />
-        <Route path='/' element={<AdminMain />} />
-        <Route path='users' element={<AdminUsers />} />
-        <FooterAdm />
-      </Routes>
+    return (
+      <AdminContext.Provider value={{ adminLogInFun: adminLogInFun }} >
+        <BrowserRouter>
+          <HeaderAdm />
+          <Routes>
+            <Route path='/' element={<AdminMain />} />
+            <Route path='users' element={<AdminUsers />} />
+          </Routes>
+          <FooterAdm />
+        </BrowserRouter>
+      </AdminContext.Provider>
     );
-  } else {
-    redirectAppRoutes = (
+  }
+
+  return (
+    <BrowserRouter>
+      <Header authorized={authorized} setAuthorized={setAuthorized} />
       <Routes>
-        <Header authorized={authorized} setAuthorized={setAuthorized} />
         <Route path='/' element={<Main />} />
         <Route path='about' element={<About />} />
         <Route path='blog' element={<Blog />} />
@@ -76,17 +85,9 @@ function App() {
         <Route path='signup' element={<SignUp />} />
         <Route path='login' element={<Login />} />
         <Route path='privacy' element={<PrivacyPolicy />} />
-        <Footer />
       </Routes>
-    );
-  }
-
-  return (
-    <AdminContext.Provider value={{ adminLogInFun: adminLogInFun }} >
-      <BrowserRouter>
-        {redirectAppRoutes}
-      </BrowserRouter>
-    </AdminContext.Provider>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
