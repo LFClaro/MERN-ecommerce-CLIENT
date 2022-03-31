@@ -10,7 +10,7 @@ import { Rating } from '@mui/material';
 
 const ItemCard = ({ image, price, title, rate }) => {
     return (
-        <Card sx={{ maxWidth: 260, border:"1px solid #fbc01c" }}>
+        <Card sx={{ maxWidth: 260, border: "1px solid #fbc01c" }}>
             {/* <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -25,24 +25,14 @@ const ItemCard = ({ image, price, title, rate }) => {
                 title="Shrimp and Chorizo Paella"
                 subheader="September 14, 2016"
             /> */}
-            <CardMedia
-                component="img"
-                height="194"
-                image={image}
-                alt="item image"
-                style={{padding: 4}}
-            />
+            <CardMedia component="img" height="194" image={image} alt="item image" style={{ padding: 4 }} />
             <CardContent>
                 <Typography>${price}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {title}
-                </Typography>
+                <Typography variant="body2" color="text.secondary">  {title}  </Typography>
             </CardContent>
             <CardActions>
                 <Rating name="half-rating" defaultValue={rate} precision={0.5} size='small' readOnly />
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
+                <IconButton aria-label="add to favorites">  <FavoriteIcon />  </IconButton>
             </CardActions>
         </Card>
     )

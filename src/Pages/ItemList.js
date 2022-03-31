@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Pagination, Typography } from '@mui/material';
+import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, Typography } from '@mui/material';
 import ItemCard from '../Components/Item/ItemCard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MapIcon from '@mui/icons-material/Map';
@@ -26,14 +26,23 @@ const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Mi
 const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
 
-    const [categorySelected, setcategorySelected] = useState([]);
+    const [categorySelected, setcategorySelected] = useState([]);    
     const [items, setItems] = useState([]);
+ 
+
+    //sort handle
+    const [sort, setSort] = useState();
+    const handleSortChanges= async (e)=>{
+        console.log(e.target.value);        
+        axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
+    }
 
     let decodetoken = decode(localStorage.getItem('token'));
 
     useEffect(() => {
         sendApiRequest();
     }, []);
+
     const sendApiRequest = async () => {
         try {
             let token = localStorage.getItem('token');
@@ -73,7 +82,7 @@ const ItemList = () => {
 
     // pagination settings
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(3); //############set the number of posts per page#########
+    const [postsPerPage] = useState(6); //############set the number of posts per page#########
     const handlePageChange = (e, p) => { setCurrentPage(p); }
 
     // Get current posts
@@ -86,7 +95,9 @@ const ItemList = () => {
     const [pinSelected, setPinSelected] = useState();
     const [userLocations, setUserLocations] = useState([{ lat: 43.6532, lng: -79.3832, }])
     const mapRef = React.useRef();
-    const onMapLoad = React.useCallback((map) => {mapRef.current = map;}, []);
+    const onMapLoad = React.useCallback((map) => { mapRef.current = map; }, []);
+
+
 
     return (
         <div>
@@ -98,85 +109,95 @@ const ItemList = () => {
                 <div className='container bg-light pb-5'>
 
                     {/* content for filter and itemList */}
-                    <div className="d-flex flex-row justify-content-center">
+                    <div className="d-flex flex-row justify-content-center me-2 ">
 
                         {/* Category Filters */}
                         <div className="col-3 ps-1">
                             <p className='h6 fw-bold'>Departments</p>
                             <FormGroup>
-                                {categories.map((category) => {
-                                    return (
-                                        <div>
-                                            <FormControlLabel control={<Checkbox />} label={category} />
-                                        </div>
-                                    )
-                                })}
+                                {categories.map((category) => (<FormControlLabel control={<Checkbox />} label={category} />))}
                             </FormGroup>
                         </div>
 
-                        <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid yellow'}>
+                        <Grid>
 
-                            <Grid border={'1px solid black'} paddingRight={1}>
+                            {/* formControl: list view, map view, and sort by */}
+                            <div className='d-flex justify-content-end column mb-2'>
                                 <IconButton onClick={() => { setListMode('normal'); console.log(listMode) }} >
                                     <ListAltIcon />
                                 </IconButton>
                                 <IconButton onClick={() => { setListMode('map'); console.log(listMode) }}>
                                     <MapIcon />
                                 </IconButton>
+
+                                {/* //posts sorting */}
+                                <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
+                                    <InputLabel id="demo-simple-select-label">Features</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={sort}
+                                        label="Features"
+                                        onChange={handleSortChanges}
+                                    >
+                                        <MenuItem value={'newest'}>Newest</MenuItem>
+                                        <MenuItem value={'oldest'}>Oldest</MenuItem>
+                                        <MenuItem value={'lowToHigh'}>Price-low to high</MenuItem>
+                                        <MenuItem value={'HighToLow'}>Price-high to low</MenuItem>
+                                    </Select>
+                                </FormControl>
+
+                            </div>
+
+                            <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid yellow'}>
+
+                                {listMode === 'normal' && <>
+                                    {/* itemList */}
+                                    <Grid container spacing={1} justifyContent={'space-evenly'} alignItems={'center'} border={'1px solid black'} gap={1}>
+                                        {currentPagePosts.map(item => (
+                                            <ItemCard image={item.image} price={item.price} title={item.name} rate={item.overallRating} />
+                                        ))}
+                                    </Grid>
+
+                                    {/* Pagination */}
+                                    <Pagination count={Math.ceil(posts.length / postsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
+                                </>}
+
+                                {/* Display when the user click the map option */}
+                                {listMode === 'map' &&
+                                    <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
+                                        <GoogleMap
+                                            mapContainerStyle={{
+                                                width: '800px',
+                                                height: '700px'
+                                            }}
+                                            center={pinSelected || { lat: 43.6532, lng: -79.3832, }}
+                                            zoom={13}
+                                            options={{ disableDefaultUI: true, styles: GoogleMapStyle, zoomControl: true, }}
+                                            onLoad={onMapLoad}
+                                        >
+                                            { /* Child components, such as markers, info windows, etc. */}
+                                            {userLocations.map((userLocation, index) => (
+                                                <Marker key={index} position={userLocation} onClick={() => { setPinSelected(userLocation) }} />
+
+                                            ))}
+
+                                            {/* ^^^^^^^^^^^^^^^^^^^need to connect with the real data */}
+                                            {pinSelected ?
+                                                <InfoWindow position={pinSelected} onCloseClick={() => { setPinSelected(null); }}>
+                                                    <Grid>
+                                                        <ItemCard image={dummy[0].image} price={dummy[0].price} title={dummy[0].name} rate={dummy[0].overallRating} />
+                                                    </Grid>
+                                                </InfoWindow> : null}
+                                        </GoogleMap>
+                                    </LoadScript>
+                                }
                             </Grid>
-
-                            {listMode === 'normal' && <>
-                                {/* itemList */}
-                                <Grid container spacing={1} justifyContent={'space-evenly'} alignItems={'center'} border={'1px solid black'}>
-                                    {currentPagePosts.map(item => (
-                                        <Grid item><ItemCard image={item.image} price={item.price} title={item.name} rate={item.overallRating} /></Grid>
-                                    ))}
-                                </Grid>
-
-                                {/* Pagination */}
-                                <Pagination count={Math.ceil(posts.length / postsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
-                            </>}
-
-                            {/* Display when the user click the map option */}
-                            {listMode === 'map' && <>
-                                <>
-                                    <div className='mapWrap' style={{ width: 500 + 'px', height: 500 + 'px', border: '1px solide black' }}>
-                                        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-                                            <GoogleMap
-                                                mapContainerStyle={{
-                                                    width: '100vw',
-                                                    height: '100vh'
-                                                }}
-                                                center={{ lat: 43.6532, lng: -79.3832, }}
-                                                zoom={13}
-                                                options={{ disableDefaultUI: true, styles: GoogleMapStyle }}
-                                                onLoad={onMapLoad}
-                                            >
-                                                { /* Child components, such as markers, info windows, etc. */}
-                                                {userLocations.map((userLocation, index) => (
-                                                    <Marker key={index} position={userLocation} onClick={() => { setPinSelected(userLocation) }} />
-
-                                                ))}
-
-                                                {/* ^^^^^^^^^^^^^^^^^^^need to connect with the real data */}
-                                                {pinSelected ?
-                                                    <InfoWindow position={pinSelected} onCloseClick={() => { setPinSelected(null); }}>
-                                                        <Grid>
-                                                            <ItemCard image={dummy[0].image} price={dummy[0].price} title={dummy[0].name} rate={dummy[0].overallRating} />
-                                                        </Grid>
-                                                    </InfoWindow> : null}
-                                            </GoogleMap>
-                                        </LoadScript>
-                                    </div>
-                                </>
-                            </>}
                         </Grid>
-
                     </div>
                 </div>
             </section>
         </div>
-
     );
 };
 
