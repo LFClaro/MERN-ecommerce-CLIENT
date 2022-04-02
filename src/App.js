@@ -19,6 +19,7 @@ import Team from './Pages/Team';
 import Terms from './Pages/Terms';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import Community from './Pages/Community';
+import CommunityReply from './Pages/CommunityReply';
 import Profile from './Pages/Profile';
 import AddItem from './Pages/AddItem';
 import Login from './Pages/Login';
@@ -54,6 +55,7 @@ function App() {
         <Route path='users' element={<AdminUsers />} />
         <Route path='profile' element={<Profile />} />
         <Route path='community' element={<Community />} />
+        <Route path='communityReply' element={<CommunityReply />} />
         <Route path='addItem' element={<AddItem />} />
         <Route path='signup' element={<SignUp setAuthorized={setAuthorized} />} />
         <Route path='login' element={<Login setAuthorized={setAuthorized} />} />
