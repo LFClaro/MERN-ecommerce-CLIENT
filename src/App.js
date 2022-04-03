@@ -9,6 +9,7 @@ import Footer from './Components/Footer';
 import Main from './Pages/Main';
 import About from './Pages/About';
 import Blog from './Pages/Blog';
+import Cart from './Pages/Cart';
 import Checkout from './Pages/Checkout';
 import Contact from './Pages/Contact';
 import Faq from './Pages/Faq';
@@ -37,7 +38,7 @@ import ItemList from './Pages/ItemList';
 
 function App() {
   const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
-  const [isAdminLogged, setIsAdminLogged] = useState(true);
+  const [isAdminLogged, setIsAdminLogged] = useState(false);
 
   //This function is used to redirect user to admin panel
   const adminLogInFun = () => {
@@ -68,6 +69,7 @@ function App() {
         <Route path='/' element={<Main />} />
         <Route path='about' element={<About />} />
         <Route path='blog' element={<Blog />} />
+        <Route path='cart' element={<Cart />} />
         <Route path='checkout' element={<Checkout />} />
         <Route path='contact' element={<Contact />} />
         <Route path='faq' element={<Faq />} />

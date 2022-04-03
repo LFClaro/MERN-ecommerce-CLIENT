@@ -14,7 +14,7 @@ const Messages = () => {
     // tmp
     let conversatiomImg = "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png"
 
-    const [token, setToken] = useState([])
+    const [token, setToken] = useState(localStorage.getItem("token"))
     const [contacts, setContacts] = useState([])
     const [selectedMessages, setSelectedMessages] = useState([])
     const [receiverId, setReceiverId] = useState("")
