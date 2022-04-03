@@ -1,7 +1,7 @@
 import React from 'react'
 import ScheduleAvailabilityList from '../Components/Schedule/ScheduleAvailabilityList'
 
-const Schedule = () => {
+const Schedule = (rentalItem) => {
 
     // TODO this needs to connect to transaction flow
     // TODO schedule needs to pull from DB
