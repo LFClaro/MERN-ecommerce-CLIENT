@@ -25,20 +25,15 @@ const CartItem = ({ itemId }) => {
         <div className="card m-3">
             <div className="card-body">
                 <div className="row">
-                    <div className="col-lg-3">
-                        <img src={item.image} height={100} />
+                    <div className="col-lg-5 text-center">
+                        <img src={item.image} height={200} />
                     </div>
 
                     <div className="col">
-                        {item.name} <br />
-                        {item.description}
-                    </div>
-
-                    <div className="col">
-                        ${item.price}
-                    </div>
-
-                    <div className="col">
+                        <h5>{item.name}</h5>
+                        <p className="text-muted">{item.description}</p>
+                        <br />
+                        <h6>Price: ${item.price}</h6>
                         <button className="btn btn-primary" onClick={handleCheckout}>
                             Rent Item
                         </button>
