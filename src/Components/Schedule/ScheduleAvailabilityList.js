@@ -1,11 +1,23 @@
 import React from 'react'
 
-const ScheduleAvailabilityList = ({ pickup, dropoff, time }) => {
+const ScheduleAvailabilityList = ({ pickup, dropoff }) => {
 
     return (
         <>
-            <span className="fw-bold">PICK UP:</span> {pickup}, {time} <br />
-            <span className="fw-bold">DROP OFF:</span> {dropoff}, {time}
+            <div className="row">
+                <div className="col">
+                    <h5>PICK UP</h5>
+                    <p>{pickup}</p>
+                </div>
+
+                <div className="col">
+                    <h5>DROP OFF</h5>
+                    <p>{dropoff}</p>
+                </div>
+
+            </div>
+
+
         </>
 
 

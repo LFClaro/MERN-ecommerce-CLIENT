@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 
 // api
 import { getItem } from '../../Api/itemApi'
 
-const CartItem = ({ itemId }) => {
+const CartItem = ({ id, itemId }) => {
 
     const [item, setItem] = useState({})
 
@@ -18,7 +19,8 @@ const CartItem = ({ itemId }) => {
 
     const handleCheckout = (event) => {
         // redirect to schedule page
-        window.open("/schedule?id="+itemId, "_self")
+        
+        window.open("/schedule?id="+id, "_self")
     }
 
     return (
