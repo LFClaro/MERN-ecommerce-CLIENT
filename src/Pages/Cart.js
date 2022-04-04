@@ -33,11 +33,12 @@ const Cart = () => {
     return (
         <section className="section-bg">
             <div className="container w-50">
-                <div class="section-title">
+                <div className="section-title">
                     <h2>Cart</h2>
                 </div>
+
                 {cartItems.map((i) => (
-                    <CartItem itemId={i.item} />
+                    <CartItem key={i._id} id={i._id} itemId={i.item} />
                 ))}
             </div>
         </section>
