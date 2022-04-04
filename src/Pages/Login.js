@@ -15,7 +15,7 @@ const validationSchema = yup.object({
     email: yup.string().email("Please enter a valid email address").required("Email is required!"),
     password: yup.string().required("Password is required!"),
 });
-
+ 
 //******************************************************* */
 const Login = ({ setAuthorized }) => {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Login = ({ setAuthorized }) => {
     //***************back end link changes may needed */
     const onSubmit = async (values) => {
         console.log(process.env.REACT_APP_API_URL);
-        const res = await fetch(process.env.REACT_APP_API_URL+`/api/auth`, {
+        const res = await fetch(`http://localhost:5000/api/auth`, {
             method: "POST",
             headers: {
                 Accept: "application/json",
