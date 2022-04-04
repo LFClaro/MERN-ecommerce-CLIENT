@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
-import { TextField } from "@mui/material";
-import { Grid, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { TextField, Grid, Box } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -12,15 +12,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
-// import { makeStyles, TextField } from '@mui/material';
-// import { Grid, Box } from '@mui/material';
-// import { Link } from 'react-router-dom';
-
- 
-
 
 // Yup  form Validation =================
 const VALID_PASS = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
