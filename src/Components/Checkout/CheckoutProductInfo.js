@@ -1,6 +1,7 @@
 import React from 'react'
 
-const CheckoutProductInfo = ({ product }) => {
+const CheckoutProductInfo = ({ item, rentalItem }) => {
+
     return (
         <>
             <table className="table table-borderless">
@@ -9,7 +10,7 @@ const CheckoutProductInfo = ({ product }) => {
                         <span className="fw-bold">Price:</span>
                     </td>
                     <td>
-                        ${product.price}
+                        ${item.price}
                     </td>
                 </tr>
                 <tr>
@@ -17,7 +18,7 @@ const CheckoutProductInfo = ({ product }) => {
                         <span className="fw-bold">Pick up time:</span>
                     </td>
                     <td>
-                        {product.pickup}
+                        {new Date(rentalItem.rentalDate).toString()}
                     </td>
                 </tr>
                 <tr>
@@ -25,23 +26,15 @@ const CheckoutProductInfo = ({ product }) => {
                         <span className="fw-bold">Drop off time:</span>
                     </td>
                     <td>
-                        {product.dropoff}
+                    {new Date(rentalItem.returnDate).toString()}
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <span className="fw-bold">Pick up/drop off location:</span>
+                        <span className="fw-bold">Item Description:</span>
                     </td>
                     <td>
-                        {product.location}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span className="fw-bold">Owner's notes for renter:</span>
-                    </td>
-                    <td>
-                        {product.notes}
+                        {item.description}
                     </td>
                 </tr>
             </table>
