@@ -65,7 +65,7 @@ const SignUp = ({ setAuthorized }) => {
   //for submittion function
   const onSubmit = async (values) => {
     // console.log(values);
-    axios.post('http://localhost:5000/api/users', {
+    axios.post(process.env.REACT_APP_API_URL + '/api/users', {
       email: values.email,
       password: values.password
     })

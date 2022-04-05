@@ -130,7 +130,7 @@ let formIsValid = true;
       };
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/contact",
+          process.env.REACT_APP_API_URL + "/api/contact",
           data,
           config
         );
