@@ -24,7 +24,7 @@ export const Community = () => {
       };
       const response = await axios.get(
         // using axios get method to fetch the data using our api end point
-        "http://localhost:5000/api/communityPost/all", // api end point that allows to get all todo (set in our back end)
+        process.env.REACT_APP_API_URL + "/api/communityPost/all", // api end point that allows to get all todo (set in our back end)
         config // passing in the config arg which is a var declared above - to store token in header
         //
       );

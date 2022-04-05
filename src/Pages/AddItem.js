@@ -82,9 +82,6 @@ const AddItem = () => {
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
-    const onChange2 = (e) => {
-        setFile(e.target.files[0]);
-    };
 
     const onSubmit = async (e) => {
         e.preventDefault();
