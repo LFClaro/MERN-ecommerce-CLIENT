@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {Link} from 'react-router-dom';
 
-export const Community = () => {
+export const CommunityReply = () => {
   const [postInfo, setPostList] = useState([]);
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const Posts = (props) => {
                     href="#"
                     role="button"
                   >
-                    <Link to="Reply" className="text-light">View Post</Link>
+                    <Link to="#" className="text-light">View Post</Link>
                   </a> 
                 </div>
               </div>
@@ -112,4 +112,4 @@ const Posts = (props) => {
   );
 };
 
-export default Community;
+export default CommunityReply;

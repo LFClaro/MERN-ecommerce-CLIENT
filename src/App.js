@@ -9,6 +9,7 @@ import Footer from './Components/Footer';
 import Main from './Pages/Main';
 import About from './Pages/About';
 import Blog from './Pages/Blog';
+import Cart from './Pages/Cart';
 import Checkout from './Pages/Checkout';
 import Contact from './Pages/Contact';
 import Faq from './Pages/Faq';
@@ -19,6 +20,7 @@ import Team from './Pages/Team';
 import Terms from './Pages/Terms';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import Community from './Pages/Community';
+import CommunityReply from './Pages/CommunityReply';
 import Profile from './Pages/Profile';
 import AddItem from './Pages/AddItem';
 import Login from './Pages/Login';
@@ -29,6 +31,7 @@ import AdminMain from './Admin/AdminMain';
 import AdminUsers from './Admin/AdminUsers';
 import FooterAdm from './Admin/FooterAdm';
 import HeaderAdm from './Admin/HeaderAdm';
+import AdminContext from './Context/AdminContext';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ItemList from './Pages/ItemList';
@@ -43,22 +46,31 @@ function App() {
   }
 
   let redirectAppRoutes;
+
+
   if (isAdminLogged) {
-    redirectAppRoutes = (
-      <Routes>
-        <HeaderAdm />
-        <Route path='/' element={<AdminMain />} />
-        <Route path='users' element={<AdminUsers />} />
-        <FooterAdm />
-      </Routes>
+    return (
+      <AdminContext.Provider value={{ adminLogInFun: adminLogInFun }} >
+        <BrowserRouter>
+          <HeaderAdm />
+          <Routes>
+            <Route path='/' element={<AdminMain />} />
+            <Route path='users' element={<AdminUsers />} />
+          </Routes>
+          <FooterAdm />
+        </BrowserRouter>
+      </AdminContext.Provider>
     );
-  } else {
-    redirectAppRoutes = (
+  }
+
+  return (
+    <BrowserRouter>
+      <Header authorized={authorized} setAuthorized={setAuthorized} />
       <Routes>
-        <Header authorized={authorized} setAuthorized={setAuthorized} />
         <Route path='/' element={<Main />} />
         <Route path='about' element={<About />} />
         <Route path='blog' element={<Blog />} />
+        <Route path='cart' element={<Cart />} />
         <Route path='checkout' element={<Checkout />} />
         <Route path='contact' element={<Contact />} />
         <Route path='faq' element={<Faq />} />
@@ -69,6 +81,7 @@ function App() {
         <Route path='terms' element={<Terms />} />
         <Route path='profile' element={<Profile />} />
         <Route path='community' element={<Community />} />
+        <Route path='communityReply' element={<CommunityReply />} />
         <Route path='addItem' element={<AddItem />} />
         <Route path='signup' element={<SignUp setAuthorized={setAuthorized} />} />
         <Route path='login' element={<Login setAuthorized={setAuthorized} />} />
@@ -76,17 +89,9 @@ function App() {
         <Route path='signup' element={<SignUp />} />
         <Route path='login' element={<Login />} />
         <Route path='privacy' element={<PrivacyPolicy />} />
-        <Footer />
       </Routes>
-    );
-  }
-
-  return (
-    <AdminContext.Provider value={{ adminLogInFun: adminLogInFun }} >
-      <BrowserRouter>
-        {redirectAppRoutes}
-      </BrowserRouter>
-    </AdminContext.Provider>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
