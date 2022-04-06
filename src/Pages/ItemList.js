@@ -12,29 +12,49 @@ import axios from 'axios';
 import decode from 'jwt-decode';
 
 const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
-const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '1Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '2Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '3Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '4Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '5Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '6Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '7Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '8Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-]
 
 // TODO: only get partial data from the database according to the pagination
 const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
-
-    const [categorySelected, setcategorySelected] = useState([]);    
+    const [categorySelected, setcategorySelected] = useState([]);
     const [items, setItems] = useState([]);
- 
+    const [sort, setSort] = useState();         //sort handle
+    const [LoadingStatus, setLoadingStatus] = useState(true);
 
-    //sort handle
-    const [sort, setSort] = useState();
-    const handleSortChanges= async (e)=>{
-        console.log(e.target.value);        
-        axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
+    // pagination settings
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(6); //############set the number of items per page#########
+    const handlePageChange = (e, p) => { setCurrentPage(p); }
+
+    // Get current page items
+    const indexOfLastItem = currentPage * itemsPerPage; //last item in curernt page
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // first item in current page
+    // console.log("items status", items);
+    const currentPageItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+    //GoogleMap settings
+    const [pinSelected, setPinSelected] = useState();
+    const [selectedItem, setSelectedItem] = useState(null);
+    const mapRef = React.useRef();
+    const onMapLoad = React.useCallback((map) => { mapRef.current = map; }, []);
+
+    const handleSortChanges = async (e) => {
+        // console.log(e.target.value);        
+        // axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
+    }
+
+    // Sort items arry by date and price
+    const sortItems = (rule) => {
+        items.sort(function (a, b) {
+            switch (rule) {
+                case "dateASC": return new Date(a.updated) - new Date(b.updated);
+                case "dateDESC": return new Date(a.updated) - new Date(b.updated);
+                case "priceASC": return new Number(a.price) - Number(b.price);
+                case "priceDESC": return new Number(b.price) - Number(a.price);
+                default: return items;
+            }
+        });
+        // console.log("after sorting: ", items);
     }
 
     let decodetoken = decode(localStorage.getItem('token'));
@@ -57,55 +77,17 @@ const ItemList = () => {
                 config
             );
             setItems(response.data);
-            console.log(response);
+            console.log(response.data);
         } catch (err) {
             console.log(err);
         }
     };
 
-    const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length
-
-    // Get Posts from database
-    // useEffect(async () => {
-    //     await axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             setPosts(res.data);
-    //             setLoadingStatus(false);
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // }, []);
-    const [posts, setPosts] = useState(dummy);
-    const [LoadingStatus, setLoadingStatus] = useState(true);
-
-    // pagination settings
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(6); //############set the number of posts per page#########
-    const handlePageChange = (e, p) => { setCurrentPage(p); }
-
-    // Get current posts
-    const indexOfLastPost = currentPage * postsPerPage; //last post in curernt page
-    const indexOfFirstPost = indexOfLastPost - postsPerPage; // first post in current page
-    const currentPagePosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
-    //GoogleMap settings
-    // console.log(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
-    const [pinSelected, setPinSelected] = useState();
-    const [userLocations, setUserLocations] = useState([{ lat: 43.6532, lng: -79.3832, }])
-    const mapRef = React.useRef();
-    const onMapLoad = React.useCallback((map) => { mapRef.current = map; }, []);
-
-
+    const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length //get the overall rating
 
     return (
         <div>
             <section id="hero" className="d-flex justify-content-center h-auto">
-                {/* searchBar
-                <div className='searchBar'>
-                </div> */}
-
                 <div className='container bg-light pb-5'>
 
                     {/* content for filter and itemList */}
@@ -130,7 +112,7 @@ const ItemList = () => {
                                     <MapIcon />
                                 </IconButton>
 
-                                {/* //posts sorting */}
+                                {/* //Items sorting */}
                                 <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
                                     <InputLabel id="demo-simple-select-label">Features</InputLabel>
                                     <Select
@@ -140,10 +122,10 @@ const ItemList = () => {
                                         label="Features"
                                         onChange={handleSortChanges}
                                     >
-                                        <MenuItem value={'newest'}>Newest</MenuItem>
-                                        <MenuItem value={'oldest'}>Oldest</MenuItem>
-                                        <MenuItem value={'lowToHigh'}>Price-low to high</MenuItem>
-                                        <MenuItem value={'HighToLow'}>Price-high to low</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("dateASC"); setSort("Newest") }}>Newest</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("dateDESC"); setSort("Oldest") }}>Oldest</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("priceASC"); setSort("OldPrice-low to highest") }}>Price-low to high</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("priceDESC"); setSort("Price-high to low") }}>Price-high to low</MenuItem>:
                                     </Select>
                                 </FormControl>
 
@@ -151,16 +133,17 @@ const ItemList = () => {
 
                             <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid yellow'}>
 
+                                {/* Display when the user click the list option */}
                                 {listMode === 'normal' && <>
                                     {/* itemList */}
                                     <Grid container spacing={1} justifyContent={'space-evenly'} alignItems={'center'} border={'1px solid black'} gap={1}>
-                                        {currentPagePosts.map(item => (
+                                        {currentPageItems.map(item => (
                                             <ItemCard image={item.image} price={item.price} title={item.name} rate={item.overallRating} />
                                         ))}
                                     </Grid>
 
                                     {/* Pagination */}
-                                    <Pagination count={Math.ceil(posts.length / postsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
+                                    <Pagination count={Math.ceil(items.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
                                 </>}
 
                                 {/* Display when the user click the map option */}
@@ -177,18 +160,25 @@ const ItemList = () => {
                                             onLoad={onMapLoad}
                                         >
                                             { /* Child components, such as markers, info windows, etc. */}
-                                            {userLocations.map((userLocation, index) => (
-                                                <Marker key={index} position={userLocation} onClick={() => { setPinSelected(userLocation) }} />
-
-                                            ))}
+                                            {items.map((item, index) => {
+                                                if (item.lat) {
+                                                    return <Marker key={index} position={{ lat: item.lat, lng: item.lng }}
+                                                        onClick={() => {
+                                                            setPinSelected({ lat: item.lat, lng: item.lng });
+                                                            setSelectedItem(item); //make a state when the user click a pin on the google map
+                                                            console.log("selected item", item)
+                                                        }} />
+                                                }
+                                            })}
 
                                             {/* ^^^^^^^^^^^^^^^^^^^need to connect with the real data */}
                                             {pinSelected ?
                                                 <InfoWindow position={pinSelected} onCloseClick={() => { setPinSelected(null); }}>
                                                     <Grid>
-                                                        <ItemCard image={dummy[0].image} price={dummy[0].price} title={dummy[0].name} rate={dummy[0].overallRating} />
+                                                        <ItemCard image={selectedItem.image} price={selectedItem.price} title={selectedItem.name} rate={selectedItem.overallRating} />
                                                     </Grid>
                                                 </InfoWindow> : null}
+
                                         </GoogleMap>
                                     </LoadScript>
                                 }

@@ -36,7 +36,7 @@ import HeaderAdm from './Admin/HeaderAdm';
 import AdminContext from './Context/AdminContext';
 
 function App() {
-  const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
+  const [authorized, setAuthorized] = useState(true); //default value false, set to true for testing purpose
   const [isAdminLogged, setIsAdminLogged] = useState(false);
 
   //This function is used to redirect user to admin panel
