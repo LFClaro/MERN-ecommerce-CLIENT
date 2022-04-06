@@ -33,7 +33,6 @@ import HeaderAdm from './Admin/HeaderAdm';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ItemList from './Pages/ItemList';
 
-
 function App() {
   const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
   const [isAdminLogged, setIsAdminLogged] = useState(false);
@@ -42,6 +41,7 @@ function App() {
   const adminLogInFun = () => {
     setIsAdminLogged(true);
   }
+
   let redirectAppRoutes;
   if (isAdminLogged) {
     redirectAppRoutes = (
