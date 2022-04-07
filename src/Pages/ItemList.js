@@ -34,7 +34,7 @@ const ItemList = () => {
 
     //GoogleMap settings
     const [pinSelected, setPinSelected] = useState();
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState({ image: "", price: 0, title: "", overallRating: 0 });
     const mapRef = React.useRef();
     const onMapLoad = React.useCallback((map) => { mapRef.current = map; }, []);
 
@@ -47,7 +47,7 @@ const ItemList = () => {
     const sortItems = (rule) => {
         items.sort(function (a, b) {
             switch (rule) {
-                case "dateASC": return new Date(a.updated) - new Date(b.updated);
+                case "dateASC": return new Date(b.updated) - new Date(a.updated);
                 case "dateDESC": return new Date(a.updated) - new Date(b.updated);
                 case "priceASC": return new Number(a.price) - Number(b.price);
                 case "priceDESC": return new Number(b.price) - Number(a.price);
@@ -77,7 +77,10 @@ const ItemList = () => {
                 config
             );
             setItems(response.data);
-            console.log(response.data);
+            // console.log(response.data);
+            // const date = new Date(response.data[0].updated);
+            // console.log(date.getTime());
+            // console.log(response.data[0].updated) //undefined
         } catch (err) {
             console.log(err);
         }
@@ -97,7 +100,7 @@ const ItemList = () => {
                         <div className="col-3 ps-1">
                             <p className='h6 fw-bold'>Departments</p>
                             <FormGroup>
-                                {categories.map((category) => (<FormControlLabel control={<Checkbox />} label={category} />))}
+                                {categories.map((category, index) => (<FormControlLabel key={index} control={<Checkbox />} label={category} />))}
                             </FormGroup>
                         </div>
 
@@ -105,26 +108,21 @@ const ItemList = () => {
 
                             {/* formControl: list view, map view, and sort by */}
                             <div className='d-flex justify-content-end column mb-2'>
-                                <IconButton onClick={() => { setListMode('normal'); console.log(listMode) }} >
+                                <IconButton onClick={() => { setListMode('normal'); }} >
                                     <ListAltIcon />
                                 </IconButton>
-                                <IconButton onClick={() => { setListMode('map'); console.log(listMode) }}>
+                                <IconButton onClick={() => { setListMode('map'); }}>
                                     <MapIcon />
                                 </IconButton>
 
                                 {/* //Items sorting */}
                                 <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
                                     <InputLabel id="demo-simple-select-label">Features</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={sort}
-                                        label="Features"
-                                        onChange={handleSortChanges}
-                                    >
+                                    <Select labelId="demo-simple-select-label" id="demo-simple-select"
+                                        label="Features" onChange={handleSortChanges} value={sort}>
                                         <MenuItem onClick={() => { sortItems("dateASC"); setSort("Newest") }}>Newest</MenuItem>
                                         <MenuItem onClick={() => { sortItems("dateDESC"); setSort("Oldest") }}>Oldest</MenuItem>
-                                        <MenuItem onClick={() => { sortItems("priceASC"); setSort("OldPrice-low to highest") }}>Price-low to high</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("priceASC"); setSort("Price-low to highest") }}>Price-low to high</MenuItem>
                                         <MenuItem onClick={() => { sortItems("priceDESC"); setSort("Price-high to low") }}>Price-high to low</MenuItem>:
                                     </Select>
                                 </FormControl>
@@ -137,8 +135,9 @@ const ItemList = () => {
                                 {listMode === 'normal' && <>
                                     {/* itemList */}
                                     <Grid container spacing={1} justifyContent={'space-evenly'} alignItems={'center'} border={'1px solid black'} gap={1}>
-                                        {currentPageItems.map(item => (
-                                            <ItemCard image={item.image} price={item.price} title={item.name} rate={item.overallRating} />
+                                        {/* {currentPageItems.map(item => { console.log(item) })} */}
+                                        {currentPageItems.map((item, index) => (
+                                            <ItemCard key={index} image={item.image} price={item.price} title={item.name} rate={item.overallRating} date={item.updated} />
                                         ))}
                                     </Grid>
 
@@ -166,16 +165,16 @@ const ItemList = () => {
                                                         onClick={() => {
                                                             setPinSelected({ lat: item.lat, lng: item.lng });
                                                             setSelectedItem(item); //make a state when the user click a pin on the google map
-                                                            console.log("selected item", item)
                                                         }} />
                                                 }
                                             })}
 
-                                            {/* ^^^^^^^^^^^^^^^^^^^need to connect with the real data */}
                                             {pinSelected ?
                                                 <InfoWindow position={pinSelected} onCloseClick={() => { setPinSelected(null); }}>
                                                     <Grid>
-                                                        <ItemCard image={selectedItem.image} price={selectedItem.price} title={selectedItem.name} rate={selectedItem.overallRating} />
+                                                        <ItemCard image={selectedItem.image} price={selectedItem.price}
+                                                            title={selectedItem.name} rate={selectedItem.overallRating}
+                                                            date={selectedItem.updated} />
                                                     </Grid>
                                                 </InfoWindow> : null}
 
