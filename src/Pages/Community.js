@@ -1,8 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {Nav,Link} from 'react-router-dom';
-
+import { Nav, Link } from "react-router-dom";
 
 export const Community = () => {
   const [postInfo, setPostList] = useState([]);
@@ -33,7 +32,7 @@ export const Community = () => {
       console.log(response); // logging the entire response to se the structure
     } catch (err) {
       // catch any errors and log them to the console
-      console.log(err); 
+      console.log(err);
     }
   };
 
@@ -49,10 +48,8 @@ export const Community = () => {
   );
 };
 
-
 const Posts = (props) => {
-  // need a string to display boolean
-  console.log(props.post._id);
+  // need a string to display boolean  
   return (
     <>
       <div className="row">
@@ -87,7 +84,7 @@ const Posts = (props) => {
               <div className="row">
                 <div className="col-sm-6">
                   <b className="">
-                    {props.post.username} : {props.post.date}
+                   {props.post.date}
                   </b>
                 </div>
                 <div className="col-sm-6 text-secondary">
@@ -95,16 +92,14 @@ const Posts = (props) => {
                 </div>
                 <div className="col-sm-10">Join the discussion</div>
                 <div className="col-sm-2 text-center bottom-0 end-0">
-                - need to get post id and send it to the next page
-                
                   <a
                     className="btn btn-primary mt-2 mb-2"
                     href="#"
                     role="button"
                   >
-                    {/* <Link to="/communityReply" data={props.post} className="text-light">View Post</Link> */}
-                    <Link to="/communityReply" state="test"   className="text-light">View Post </Link>
-                  </a> 
+                    <Link to="/communityReply" data={props.post} className="text-light">View Post</Link>
+                    
+                  </a>
                 </div>
               </div>
             </div>

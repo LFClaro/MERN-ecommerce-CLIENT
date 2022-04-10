@@ -8,9 +8,9 @@
 # Tim's Front End 
 - [x] Contact front end finished and connects to back end 
 - [x] Community Post front end finished 
-    - [ ]and connects to back end (This is admins) 
+    - [x]and connects to back end (This is admins) 
 - [] Community Reply front end finished and connects to back end (This is users)
-- [] Profile front end finished and connects to back end 
+- [x] Profile front end finished and connects to back end 
 
 
 

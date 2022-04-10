@@ -21,6 +21,7 @@ import Terms from './Pages/Terms';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import Community from './Pages/Community';
 import CommunityReply from './Pages/CommunityReply';
+import CommunityRep from './Pages/CommunityRep';
 import Profile from './Pages/Profile';
 import AddItem from './Pages/AddItem';
 import Login from './Pages/Login';
@@ -33,7 +34,7 @@ import FooterAdm from './Admin/FooterAdm';
 import HeaderAdm from './Admin/HeaderAdm';
 import AdminContext from './Context/AdminContext';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import ItemList from './Pages/ItemList';
 
 
@@ -46,6 +47,7 @@ function App() {
     setIsAdminLogged(true);
   }
   let redirectAppRoutes;
+  let { id } = useParams();
 
 
   if (isAdminLogged) {
@@ -82,6 +84,7 @@ function App() {
         <Route path='profile' element={<Profile />} />
         <Route path='community' element={<Community />} />
         <Route path='communityReply' element={<CommunityReply />} />
+        <Route path='communityRep/:id' element={<CommunityRep />} />
         <Route path='addItem' element={<AddItem />} />
         <Route path='signup' element={<SignUp setAuthorized={setAuthorized} />} />
         <Route path='login' element={<Login setAuthorized={setAuthorized} />} />
