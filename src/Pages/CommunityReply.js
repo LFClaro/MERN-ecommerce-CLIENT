@@ -24,7 +24,7 @@ export const CommunityReply = () => {
       };
       const response = await axios.get(
         // using axios get method to fetch the data using our api end point
-        process.env.REACT_APP_API_URL + "/api/communityPost/all", // api end point that allows to get all todo (set in our back end)
+        process.env.REACT_APP_API_URL + "/api/communityReply/compost/6248ff37bed85514ff2aebf0", //  hardcoding post id cant get post id its sending null for some reason 
         config // passing in the config arg which is a var declared above - to store token in header
         //
       );
@@ -52,25 +52,9 @@ const Posts = (props) => {
   // need a string to display boolean
   return (
     <>
-      <div className="row">
-        <div className="col-md-2">
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex flex-column align-items-center text-center">
-                <img
-                  src={props.post.picture}
-                  className="img-responsive animated p-1 center-block d-block mx-auto d-inline"
-                  // img-responsive center-block d-block mx-auto
-                  alt=""
-                  width="100"
-                  height="100"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-10">
-          <div className="card mb-3">
+      <div className="row card">        
+        <div className="col-md-12">
+          <div className=" mb-3">
             <div className="card-body">
               <div className="row d-inline">
                 <h5 className="d-inline">
