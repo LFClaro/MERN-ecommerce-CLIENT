@@ -13,19 +13,19 @@ export default function Header({ authorized, setAuthorized }) {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav" >
               <Nav className="mr-auto ">
-                <Nav.Link href="about">
+                <Nav.Link href="/about">
                   About
                 </Nav.Link>
-                <Nav.Link href="services">
+                <Nav.Link href="/services">
                   Services
                 </Nav.Link>
-                <Nav.Link href="team">
+                <Nav.Link href="/team">
                   Team
                 </Nav.Link>
-                <Nav.Link href="profile">
+                <Nav.Link href="/profile">
                   Profile
                 </Nav.Link>
-                <Nav.Link href="community">
+                <Nav.Link href="/community">
                   Community
                 </Nav.Link>
                 {authorized &&
@@ -35,13 +35,13 @@ export default function Header({ authorized, setAuthorized }) {
                     menuVariant="light"
                   >
                     <NavDropdown.Item
-                      href="addItem"
+                      href="/addItem"
                       style={{ color: "indigo" }}
                     >
                       Add Item
                     </NavDropdown.Item>
                     <NavDropdown.Item
-                      href="products"
+                      href="/products"
                       style={{ color: "indigo" }}
                     >
                       Rent Item
@@ -57,13 +57,13 @@ export default function Header({ authorized, setAuthorized }) {
                 }
               </Nav>
               <Nav>
-                <Nav.Link href="contact">
+                <Nav.Link href="/contact">
                   Contact
                 </Nav.Link>
-                <Nav.Link href="faq">
+                <Nav.Link href="/faq">
                   FAQ
                 </Nav.Link>
-                {authorized === false && <Link className="getstarted scrollto" to="login">Get Started</Link>}
+                {authorized === false && <Link className="getstarted scrollto" to="/login">Get Started</Link>}
                 {authorized && <HeaderAvatar setAuthorized={setAuthorized} />}
               </Nav>
             </Navbar.Collapse>
