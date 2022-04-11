@@ -532,7 +532,7 @@ const ProfileList2 = () => {
             <div className="card-body">
               <div className="d-flex flex-column align-items-center text-center">
                 <img
-                  src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+                  src="assets/img/profile-default.png"
                   alt="Default profile Image"
                   className="rounded-circle p-1 bg-primary"
                   width="110"
