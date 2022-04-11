@@ -133,7 +133,7 @@ let formIsValid = true;
 
         console.log("reply sent");
         // alert("Your message has been received, please check your email");
-        window.location.reload();
+        window.location.reload(); // keeps id in path
       } catch (e) {
         console.log(e.response.data.errors);
       }
