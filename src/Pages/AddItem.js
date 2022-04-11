@@ -58,7 +58,7 @@ const AddItem = () => {
         //Category
         if (category.trim() === "" || category == null) {
             formIsValid = false;
-            setCatErr("Item name can\'t be empty");
+            setCatErr("Item category can\'t be empty");
             console.log("issues with catogory - empty")
         }
 
@@ -94,8 +94,6 @@ const AddItem = () => {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'x-auth-token': token,
-                    // "x-auth-token":
-                    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjIzZjRiMjFjZTQyMWMzYjNmZDg5MGI2IiwiZW1haWwiOiJodWQyQG1haWwuY29tIn0sImlhdCI6MTY0ODMxNTQwNSwiZXhwIjoxNjQ4Njc1NDA1fQ.hsJpCMTNWdYjJ9j3rYO1KFUMXJJ6QBls4s6hxycSTGM",
                 },
             };
 
@@ -105,14 +103,6 @@ const AddItem = () => {
             data.append('description', description);
             data.append('price', price);
             data.append('myFile', myFile);
-
-            // let data = {
-            //     name,
-            //     category,
-            //     description,
-            //     price,
-            //     myFile
-            // };
 
             try {
                 const response = await axios.post(
@@ -126,11 +116,11 @@ const AddItem = () => {
                 // window.location.href = "/profile";
                 navigate('/profile');
             } catch (err) {
-                console.log(err);
+                console.log(err.response.data.errors);
             }
         }
         else {
-            alert("Your contact form has errors.");
+            alert("Your item form has errors.");
             console.log(formIsValid);
         }
     };
