@@ -46,7 +46,7 @@ export default function AdminUsers() {
                 {users.map((user) => (
                     <tr>
                         {/* <td>{user.fname}</td>*/}
-                        <td>{adminContext.id = user._id}</td> 
+                        <td>{adminContext.id_user = user._id}</td> 
                         <td>{user.email}</td>
                         <td>{user.role}</td>
                         <td><Link to="edit" className="btn btn-primary btn-sm" >Edit</Link></td>

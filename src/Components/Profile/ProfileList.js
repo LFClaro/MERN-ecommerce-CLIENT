@@ -1,10 +1,15 @@
-/*
+/* 
 Developer(s): Tim Burns
 
 */
 import React from "react"; 
+import DropzoneUploader from "../DropzoneUploader";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
-export const ProfileList = ({ fname, lname, title, email, phone, address, picture }) => {
+export const ProfileList = ( props) => {
+  const [image, setFile] = useState();
   return (
     <>
       <div className="row row-eq-height">
@@ -13,18 +18,22 @@ export const ProfileList = ({ fname, lname, title, email, phone, address, pictur
             <div className="card-body">
               <div className="d-flex flex-column align-items-center text-center">
                 <img
-                  src={picture}
+                  src={props.image}
                   alt="Admin"
                   className="rounded-circle p-1 bg-primary"
                   width="110"
                 />
                 <div className="mt-3">
                   <h4>
-                    {fname} {lname}
-                  </h4>
-                  <p className="text-secondary mb-1">{title}</p>
-                  <p className="text-muted font-size-sm">{address}</p>
-                  <button className="btn btn-primary">Upload Photo</button>
+                    {props.firstname} {props.lastname}
+                  </h4>                  
+                  <p className="text-muted font-size-sm">{props.address}</p>
+                  {/* <button className="btn btn-primary">Upload Photo</button> */}
+                  
+                                {/* <div className="col-lg-12 form-group">
+                                    <DropzoneUploader setFile={setFile} />
+                                </div> */}
+                            
                 </div>
               </div>
               <hr className="my-4" />
@@ -40,7 +49,7 @@ export const ProfileList = ({ fname, lname, title, email, phone, address, pictur
                   <h6 className="mb-0">First Name</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
-                  <input type="text" className="form-control" value={fname} />
+                  <input type="text" className="form-control" value={props.firstname} />
                 </div>
               </div>
               <div className="row mb-3">
@@ -48,7 +57,7 @@ export const ProfileList = ({ fname, lname, title, email, phone, address, pictur
                   <h6 className="mb-0">Last Name</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
-                  <input type="text" className="form-control" value={lname} />
+                  <input type="text" className="form-control" value={props.lastname} />
                 </div>
               </div>
               <div className="row mb-3">
@@ -56,7 +65,7 @@ export const ProfileList = ({ fname, lname, title, email, phone, address, pictur
                   <h6 className="mb-0">Email</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
-                  <input type="text" className="form-control" value={email} />
+                  <input type="text" className="form-control" value={props.email} />
                 </div>
               </div>
               <div className="row mb-3">
@@ -64,7 +73,7 @@ export const ProfileList = ({ fname, lname, title, email, phone, address, pictur
                   <h6 className="mb-0">Phone</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
-                  <input type="text" className="form-control" value={phone} />
+                  <input type="text" className="form-control" value={props.phone} />
                 </div>
               </div>
               <div className="row mb-3">
@@ -72,7 +81,7 @@ export const ProfileList = ({ fname, lname, title, email, phone, address, pictur
                   <h6 className="mb-0">Address</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
-                  <input type="text" className="form-control" value={address} />
+                  <input type="text" className="form-control" value={props.address} />
                 </div>
               </div>
               <div className="row">
