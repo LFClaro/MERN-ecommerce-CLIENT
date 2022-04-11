@@ -164,7 +164,7 @@ const ProfileList = (props) => {
 
     if (address.trim() === "" || address == null) {
       formIsValid = false;
-      setAddressErr("first can not be empty");
+      setAddressErr("address can not be empty");
       console.log("issues with name - empty");
     }
 
@@ -317,7 +317,7 @@ const ProfileList = (props) => {
               </div>
               <div className="row mb-3">
                 <div className="col-sm-3">
-                  <h6 className="mb-0">Address</h6>
+                  <h6 className="mb-0">Address *First three Digits of Postal Code</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
                 <input
@@ -465,7 +465,7 @@ const ProfileList2 = () => {
 
     if (address.trim() === "" || address == null) {
       formIsValid = false;
-      setAddressErr("first can not be empty");
+      setAddressErr("address can not be empty");
       console.log("issues with name - empty");
     }
 
@@ -619,7 +619,7 @@ const ProfileList2 = () => {
               </div>
               <div className="row mb-3">
                 <div className="col-sm-3">
-                  <h6 className="mb-0">Address</h6>
+                  <h6 className="mb-0">Address *First three Digits of Postal Code</h6>
                 </div>
                 <div className="col-sm-9 text-secondary">
                 <input
