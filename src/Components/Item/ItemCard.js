@@ -20,17 +20,18 @@ const ItemCard = ({ image, price, title, rate, date }) => {
                 <CardMedia component="img" height="194" image={image} alt="item image" style={{ padding: 4 }} />
                 <CardContent>
                     <Typography>${price}</Typography>
-                    <Typography variant="body2" color="text.secondary">  {title}  </Typography>
+                    <Typography variant="body">  {title}  </Typography>
+                    <br />
                     {/* ############change it to get the time unit changes */}
-                    <Typography>
-                        {Math.round((Date.now() - new Date(date).getTime()) / (8.64E7 / 60))} hours
+                    <Typography variant="caption" color="text.secondary">
+                        Posted {Math.round((Date.now() - new Date(date).getTime()) / (8.64E7))} day(s) ago
                     </Typography>
                 </CardContent>
-                <CardActions>
-                    <Rating name="half-rating" defaultValue={rate} precision={0.5} size='small' readOnly />
-                    <IconButton aria-label="add to favorites">  <FavoriteIcon />  </IconButton>
-                </CardActions>
             </CardActionArea>
+            <CardActions>
+                <Rating name="half-rating" defaultValue={rate} precision={0.5} size='small' readOnly />
+                <IconButton aria-label="add to favorites">  <FavoriteIcon />  </IconButton>
+            </CardActions>
         </Card>
     )
 }
