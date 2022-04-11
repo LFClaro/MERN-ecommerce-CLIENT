@@ -3,8 +3,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-export const CommunityReply = () => {
+export const CommunityReply = (props) => {
 let postid = "6248ff37bed85514ff2aebf0"; // hard coding cause cant get id atm
+
+// const location = useLocation();
+// const data = location.state;
+// console.log(props.data);
+// console.log(data);
+const { state } = props.location;
+console.log(state);
+
+
   // get the post count or replies
   const [postInfo, setPostList] = useState([]);
   useEffect(() => {
@@ -64,7 +73,7 @@ let postid = "6248ff37bed85514ff2aebf0"; // hard coding cause cant get id atm
         //
       );
       setPostList2(response.data); // set the todo to the api response data
-      console.log(response); // logging the entire response to se the structure
+      // console.log(response); // logging the entire response to se the structure
     } catch (err) {
       // catch any errors and log them to the console
       console.log(err);
@@ -135,11 +144,11 @@ let formIsValid = true;
     } 
     else {
       alert("Your contact form has errors.");      
-      console.log(formIsValid);
+      // console.log(formIsValid);
     }
   };
-  console.log("postInfo2");
-  console.log(postInfo2);
+  // console.log("postInfo2");
+  // console.log(postInfo2);
   return (
     <section>
       <div className="container" data-aos="fade-up">

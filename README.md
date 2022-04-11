@@ -9,7 +9,7 @@
 - [x] Contact front end finished and connects to back end 
 - [x] Community Post front end finished 
     - [x]and connects to back end (This is admins) 
-- [] Community Reply front end finished and connects to back end (This is users)
+- [x] Community Reply front end finished and connects to back end (This is users)
 - [x] Profile front end finished and connects to back end 
 
 

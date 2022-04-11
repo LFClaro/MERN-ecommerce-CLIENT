@@ -21,7 +21,7 @@ import Terms from './Pages/Terms';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import Community from './Pages/Community';
 import CommunityReply from './Pages/CommunityReply';
-import CommunityRep from './Pages/CommunityRep';
+import {CommunityRep} from './Pages/CommunityRep';
 import Profile from './Pages/Profile';
 import AddItem from './Pages/AddItem';
 import Login from './Pages/Login';

@@ -48,8 +48,11 @@ export const Community = () => {
   );
 };
 
+
 const Posts = (props) => {
-  // need a string to display boolean  
+  // need a string to display boolean
+  let url = `/communityRep/` + props.post._id;
+  console.log(props.post._id);
   return (
     <>
       <div className="row">
@@ -83,9 +86,7 @@ const Posts = (props) => {
               <hr />
               <div className="row">
                 <div className="col-sm-6">
-                  <b className="">
-                   {props.post.date}
-                  </b>
+                  <b className="">{props.post.date}</b>
                 </div>
                 <div className="col-sm-6 text-secondary">
                   {props.post.content}
@@ -97,7 +98,9 @@ const Posts = (props) => {
                     href="#"
                     role="button"
                   >
-                    <Link to="/communityReply" data={props.post} className="text-light">View Post</Link>
+                    {/* <Link to="/communityReply/{props.post_id}" data={props.post_id} className="text-light">View Post</Link> */}
+                    {/* <Link to={`/communityRep/${props.post._id}`}  className="text-light">View Post</Link> */}
+                    <Link to={url} className="text-light">View Post</Link>
                     
                   </a>
                 </div>

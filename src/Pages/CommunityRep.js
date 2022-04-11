@@ -1,10 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export const CommunityReply = () => {
-let postid = "6248ff37bed85514ff2aebf0"; // hard coding cause cant get id atm
+export const CommunityRep = (props) => {
+  const{id} = useParams();
+  console.log(id);
+let postid = id; // hard coding cause cant get id atm
+
+
+
   // get the post count or replies
   const [postInfo, setPostList] = useState([]);
   useEffect(() => {
@@ -59,12 +64,12 @@ let postid = "6248ff37bed85514ff2aebf0"; // hard coding cause cant get id atm
       };
       const response = await axios.get(
         // using axios get method to fetch the data using our api end point
-        process.env.REACT_APP_API_URL + "/api/communityPost/6248ff37bed85514ff2aebf0", // hard coded the postid
+        process.env.REACT_APP_API_URL + "/api/communityPost/" + postid, // hard coded the postid
         config // passing in the config arg which is a var declared above - to store token in header
         //
       );
       setPostList2(response.data); // set the todo to the api response data
-      console.log(response); // logging the entire response to se the structure
+      // console.log(response); // logging the entire response to se the structure
     } catch (err) {
       // catch any errors and log them to the console
       console.log(err);
@@ -135,11 +140,11 @@ let formIsValid = true;
     } 
     else {
       alert("Your contact form has errors.");      
-      console.log(formIsValid);
+      // console.log(formIsValid);
     }
   };
-  console.log("postInfo2");
-  console.log(postInfo2);
+  // console.log("postInfo2");
+  // console.log(postInfo2);
   return (
     <section>
       <div className="container" data-aos="fade-up">
@@ -161,7 +166,7 @@ let formIsValid = true;
               <div className="row">
                 <div className="col-sm-6">
                   <b className="">
-                    {postInfo2.username} : {postInfo2.date}
+                    {postInfo2.date}
                   </b>
                 </div>
                 <div className="col-sm-6 text-secondary">
@@ -226,4 +231,4 @@ const Posts = (props) => {
   );
 };
 
-export default CommunityReply;
+export default CommunityRep;
