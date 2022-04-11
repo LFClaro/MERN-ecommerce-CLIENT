@@ -54,6 +54,18 @@ export default function Header({ authorized, setAuthorized }) {
                       See your Items
                     </NavDropdown.Item>
                   </NavDropdown>
+                  
+                },
+                
+                {authorized &&
+                <>
+                <Nav.Link href="/cart">
+                  Cart
+                </Nav.Link>
+                <Nav.Link href="/messages">
+                  Messages
+                </Nav.Link>
+                </>
                 }
               </Nav>
               <Nav>
