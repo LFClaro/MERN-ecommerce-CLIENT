@@ -9,7 +9,7 @@ export default function AdminProducts() {
     const getAllProducts = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/product'); //Add link
-            setProducts(response.data);
+            // setProducts(response.data);
             console.log(response.data);
         } catch (err) {
             console.log(err.message);

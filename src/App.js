@@ -21,7 +21,7 @@ import Terms from './Pages/Terms';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import Community from './Pages/Community';
 import CommunityReply from './Pages/CommunityReply';
-import {CommunityRep} from './Pages/CommunityRep';
+import CommunityRep from './Pages/CommunityRep';
 import Profile from './Pages/Profile';
 import AddItem from './Pages/AddItem';
 import Login from './Pages/Login';
@@ -87,6 +87,7 @@ function App() {
           <Route path='profile' element={<Profile />} />
           <Route path='community' element={<Community />} />
           <Route path='communityReply' element={<CommunityReply />} />
+          <Route path='communityRep/:id' element={<CommunityRep />} />
           <Route path='addItem' element={<AddItem />} />
           <Route path='signup' element={<SignUp setAuthorized={setAuthorized} />} />
           <Route path='login' element={<Login setAuthorized={setAuthorized} />} />
