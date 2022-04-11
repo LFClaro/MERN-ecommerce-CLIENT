@@ -10,10 +10,12 @@ import { CardActionArea, Rating } from '@mui/material';
 import { Link } from "react-router-dom";
 
 const ItemCard = ({ image, price, title, rate, date }) => {
+    // let url = `/cart/` + props.post._id;
     return (
         <Card sx={{ maxWidth: 260, border: "1px solid #fbc01c" }} >
 
             {/* to the item details page */}
+            {/* <Link to={url} className="text-light">View Post</Link> */}
             <CardActionArea component={Link} to="/" disableRipple>
                 <CardMedia component="img" height="194" image={image} alt="item image" style={{ padding: 4 }} />
                 <CardContent>
