@@ -105,7 +105,6 @@ const ItemList = () => {
                         </div>
 
                         <Grid>
-
                             {/* formControl: list view, map view, and sort by */}
                             <div className='d-flex justify-content-end column mb-2'>
                                 <IconButton onClick={() => { setListMode('normal'); }} >
