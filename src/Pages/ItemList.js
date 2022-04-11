@@ -11,7 +11,9 @@ import { GoogleMap, InfoWindow, LoadScript, Marker, useLoadScript, } from '@reac
 import axios from 'axios';
 import decode from 'jwt-decode';
 
-const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
+// const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
+const constants = require('../lib/constants');
+const categories = constants.CATEGORY_CONSTANT;
 
 // TODO: only get partial data from the database according to the pagination
 const ItemList = () => {

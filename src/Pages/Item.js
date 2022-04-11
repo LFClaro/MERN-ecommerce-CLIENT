@@ -2,11 +2,14 @@
 Developer: Luiz Claro
 
 */
-import React from "react";
-import DropzoneUploader from "../Components/DropzoneUploader";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+// React-Dropzone Uploader
+import DropzoneUploader from "../Components/DropzoneUploader";
+// Item Categories
+const constants = require("../lib/constants");
+const categories = constants.CATEGORY_CONSTANT;
 
 export const Item = () => {
   const { id } = useParams();
@@ -27,8 +30,8 @@ export const Item = () => {
         },
       };
       const response = await axios.get(
-        process.env.REACT_APP_API_URL + "/api/items/" + itemID
-        // config
+        process.env.REACT_APP_API_URL + "/api/items/" + itemID,
+        config
       );
       setItemInfo(response.data);
     } catch (err) {
@@ -51,14 +54,13 @@ export const Item = () => {
 
 const ItemDetails = (props) => {
   const [formData, setFormData] = useState({
-    name: props.item._id,
+    id: props.item._id,
+    image: props.item.image,
     name: props.item.name,
     description: props.item.description,
     category: props.item.category,
     price: props.item.price,
   });
-
-  console.log("ITEM ID => " + props.item._id);
 
   const { id, name, category, description, price } = formData;
 
@@ -111,7 +113,7 @@ const ItemDetails = (props) => {
     }
 
     //Price
-    if (price.trim() === "" || price == null) {
+    if (price === "" || price == null) {
       formIsValid = false;
       setPriceErr("Item rental price can't be empty");
       console.log("issues with price - empty");
@@ -143,7 +145,11 @@ const ItemDetails = (props) => {
       data.append("category", category);
       data.append("description", description);
       data.append("price", price);
-      data.append("myFile", myFile);
+
+      //We'll set the image with the 'myFile' variable only if a new image has been uploaded
+      if (myFile != undefined) {
+        data.append("myFile", myFile);
+      }
 
       try {
         const response = await axios.put(
@@ -192,10 +198,10 @@ const ItemDetails = (props) => {
             <div className="card">
               <div className="card-body ">
                 <div className="row mb-3">
-                  <div className="col-sm-2">
+                  <div className="col-sm-3">
                     <h6 className="mb-0">Item Name</h6>
                   </div>
-                  <div className="col-sm-4 text-secondary">
+                  <div className="col-sm-9 text-secondary">
                     <input
                       type="text"
                       name="name"
@@ -208,28 +214,12 @@ const ItemDetails = (props) => {
                     />
                     <span style={{ color: "red" }}>{nameError}</span>
                   </div>
-                  <div className="col-sm-2">
-                    <h6 className="mb-0">Category</h6>
-                  </div>
-                  <div className="col-sm-4 text-secondary">
-                    <input
-                      type="text"
-                      name="category"
-                      className="form-control"
-                      id="category"
-                      value={category}
-                      placeholder="Item Category"
-                      onChange={(e) => onChange(e)}
-                      required
-                    />
-                    <span style={{ color: "red" }}>{categoryError}</span>
-                  </div>
                 </div>
                 <div className="row mb-3">
                   <div className="col-sm-3">
                     <h6 className="mb-0">Daily Rental Price</h6>
                   </div>
-                  <div className="col-sm-9 text-secondary">
+                  <div className="col-sm-3 text-secondary">
                     <div className="input-group">
                       <div className="input-group-prepend">
                         <span className="input-group-text">$</span>
@@ -239,7 +229,7 @@ const ItemDetails = (props) => {
                         className="form-control"
                         name="price"
                         id="price"
-                        value={price}
+                        value={Number(price).toString()}
                         min="0.00"
                         max="999.99"
                         step="0.01"
@@ -249,6 +239,25 @@ const ItemDetails = (props) => {
                       />
                       <span style={{ color: "red" }}>{priceError}</span>
                     </div>
+                  </div>
+                  <div className="col-sm-2">
+                    <h6 className="mb-0">Category</h6>
+                  </div>
+                  <div className="col-sm-4 text-secondary">
+                    <select
+                      name="category"
+                      className="form-select"
+                      id="category"
+                      aria-label="Category Select"
+                      onChange={(e) => onChange(e)}
+                      defaultValue={category}
+                      required
+                    >
+                      {categories.map((category, index) => (
+                        <option value={index}>{category}</option>
+                      ))}
+                    </select>
+                    <span style={{ color: "red" }}>{categoryError}</span>
                   </div>
                 </div>
                 <div className="row mb-3">
