@@ -42,7 +42,7 @@ import ItemList from './Pages/ItemList';
 
 function App() {
   const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
-  const [isAdminLogged, setIsAdminLogged] = useState(true);
+  const [isAdminLogged, setIsAdminLogged] = useState(false);
 
   //This function is used to redirect user to admin panel
   const adminLogInFun = () => {
