@@ -7,7 +7,7 @@ export default function AdminMain() {
     return (
 
         <div className='container'>
-            <h1>Admin Main Page</h1>
+            <h1 className='text text-center text-black-50 mt-5'>Admin Main Page</h1>
 
         </div>
 

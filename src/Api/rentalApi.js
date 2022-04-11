@@ -50,6 +50,8 @@ export const getRentalById = (token, id) => {
 // get rental date time
 export const updateRentalDateTime = (token, id, rentalItem, datetime) => {
 
+    console.log(datetime)
+
     try {
 
         let config = {
@@ -65,8 +67,8 @@ export const updateRentalDateTime = (token, id, rentalItem, datetime) => {
         let body = rentalItem
         body.id=id // workaround to match API
         body.itemId = body.item // workaround to match API
-        body.rentalDate = "2022-01-01"
-        body.returnDate = "2022-01-01"
+        body.rentalDate = pickup.getFullYear()+"-"+String(parseInt(pickup.getMonth()+1)).padStart(2, '0')+"-"+pickup.getDate();
+        body.returnDate = dropoff.getFullYear()+"-"+String(parseInt(dropoff.getMonth()+1)).padStart(2, '0')+"-"+dropoff.getDate()
 
         const promise = axios.put(
             process.env.REACT_APP_API_URL + `/api/rentals/`,
@@ -84,3 +86,24 @@ export const updateRentalDateTime = (token, id, rentalItem, datetime) => {
     }
 
 };
+
+// get rental date time
+export const addComment = (id, comment) => {
+
+    try {
+
+        const promise = axios.patch(
+            process.env.REACT_APP_API_URL + `/api/rentals/comment/` + id,
+            comment
+        );
+
+        const data = promise.then((response) => response.data);
+        console.log(data)
+
+        return data;
+        
+    } catch (err) {
+        console.log(err.message);
+    }
+
+}

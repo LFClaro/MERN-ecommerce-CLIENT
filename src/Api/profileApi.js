@@ -1,12 +1,16 @@
 import axios from "axios";
 
-export const getItem = (id) => {
+export const getProfileDetails = (token) => {
 
-    console.log(id);
     try {
 
+        let headers = {
+            "x-auth-token": token
+        };
+
         const promise = axios.get(
-            process.env.REACT_APP_API_URL + `/api/items/` + id
+            process.env.REACT_APP_API_URL + `/api/profile/`,
+            {headers}
         );
         const data = promise.then((response) => response.data);
         console.log(data)

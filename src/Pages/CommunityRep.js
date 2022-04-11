@@ -1,17 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export const CommunityReply = (props) => {
-let postid = "6248ff37bed85514ff2aebf0"; // hard coding cause cant get id atm
+export const CommunityRep = (props) => {
+  const{id} = useParams();
+  console.log(id);
+let postid = id; // hard coding cause cant get id atm
 
-// const location = useLocation();
-// const data = location.state;
-// console.log(props.data);
-// console.log(data);
-const { state } = props.location;
-console.log(state);
 
 
   // get the post count or replies
@@ -68,7 +64,7 @@ console.log(state);
       };
       const response = await axios.get(
         // using axios get method to fetch the data using our api end point
-        process.env.REACT_APP_API_URL + "/api/communityPost/6248ff37bed85514ff2aebf0", // hard coded the postid
+        process.env.REACT_APP_API_URL + "/api/communityPost/" + postid, // hard coded the postid
         config // passing in the config arg which is a var declared above - to store token in header
         //
       );
@@ -170,7 +166,7 @@ let formIsValid = true;
               <div className="row">
                 <div className="col-sm-6">
                   <b className="">
-                    {postInfo2.username} : {postInfo2.date}
+                    {postInfo2.date}
                   </b>
                 </div>
                 <div className="col-sm-6 text-secondary">
@@ -235,4 +231,4 @@ const Posts = (props) => {
   );
 };
 
-export default CommunityReply;
+export default CommunityRep;
