@@ -44,7 +44,8 @@ const Faq = () => {
                                             let base = index + 1;
                                             return (
                                                 <li key={index} data-aos="fade-up" data-aos-delay={base * 100}>
-                                                    <i className="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" className="collapse" data-bs-target={"#faq-list-" + base}>{faq.title} <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                                                    <i className="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" className="collapse" data-bs-target={"#faq-list-" + base}>
+                                                        {faq.title} <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                                                     <div id={"faq-list-" + base} className="collapse" data-bs-parent=".faq-list">
                                                         <p> {faq.answer}</p>
                                                     </div>

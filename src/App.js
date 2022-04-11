@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 //Import Component pages
 import Header from './Components/Header';
@@ -26,6 +27,7 @@ import Profile from './Pages/Profile';
 import AddItem from './Pages/AddItem';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
+import ItemList from './Pages/ItemList';
 
 // Import Admin pages
 import AdminMain from './Admin/AdminMain';
@@ -41,7 +43,7 @@ import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import ItemList from './Pages/ItemList';
 
 function App() {
-  const [authorized, setAuthorized] = useState(false); //default value false, set to true for testing purpose
+  const [authorized, setAuthorized] = useState(true); //default value false, set to true for testing purpose
   const [isAdminLogged, setIsAdminLogged] = useState(false);
 
   //This function is used to redirect user to admin panel
