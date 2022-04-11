@@ -2,6 +2,24 @@
 # Checkout
 --------------------------------------------------------------*/
 
+.cart button {
+    background: #5846f9;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 5px;
+  }
+.cart button:hover {
+    background: #7b27d8;
+    color: #fff;
+
+}
+
+/*--------------------------------------------------------------
+# Checkout
+--------------------------------------------------------------*/
+
 .checkout-box {
     background-color: #fff;
     /* border-radius: 10px; */
