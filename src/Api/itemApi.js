@@ -11,7 +11,7 @@ export const getItem = (id, token) => {
             process.env.REACT_APP_API_URL + `/api/items/` + id,
             { headers}
         );
-        const data = promise.then((response) => response.data);
+        const data = promise.then((response) => response.data._doc);
         console.log(data)
 
         return data;

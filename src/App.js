@@ -26,6 +26,7 @@ import Profile from './Pages/Profile';
 import {Item} from './Pages/Item';
 import AddItem from './Pages/AddItem';
 import ItemList from './Pages/ItemList';
+import ItemListUser from './Pages/ItemListUser';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
 
@@ -95,6 +96,7 @@ function App() {
           <Route path='signup' element={<SignUp setAuthorized={setAuthorized} />} />
           <Route path='login' element={<Login setAuthorized={setAuthorized} />} />
           <Route path='products' element={<ItemList />} />
+          <Route path='yourProducts' element={<ItemListUser />} />
           <Route path='signup' element={<SignUp />} />
           <Route path='login' element={<Login />} />
           <Route path='privacy' element={<PrivacyPolicy />} />

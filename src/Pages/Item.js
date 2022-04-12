@@ -16,6 +16,7 @@ export const Item = () => {
   let itemID = id;
 
   const [itemInfo, setItemInfo] = useState([]);
+  const [queryUserId, setQueryUserID] = useState([]);
   useEffect(() => {
     sendApiRequest();
   }, []);
@@ -33,26 +34,111 @@ export const Item = () => {
         process.env.REACT_APP_API_URL + "/api/items/" + itemID,
         config
       );
-      setItemInfo(response.data);
+      setItemInfo(response.data._doc);
+      setQueryUserID(response.data.queryUser);
     } catch (err) {
       console.log(err);
     }
   };
-  return (
-    <section id="services" className="services section-bg">
-      <div className="container" data-aos="fade-up">
-        <h1 className="text-center mb-4">Item Details</h1>
-        <div className="main-body">
-          <div className="row">
-            <ItemDetails item={itemInfo} key={itemInfo._id} />
+
+  if (queryUserId == itemInfo.user) {
+    return (
+      <section id="services" className="services section-bg">
+        <div className="container" data-aos="fade-up">
+          <h1 className="text-center mb-4">Item Details</h1>
+          <div className="main-body">
+            <div className="row">
+              <ItemUser item={itemInfo} key={itemInfo._id} />
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  } else {
+    return (
+      <section id="services" className="services section-bg">
+        <div className="container" data-aos="fade-up">
+          <h1 className="text-center mb-4">Item Details</h1>
+          <div className="main-body">
+            <div className="row">
+              <ItemDetails item={itemInfo} key={itemInfo._id} />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 };
 
 const ItemDetails = (props) => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    let token = localStorage.getItem("token");
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+    };
+
+    let data = new FormData();
+    data.append("itemId", props.item._id);
+
+    console.log(props.item);
+
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_API_URL + "/api/rentals/",
+        data,
+        config
+      );
+
+      console.log("Rental created");
+      alert("Item added to cart!");
+      window.location.href = "/cart"; // redirect to cart
+    } catch (err) {
+      console.log(err.response.data.errors);
+    }
+  };
+  return (
+    <>
+      <div className="row row-eq-height">
+        <div className="col-lg-12">
+          <div className="card">
+            <img class="card-img-top" src={props.item.image} alt="Item image" />
+            <div className="card-body">
+              <div className="row">
+                <div className="d-flex flex-column align-items-center text-center">
+                  <div className="mt-3">
+                    <h4>{props.item.name}</h4>
+                  </div>
+                </div>
+                <div className="d-flex flex-column align-items-center text-center">
+                  <div className="mt-3">
+                    <p>{props.item.description}</p>
+                  </div>
+                </div>
+                <div className="d-flex flex-column align-items-center text-center">
+                  <form onSubmit={(e) => onSubmit(e)}>
+                    <input type="hidden" name="id" value={props.item._id} />
+                    <input
+                      type="submit"
+                      className="btn btn-primary px-4"
+                      value="Add to Cart"
+                    />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const ItemUser = (props) => {
   const [formData, setFormData] = useState({
     id: props.item._id,
     image: props.item.image,

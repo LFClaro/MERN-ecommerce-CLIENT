@@ -95,7 +95,7 @@ const AddItem = () => {
           "x-auth-token": token,
         },
       };
-      
+
       if (myFile === undefined) {
         alert("Item image hasn't been uploaded; please try again.");
       } else {
@@ -160,17 +160,6 @@ const AddItem = () => {
                   <span style={{ color: "red" }}>{nameError}</span>
                 </div>
                 <div className="col-md-4 form-group">
-                  {/* <input
-                    type="text"
-                    name="category"
-                    className="form-control"
-                    id="category"
-                    value={category}
-                    placeholder="Item Category"
-                    onChange={(e) => onChange(e)}
-                    required
-                  /> */}
-
                   <select
                     name="category"
                     className="form-select"

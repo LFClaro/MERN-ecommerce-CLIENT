@@ -48,7 +48,7 @@ export default function Header({ authorized, setAuthorized }) {
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item
-                      href="#action/3.4"
+                      href="/yourProducts"
                       style={{ color: "indigo" }}
                     >
                       See your Items

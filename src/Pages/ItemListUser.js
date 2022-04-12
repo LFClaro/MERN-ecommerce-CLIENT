@@ -16,7 +16,7 @@ const constants = require('../lib/constants');
 const categories = constants.CATEGORY_CONSTANT;
 
 // TODO: only get partial data from the database according to the pagination
-const ItemList = () => {
+const ItemListUser = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
     const [categorySelected, setcategorySelected] = useState([]);
     const [items, setItems] = useState([]);
@@ -75,7 +75,7 @@ const ItemList = () => {
                 },
             };
             const response = await axios.get(
-                process.env.REACT_APP_API_URL + '/api/items/products',
+                process.env.REACT_APP_API_URL + '/api/items/',
                 config
             );
             setItems(response.data);
@@ -191,7 +191,7 @@ const ItemList = () => {
     );
 };
 
-export default ItemList
+export default ItemListUser;
 
 
 // const Search = styled('div')(({ theme }) => ({
