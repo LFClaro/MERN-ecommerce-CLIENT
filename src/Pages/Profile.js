@@ -147,25 +147,32 @@ const ProfileList = (props) => {
     if (firstname.trim() === "" || firstname == null) {
       formIsValid = false;
       setFirstnameErr("first name can not be empty");
-      console.log("issues with name - empty");
+      console.log("issues with fname - empty");
     }
 
     if (lastname.trim() === "" || lastname == null) {
       formIsValid = false;
       setLastnameErr("last name can not be empty");
-      console.log("issues with name - empty");
+      console.log("issues with lname - empty");
     }
 
     if (phone.trim() === "" || phone == null) {
       formIsValid = false;
       setPhoneErr("phone can not be empty");
-      console.log("issues with name - empty");
+      console.log("issues with phone - empty");
     }
 
     if (address.trim() === "" || address == null) {
       formIsValid = false;
       setAddressErr("address can not be empty");
-      console.log("issues with name - empty");
+      console.log("issues with address - empty");
+    }
+
+    var str = new String(address);
+    if (str.length > 3 ) {
+      formIsValid = false;
+      setAddressErr("please only provide the first 3 digits of your postal code");
+      console.log("issues with address - more than 3 digits");
     }
 
     return formIsValid;
@@ -217,7 +224,7 @@ const ProfileList = (props) => {
         console.log(e.response.data.errors);
       }
     } else {
-      alert("Your contact form has errors.");
+      alert("Your profile has errors.");
       console.log(formIsValid);
     }
   };
@@ -317,7 +324,8 @@ const ProfileList = (props) => {
               </div>
               <div className="row mb-3">
                 <div className="col-sm-3">
-                  <h6 className="mb-0">Address *First three Digits of Postal Code</h6>
+                  <h6 className="mb-0">Address </h6>
+                  <p className="text-primary">* First 3 Digits of Postal Code</p>
                 </div>
                 <div className="col-sm-9 text-secondary">
                 <input
@@ -518,7 +526,7 @@ const ProfileList2 = () => {
         console.log(e.response.data.errors);
       }
     } else {
-      alert("Your contact form has errors.");
+      alert("Your Profile form has errors.");
       console.log(formIsValid);
     }
   };
