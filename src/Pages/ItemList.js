@@ -75,7 +75,7 @@ const ItemList = () => {
                 },
             };
             const response = await axios.get(
-                process.env.REACT_APP_API_URL + '/api/items/',
+                process.env.REACT_APP_API_URL + '/api/items/products',
                 config
             );
             setItems(response.data);
@@ -89,7 +89,7 @@ const ItemList = () => {
     };
 
     const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length //get the overall rating
-
+    
     return (
         <div>
             <section id="hero" className="d-flex justify-content-center h-auto">
@@ -138,7 +138,7 @@ const ItemList = () => {
                                     <Grid container spacing={1} justifyContent={'space-evenly'} alignItems={'center'} border={'1px solid black'} gap={1}>
                                         {/* {currentPageItems.map(item => { console.log(item) })} */}
                                         {currentPageItems.map((item, index) => (
-                                            <ItemCard key={index} image={item.image} price={item.price} title={item.name} rate={item.overallRating} date={item.updated} />
+                                            <ItemCard key={index} id={item._id} image={item.image} price={item.price} title={item.name} rate={arrAvg(item.overallRating)} date={item.updated} />
                                         ))}
                                     </Grid>
 
@@ -173,8 +173,8 @@ const ItemList = () => {
                                             {pinSelected ?
                                                 <InfoWindow position={pinSelected} onCloseClick={() => { setPinSelected(null); }}>
                                                     <Grid>
-                                                        <ItemCard image={selectedItem.image} price={selectedItem.price}
-                                                            title={selectedItem.name} rate={selectedItem.overallRating}
+                                                        <ItemCard id={selectedItem._id} image={selectedItem.image} price={selectedItem.price}
+                                                            title={selectedItem.name} rate={arrAvg(selectedItem.overallRating)}
                                                             date={selectedItem.updated} />
                                                     </Grid>
                                                 </InfoWindow> : null}
