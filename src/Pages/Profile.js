@@ -289,7 +289,7 @@ const ProfileList = (props) => {
                     className="form-control"
                     id="lastname"
                     value={lastname}
-                    placeholder="First Name"
+                    placeholder="Last Name"
                     onChange={(e) => onChange(e)}
                     required
                   />
@@ -315,7 +315,7 @@ const ProfileList = (props) => {
                     className="form-control"
                     id="phone"
                     value={phone}
-                    placeholder="First Name"
+                    placeholder="Phone"
                     onChange={(e) => onChange(e)}
                     required
                   />
@@ -334,7 +334,7 @@ const ProfileList = (props) => {
                     className="form-control"
                     id="address"
                     value={address}
-                    placeholder="First Name"
+                    placeholder="First 3 digits of postal code"
                     onChange={(e) => onChange(e)}
                     required
                   />
@@ -627,7 +627,8 @@ const ProfileList2 = () => {
               </div>
               <div className="row mb-3">
                 <div className="col-sm-3">
-                  <h6 className="mb-0">Address *First three Digits of Postal Code</h6>
+                  <h6 className="mb-0">Address </h6>
+                  <p className="text-primary">* First 3 Digits of Postal Code</p>
                 </div>
                 <div className="col-sm-9 text-secondary">
                 <input
@@ -636,7 +637,7 @@ const ProfileList2 = () => {
                     className="form-control"
                     id="address"
                     value={address}
-                    placeholder="Address"
+                    placeholder="First 3 digits of postal code"
                     onChange={(e) => onChange(e)}
                     required
                   />
