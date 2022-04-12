@@ -38,7 +38,7 @@ const HeaderAvatar = ({ setAuthorized }) => {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="assets/img/team/alex-profile.jpeg" />
+                        <Avatar alt="User Image" src="assets/img/profile-default.png" />
                     </IconButton>
                 </Tooltip>
                 <Menu
