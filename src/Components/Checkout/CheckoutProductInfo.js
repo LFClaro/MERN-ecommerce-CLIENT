@@ -29,7 +29,7 @@ const CheckoutProductInfo = ({ item, rentalItem, dayDiff }) => {
                     </td>
                     <td>
                         {/*String(new Date(rentalItem.rentalDate + 1)).split(" ").slice(0, 3).join(" ")*/
-                        rentalItem.rentalDate}
+                        new Date(rentalItem.rentalDate).toLocaleDateString("en-CA")}
                     </td>
                 </tr>
                 <tr>
@@ -38,7 +38,7 @@ const CheckoutProductInfo = ({ item, rentalItem, dayDiff }) => {
                     </td>
                     <td>
                         {/*String(new Date(rentalItem.returnDate)).split(" ").slice(0, 3).join(" ")*/
-                        rentalItem.returnDate}
+                        new Date(rentalItem.returnDate).toLocaleDateString("en-CA")}
                     </td>
                 </tr>
                 <tr>

@@ -41,7 +41,7 @@ const Checkout = () => {
                 .then((data) => {
                     setRentalItem(data)
 
-                    getItem(data.item)
+                    getItem(data.item, token)
                         .then((data) => {
                             setItem(data)
                         })
