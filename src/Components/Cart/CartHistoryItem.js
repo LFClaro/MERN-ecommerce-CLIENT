@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { getItem } from '../../Api/itemApi'
 import { addComment } from '../../Api/rentalApi'
 
-const CartItem = ({ id, itemId, rental }) => {
+const CartItem = ({ id, itemId, rental, token }) => {
 
     const [item, setItem] = useState({})
     const [dayDiff, setDayDiff] = useState("")
@@ -16,7 +16,7 @@ const CartItem = ({ id, itemId, rental }) => {
 
     useEffect(() => {
 
-        getItem(itemId).then((data) => {
+        getItem(itemId, token).then((data) => {
             setItem(data)
 
         })

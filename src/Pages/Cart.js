@@ -19,14 +19,14 @@ const Cart = () => {
 
         // check if this user is authenticated
         let storageToken = localStorage.getItem("token");
+        console.log(storageToken)
 
         // set the token and load initial api calls here
         if (storageToken) {
             setToken(storageToken)
             setIsAuthenticated(true)
             // call api here
-            getRentals(token).then((data) => {
-                
+            getRentals(storageToken).then((data) => {
                 setCartItems(data.filter(i => !i.rentalDate))
                 setCartHistoryItems(data.filter(i => i.rentalDate ))
             })
@@ -69,7 +69,7 @@ const Cart = () => {
                 {isCartVisible &&
                     <>
                         {cartItems.map((i) => (
-                            <CartItem key={i._id} id={i._id} itemId={i.item} />
+                            <CartItem key={i._id} id={i._id} itemId={i.item} token={token} />
                         ))}
                     </>
                 }
@@ -77,7 +77,7 @@ const Cart = () => {
                 {!isCartVisible &&
                     <>
                         {cartHistoryItems.map((i) => (
-                            <CartHistoryItem key={i._id} id={i._id} itemId={i.item} rental={i} />
+                            <CartHistoryItem key={i._id} id={i._id} itemId={i.item} rental={i} token={token} />
                         ))}
                     </>
                 }
