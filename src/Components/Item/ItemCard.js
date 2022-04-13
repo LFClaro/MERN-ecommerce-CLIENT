@@ -6,10 +6,11 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { CardActionArea, Rating } from '@mui/material';
+import { CardActionArea, Grid, Rating } from '@mui/material';
 import { Link } from "react-router-dom";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const ItemCard = ({ id, image, price, title, rate, date }) => {
+const ItemCard = ({ id, image, price, title, rate, date, numOfComments }) => {
     // let url = `/cart/` + props.post._id;
     return (
         <Card sx={{ maxWidth: 260, border: "1px solid #fbc01c" }} >
@@ -29,8 +30,16 @@ const ItemCard = ({ id, image, price, title, rate, date }) => {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Rating name="half-rating" defaultValue={rate} precision={0.5} size='small' readOnly />
-                <IconButton aria-label="add to favorites">  <FavoriteIcon />  </IconButton>
+                <Grid container direction="row" justifyContent="space-between" alignItems="center">
+                    <Grid item>
+                        <Rating name="half-rating" defaultValue={rate} precision={0.5} size='small' readOnly />
+                        <Typography variant="caption">({numOfComments ? numOfComments : 0})</Typography>
+                        <IconButton component={Link} to="/" aria-label="add to favorites">  <FavoriteIcon />  </IconButton>
+                    </Grid>
+                    <Grid item>
+                        <IconButton component={Link} to="/" aria-label="add to cart">  <ShoppingCartIcon />  </IconButton>
+                    </Grid>
+                </Grid>
             </CardActions>
         </Card>
     )

@@ -14,7 +14,7 @@ import { Button } from 'react-bootstrap';
 const constants = require('../lib/constants');
 const categories = constants.CATEGORY_CONSTANT;
 
-// TODO: only get partial data from the database according to the pagination
+// only get partial data from the database according to the pagination
 const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
     const [items, setItems] = useState([]);
@@ -23,11 +23,11 @@ const ItemList = () => {
     //category click settings
     const [unfilteredItems, setUnfilteredItems] = useState([]); //keep a origin copy of the item list
     const handleClickCategory = (e) => {
-        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items which will be the full list into it.
+        if (unfilteredItems.length === 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items which will be the full list into it.
         setItems(unfilteredItems.filter(c => (c.category.toLowerCase() == e.target.value.toLowerCase())));
     }
     const handleClickAll = () => {
-        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items which will be the full list into it.
+        if (unfilteredItems.length === 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items which will be the full list into it.
         setItems(unfilteredItems);
     }
 
@@ -120,7 +120,7 @@ const ItemList = () => {
                         </div>
 
                         <Grid>
-                            {/* formControl: list view, map view, and sort by */}
+                            {/* formControl:Search list view, map view, and sort by */}
                             <div className='d-flex justify-content-between column mb-2'>
                                 <div>
                                     <FormControl variant="filled">
@@ -156,7 +156,6 @@ const ItemList = () => {
                                         </Select>
                                     </FormControl>
                                 </div>
-
                             </div>
 
                             <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid yellow'}>
@@ -199,7 +198,7 @@ const ItemList = () => {
                                                     <Grid>
                                                         <ItemCard id={selectedItem._id} image={selectedItem.image} price={selectedItem.price}
                                                             title={selectedItem.name} rate={selectedItem.overallRating}
-                                                            date={selectedItem.updated} />
+                                                            date={selectedItem.updated} numOfComments={selectedItem.overallRating.length} />
                                                     </Grid>
                                                 </InfoWindow> : null}
 
