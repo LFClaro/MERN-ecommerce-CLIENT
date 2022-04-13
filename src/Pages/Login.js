@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as yup from "yup";
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import decode from 'jwt-decode';
 
 const fieldStyle = { background: "white", padding: 20, minWidth: "25em", hight: "55vh", margin: "0 auto", }
 const formikError = { textAlign: "left", fontSize: "0.72rem", fontWeight: 500, marginTop: "5px", color: "#dc3545", };
@@ -15,9 +16,9 @@ const validationSchema = yup.object({
     email: yup.string().email("Please enter a valid email address").required("Email is required!"),
     password: yup.string().required("Password is required!"),
 });
- 
+
 //******************************************************* */
-const Login = ({ setAuthorized }) => {
+const Login = ({ setAuthorized, adminLogInFun }) => {
     const navigate = useNavigate();
 
     //password visibility settings
@@ -50,8 +51,19 @@ const Login = ({ setAuthorized }) => {
         } else if (res.status === 200) {
             console.log('the token is created: ', payload.token);
             localStorage.setItem('token', payload.token);
-            setAuthorized(true);
-            navigate('/');
+
+            //check weather the role is the admin
+            let decodetoken = decode(payload.token);
+
+            if (decodetoken.user.role == 'admin') {
+                console.log("admin? ", decodetoken.user.role == 'admin')
+                // setIsAdminLogged(true);
+                adminLogInFun();
+                navigate('/');
+            }
+
+            // setAuthorized(true);
+            // navigate('/');
         } else {
             alert(`unknow error`);
         }

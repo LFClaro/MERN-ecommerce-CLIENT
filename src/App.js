@@ -23,7 +23,7 @@ import Community from './Pages/Community';
 import CommunityReply from './Pages/CommunityReply';
 import CommunityRep from './Pages/CommunityRep';
 import Profile from './Pages/Profile';
-import {Item} from './Pages/Item';
+import { Item } from './Pages/Item';
 import AddItem from './Pages/AddItem';
 import ItemList from './Pages/ItemList';
 import ItemListUser from './Pages/ItemListUser';
@@ -57,18 +57,18 @@ function App() {
   let id_user;
 
   if (isAdminLogged) {
-    redirectAppRoutes = (     
-        <BrowserRouter>
-          <HeaderAdm />
-          <Routes>
-            <Route path='/' element={<AdminMain />} />
-            <Route path='users' element={<AdminUsers />} />
-            <Route path='products' element={<AdminProducts />} />
-            <Route path='users/edit' element={<EditRole />} />
-            <Route path='users/add' element={<AddUser />} />
-          </Routes>
-          <FooterAdm />
-        </BrowserRouter>
+    redirectAppRoutes = (
+      <BrowserRouter>
+        <HeaderAdm />
+        <Routes>
+          <Route path='/' element={<AdminMain />} />
+          <Route path='users' element={<AdminUsers />} />
+          <Route path='products' element={<AdminProducts />} />
+          <Route path='users/edit' element={<EditRole />} />
+          <Route path='users/add' element={<AddUser />} />
+        </Routes>
+        <FooterAdm />
+      </BrowserRouter>
     );
   } else {
     redirectAppRoutes = (
@@ -94,7 +94,7 @@ function App() {
           <Route path='item/:id' element={<Item />} />
           <Route path='addItem' element={<AddItem />} />
           <Route path='signup' element={<SignUp setAuthorized={setAuthorized} />} />
-          <Route path='login' element={<Login setAuthorized={setAuthorized} />} />
+          <Route path='login' element={<Login setAuthorized={setAuthorized} adminLogInFun={adminLogInFun} />} />
           <Route path='products' element={<ItemList />} />
           <Route path='yourProducts' element={<ItemListUser />} />
           <Route path='signup' element={<SignUp />} />
@@ -108,12 +108,12 @@ function App() {
 
   return (
     <>
-    <AdminContext.Provider value={{ adminLogInFun: adminLogInFun, id, id_user}} >
-      {redirectAppRoutes}
-    </AdminContext.Provider>
-     
+      <AdminContext.Provider value={{ adminLogInFun: adminLogInFun, id, id_user }} >
+        {redirectAppRoutes}
+      </AdminContext.Provider>
+
     </>
-    
+
   );
 }
 
