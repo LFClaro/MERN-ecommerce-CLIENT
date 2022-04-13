@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Box, FormControl, InputLabel, Input, InputAdornment, IconButton } from '@mui/material';
+import { Grid, Box, FormControl, InputLabel, Input, InputAdornment, IconButton, Typography, Alert } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,6 +20,8 @@ const validationSchema = yup.object({
 //******************************************************* */
 const Login = ({ setAuthorized, adminLogInFun }) => {
     const navigate = useNavigate();
+    const [errorExist, setErrorExist] = useState(false);
+    const [errorMsg, setErrorMsg] = useState();
 
     //password visibility settings
     const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +49,9 @@ const Login = ({ setAuthorized, adminLogInFun }) => {
 
         if (res.status >= 400) {
             setAuthorized(false);
-            alert(`Oops! ${payload.errors}`);
+            // alert(`Oops! ${payload.errors}`);
+            setErrorExist(true)
+            setErrorMsg(`Oops! ${payload.errors}`);
         } else if (res.status === 200) {
             console.log('the token is created: ', payload.token);
             localStorage.setItem('token', payload.token);
@@ -65,7 +69,8 @@ const Login = ({ setAuthorized, adminLogInFun }) => {
             setAuthorized(true);
             navigate('/');
         } else {
-            alert(`unknow error`);
+            setErrorExist(true);
+            setErrorMsg(`unknow error`);
         }
     }
 
@@ -82,6 +87,7 @@ const Login = ({ setAuthorized, adminLogInFun }) => {
     return (
         <div>
             {/* {console.log("formik: ", formik)} */}
+
             <section id="hero" className="d-flex align-items-center justify-content-center">
                 <Box component={Grid} boxShadow={10} borderRadius={8} container justifyContent="center" alignItems="center"
                     style={{ background: "white", minWidth: "20em", maxWidth: "30em", minHeight: "70vh", maxHeight: "40em" }}>
@@ -89,8 +95,10 @@ const Login = ({ setAuthorized, adminLogInFun }) => {
                     <form className="justify-content-center" onSubmit={formik.handleSubmit}>
                         <h3 className="">Sign In</h3><br />
 
+                        {errorExist && <Alert severity="warning" onClose={() => { setErrorExist(false) }}>{errorMsg}</Alert>}
+
                         {/* email TextField */}
-                        <div>
+                        <div div >
                             <TextField style={fieldStyle} type="text" id='email' name='email' required
                                 variant='standard' label="Email" placeholder='Enter Email'
                                 onChange={formik.handleChange} onBlur={formik.handleBlur}
@@ -137,8 +145,8 @@ const Login = ({ setAuthorized, adminLogInFun }) => {
                     </form>
                     {/* {console.log("formik: ", formik)} */}
                 </Box>
-            </section>
-        </div>
+            </section >
+        </div >
     )
 }
 
