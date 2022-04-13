@@ -6,6 +6,8 @@ import React from "react";
 import DropzoneUploader from "../Components/DropzoneUploader";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ProfileItemRow from "../Components/Profile/ProfileItemRow";
+import ProfileItemCurrentRentals from "../Components/Profile/ProfileItemCurrentRentals";
 import { Nav, Link } from "react-router-dom";
 import jwt from "jwt-decode";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -108,6 +110,26 @@ const ProfileList = (props) => {
     phone: props.post.phone,
     address: props.post.address,
   });
+  const [token, setToken] = useState(localStorage.getItem("token"))
+
+  useEffect(() => {
+
+    // check if this user is authenticated
+    let storageToken = localStorage.getItem("token");
+    console.log(storageToken)
+
+    // set the token and load initial api calls here
+    if (storageToken) {
+      setToken(storageToken)
+      setIsAuthenticated(true)
+      // call api here
+      getRentals(storageToken).then((data) => {
+        setCartItems(data.filter(i => !i.rentalDate))
+        setCartHistoryItems(data.filter(i => i.rentalDate))
+      })
+
+    }
+  }, []);
 
 
   // break down form data into fields
@@ -388,12 +410,29 @@ const ProfileList = (props) => {
           <div className="card-body">
             <h5 className="text-center">Available Products for Lease</h5>
             {items.map((item, index) => (
-              <ItemRow
+              <ProfileItemRow
                 key={index}
                 id={item._id}
                 image={item.image}
                 title={item.name}
                 description={item.description}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="row mt-4">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="text-center">Available Products for Lease</h5>
+            {items.map((rental) => (
+              <ProfileItemCurrentRentals
+                key={rental._id}
+                id={rental._id}
+                itemId={rental.item}
+                rental={rental}
+                token={token}
               />
             ))}
           </div>
@@ -695,7 +734,7 @@ const ProfileList2 = () => {
         </div>
       </div> */}
 
-      <div className="row mt-4">
+      {/* <div className="row mt-4">
         <div className="card">
           <div className="card-body">
             <h5 className="text-center">Products Currently Renting</h5>
@@ -718,37 +757,7 @@ const ProfileList2 = () => {
             </div>
           </div>
         </div>
-      </div>
-    </>
-  );
-};
-
-const ItemRow = ({ id, image, title, description }) => {
-  return (
-    <>
-      <Link to={"/item/" + id}>
-        <div className="col-lg-2 d-inline p-2">
-          <img
-            src={image}
-            className="img-fluid animated rounded"
-            alt="Item"
-            width="100"
-            height="100"
-          />
-        </div>
-        <div className="col-lg-10 d-inline p-2">
-          <div className="row d-inline">
-            <h5 className="d-inline">{title}</h5>
-            <br />
-          </div>
-          <div className="row d-inline">
-            <p className="d-inline p-2">
-              <b>Description:</b> {description}
-            </p>
-          </div>
-        </div>
-      </Link>
-      <hr />
+      </div> */}
     </>
   );
 };
