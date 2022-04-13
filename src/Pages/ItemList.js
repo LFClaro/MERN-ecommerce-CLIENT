@@ -12,6 +12,7 @@ import axios from 'axios';
 import decode from 'jwt-decode';
 import Search from '@mui/icons-material/Search';
 import "../App.css"
+import { Button } from 'react-bootstrap';
 
 // const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
 const constants = require('../lib/constants');
@@ -21,26 +22,27 @@ const categories = constants.CATEGORY_CONSTANT;
 const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
     const [items, setItems] = useState([]);
-    const [seletedCategories, setseletedCategories] = useState([]);
     const [sort, setSort] = useState();         //sort handle
 
-    //Keyword search settings
+    //category click settings
+    const [unfilteredItems, setUnfilteredItems] = useState([]); //keep a origin copy of the item list
+    const handleClickCategory = (e) => {
+        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items into it.
+        setItems(unfilteredItems.filter(c => (c.category.toLowerCase() == e.target.value.toLowerCase())));
+    }
+    const handleClickAll = () => {
+        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items into it.
+        setItems(unfilteredItems);
+    }
+
+    //Keyword searchsettings
     const [keyword, setKeyword] = useState("");
     const onKeywordChange = (e) => { setKeyword(e.target.value); }
     const handleClickSearch = () => {
+        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items into it.
         if (!keyword.length == 0) {
-            setItems(items.filter(k => (k.name.includes(keyword))));
+            setItems(unfilteredItems.filter(k => (k.name.includes(keyword))));
         }
-    }
-
-    //check the value, fing the category in the items, and take it
-    const categorySelected = (e) => {
-        // console.log(e.target.defaultValue);
-        // if (!seletedCategories.inculdes(e.target.defaultValue)) {
-        //     setseletedCategories(seletedCategories.filter(categories => (categories !== e.target.defaultValue)))
-        // }else{ //if the categoray is already in the list
-        //     set
-        // }
     }
 
     // pagination settings
@@ -59,11 +61,6 @@ const ItemList = () => {
     const [selectedItem, setSelectedItem] = useState({ image: "", price: 0, title: "", overallRating: 0 });
     const mapRef = React.useRef();
     const onMapLoad = React.useCallback((map) => { mapRef.current = map; }, []);
-
-    const handleSortChanges = async (e) => {
-        // console.log(e.target.value);        
-        // axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
-    }
 
     // Sort items arry by date and price
     const sortItems = (rule) => {
@@ -120,8 +117,9 @@ const ItemList = () => {
                         {/* Category Filters */}
                         <div className="col-3 ps-1">
                             <p className='h6 fw-bold'>Departments</p>
+                            <Button variant='text' onClick={handleClickAll} style={{ textAlign: 'left' }}>All</Button>
                             <FormGroup>
-                                {categories.map((category, index) => (<FormControlLabel key={index} control={<Checkbox value={category} onClick={(e) => categorySelected(e)} />} label={category} />))}
+                                {categories.map((category, index) => (<Button variant='text' value={category} onClick={handleClickCategory} style={{ textAlign: 'left' }}>{category}</Button>))}
                             </FormGroup>
                         </div>
 
@@ -130,8 +128,7 @@ const ItemList = () => {
                             <div className='d-flex justify-content-between column mb-2'>
                                 <div>
                                     <FormControl variant="filled">
-                                        <Input id="confirmPassword" name="confirmPassword" required
-                                            onChange={onKeywordChange}
+                                        <Input onChange={onKeywordChange}
                                             endAdornment={
                                                 <InputAdornment position="end">
                                                     <IconButton onClick={handleClickSearch}>
@@ -150,7 +147,6 @@ const ItemList = () => {
                                     <IconButton onClick={() => { setListMode('map'); }}>
                                         <MapIcon />
                                     </IconButton>
-
 
                                     {/* //Items sorting */}
                                     <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
