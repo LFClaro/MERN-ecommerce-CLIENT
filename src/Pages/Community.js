@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {Link} from 'react-router-dom';
+import { Nav, Link } from "react-router-dom";
 
 export const Community = () => {
   const [postInfo, setPostList] = useState([]);
@@ -48,8 +48,11 @@ export const Community = () => {
   );
 };
 
+
 const Posts = (props) => {
   // need a string to display boolean
+  let url = `/communityRep/` + props.post._id;
+  console.log(props.post._id);
   return (
     <>
       <div className="row">
@@ -83,24 +86,23 @@ const Posts = (props) => {
               <hr />
               <div className="row">
                 <div className="col-sm-6">
-                  <b className="">
-                    {props.post.username} : {props.post.date}
-                  </b>
+                  <b className="">{props.post.date}</b>
                 </div>
                 <div className="col-sm-6 text-secondary">
                   {props.post.content}
                 </div>
                 <div className="col-sm-10">Join the discussion</div>
                 <div className="col-sm-2 text-center bottom-0 end-0">
-                - need to get post id and send it to the next page
-                
                   <a
                     className="btn btn-primary mt-2 mb-2"
                     href="#"
                     role="button"
                   >
-                    <Link to="Reply" className="text-light">View Post</Link>
-                  </a> 
+                    {/* <Link to="/communityReply/{props.post_id}" data={props.post_id} className="text-light">View Post</Link> */}
+                    {/* <Link to={`/communityRep/${props.post._id}`}  className="text-light">View Post</Link> */}
+                    <Link to={url} className="text-light">View Post</Link>
+                    
+                  </a>
                 </div>
               </div>
             </div>

@@ -18,7 +18,7 @@ const VALID_PASS = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*
 
 const validationSchema = yup.object({
   email: yup.string().email("Please enter a valid email address").required("Email is required!"),
-  password: yup.string().matches(VALID_PASS, "Please enter a strong password ").required("Password is required!"),
+  password: yup.string().matches(VALID_PASS, "Must includ one symbol, uppercase, lowercase, and 8 digits long.").required("Password is required!"),
   confirmPassword: yup.string().required().oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 

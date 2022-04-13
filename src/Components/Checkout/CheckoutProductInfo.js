@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { date } from 'yup';
 
-const CheckoutProductInfo = ({ item, rentalItem }) => {
+const CheckoutProductInfo = ({ item, rentalItem, dayDiff }) => {
+
 
     return (
         <>
             <table className="table table-borderless">
                 <tr>
                     <td>
-                        <span className="fw-bold">Price:</span>
+                        <span className="fw-bold">Price (per day):</span>
                     </td>
                     <td>
                         ${item.price}
@@ -15,10 +17,19 @@ const CheckoutProductInfo = ({ item, rentalItem }) => {
                 </tr>
                 <tr>
                     <td>
+                        <span className="fw-bold">Total:</span>
+                    </td>
+                    <td>
+                        ${item.price * dayDiff}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <span className="fw-bold">Pick up time:</span>
                     </td>
                     <td>
-                        {new Date(rentalItem.rentalDate).toString()}
+                        {/*String(new Date(rentalItem.rentalDate + 1)).split(" ").slice(0, 3).join(" ")*/
+                        new Date(rentalItem.rentalDate).toLocaleDateString("en-CA")}
                     </td>
                 </tr>
                 <tr>
@@ -26,7 +37,8 @@ const CheckoutProductInfo = ({ item, rentalItem }) => {
                         <span className="fw-bold">Drop off time:</span>
                     </td>
                     <td>
-                    {new Date(rentalItem.returnDate).toString()}
+                        {/*String(new Date(rentalItem.returnDate)).split(" ").slice(0, 3).join(" ")*/
+                        new Date(rentalItem.returnDate).toLocaleDateString("en-CA")}
                     </td>
                 </tr>
                 <tr>

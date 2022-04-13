@@ -1,21 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-const ScheduleAvailabilityList = ({ pickup, dropoff }) => {
+const ScheduleAvailabilityList = ({ dates, clickHandler }) => {
 
     return (
         <>
-            <div className="row">
-                <div className="col">
-                    <h5>PICK UP</h5>
-                    <p>{pickup}</p>
-                </div>
-
-                <div className="col">
-                    <h5>DROP OFF</h5>
-                    <p>{dropoff}</p>
-                </div>
-
-            </div>
+            {dates.map((a) => (
+                <button className="btn m-3" onClick={(e) => clickHandler(e, a)}>
+                    <div className="row">
+                        <div className="col">
+                            <p>{String(a).split(" ").slice(0,3).join(" ")}</p>
+                        </div>
+                    </div>
+                </button>
+            ))}
 
 
         </>

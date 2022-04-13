@@ -9,56 +9,23 @@ export default function Header({ authorized, setAuthorized }) {
       <header id="header" className="fixed-top ">
         <div className="container d-flex align-items-center justify-content-between">
           <h1 className="logo"><a href="/">MERN Maniacs</a></h1>
-
-
-          {/* <a href="index.html" className="logo"><img src="assets/img/logo.png" alt="" className="img-fluid" /></a>
-
-                     <nav id="navbar" className="navbar">
-                         <ul>
-                             <li><a className="nav-link scrollto active" href="#hero">Home</a></li>
-                             <li><Link className="nav-link scrollto" to="about">About</Link></li>
-                             <li><Link className="nav-link scrollto" to="services">Services</Link></li>
-                             <li><Link className="nav-link scrollto " to="products">Products</Link></li>
-                             <li><Link className="nav-link scrollto" to="team">Team</Link></li>
-                             
-                             <li><Link className="nav-link scrollto" to="contact">Contact</Link></li>
-                             <li><Link className="nav-link scrollto" to="faq">FAQ</Link></li>
-                             <li>{authorized === false && <Link className="getstarted scrollto" to="login">Get Started</Link>}</li>
-                             {authorized && <HeaderAvatar setAuthorized={setAuthorized} />}
-                         </ul>
-                         <i className="bi bi-list mobile-nav-toggle"></i>
-                     </nav>
-                 </div>
-             </header>
-
-
-         </>
-     ); 
-
-              <a href="index.html" className="logo">
-                <img src="assets/img/logo.png" alt="" className="img-fluid" />
-              </a>
-            </div>
-          </Navbar.Brand>*/}
-
-
           <Navbar collapseOnSelect expand="lg" variant="dark">
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav" >
               <Nav className="mr-auto ">
-                <Nav.Link href="about">
+                <Nav.Link href="/about">
                   About
                 </Nav.Link>
-                <Nav.Link href="services">
+                <Nav.Link href="/services">
                   Services
                 </Nav.Link>
-                <Nav.Link href="team">
+                <Nav.Link href="/team">
                   Team
                 </Nav.Link>
-                <Nav.Link href="profile">
+                <Nav.Link href="/profile">
                   Profile
                 </Nav.Link>
-                <Nav.Link href="community">
+                <Nav.Link href="/community">
                   Community
                 </Nav.Link>
                 {authorized &&
@@ -68,35 +35,46 @@ export default function Header({ authorized, setAuthorized }) {
                     menuVariant="light"
                   >
                     <NavDropdown.Item
-                      href="addItem"
+                      href="/addItem"
                       style={{ color: "indigo" }}
                     >
                       Add Item
                     </NavDropdown.Item>
                     <NavDropdown.Item
-                      href="products"
+                      href="/products"
                       style={{ color: "indigo" }}
                     >
                       Rent Item
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item
-                      href="#action/3.4"
+                      href="/yourProducts"
                       style={{ color: "indigo" }}
                     >
                       See your Items
                     </NavDropdown.Item>
                   </NavDropdown>
+                  
+                }                
+                {authorized &&
+                <>
+                <Nav.Link href="/cart">
+                  Cart
+                </Nav.Link>
+                <Nav.Link href="/messages">
+                  Messages
+                </Nav.Link>
+                </>
                 }
               </Nav>
               <Nav>
-                <Nav.Link href="contact">
+                <Nav.Link href="/contact">
                   Contact
                 </Nav.Link>
-                <Nav.Link href="faq">
+                <Nav.Link href="/faq">
                   FAQ
                 </Nav.Link>
-                {authorized === false && <Link className="getstarted scrollto" to="login">Get Started</Link>}
+                {authorized === false && <Link className="getstarted scrollto" to="/login">Get Started</Link>}
                 {authorized && <HeaderAvatar setAuthorized={setAuthorized} />}
               </Nav>
             </Navbar.Collapse>

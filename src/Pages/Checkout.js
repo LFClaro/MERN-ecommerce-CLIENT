@@ -7,7 +7,7 @@ import CheckoutProductInfo from '../Components/Checkout/CheckoutProductInfo'
 // api
 import { getRentalById } from '../Api/rentalApi'
 import { getItem } from '../Api/itemApi';
-import { getUserDetails } from '../Api/authApi';
+import { getProfileDetails } from '../Api/profileApi';
 import { checkoutRentalItem } from '../Api/checkoutApi';
 
 // Uses Stripe for checkout
@@ -25,6 +25,7 @@ const Checkout = () => {
 
     const [address, setAddress] = useState("")
     const [phoneNumber, setPhoneNumber] = useState("")
+    const [dayDiff, setDayDiff] = useState("")
 
     useEffect(() => {
         // check if this user is authenticated
@@ -40,26 +41,27 @@ const Checkout = () => {
                 .then((data) => {
                     setRentalItem(data)
 
+                    getItem(data.item, token)
+                        .then((data) => {
+                            setItem(data)
+                        })
+
+                    setDayDiff((new Date(data.returnDate) - new Date(data.rentalDate)) / (1000 * 3600 * 24))
+
                 })
 
             // get user details
-            getUserDetails(token)
+            getProfileDetails(token)
                 .then((data) => {
-                    setUser(data)
+                    console.log(data[0])
+                    setUser(data[0])
+
+                    setAddress(data[0].address)
+                    setPhoneNumber(data[0].phone)
                 })
         }
 
     }, [])
-
-    useEffect(() => {
-        // set item
-        getItem(rentalItem.item)
-            .then((data) => {
-                setItem(data)
-            })
-
-    }, [rentalItem])
-
 
     function handleToken(stripeToken) {
         console.log(stripeToken)
@@ -75,7 +77,7 @@ const Checkout = () => {
 
         checkoutRentalItem(token, stripeToken, checkoutItem)
             .then((data) => {
-                window.open("/cart")
+                window.open("/cart", "_self")
             })
 
     }
@@ -105,7 +107,7 @@ const Checkout = () => {
                             <div className="col-lg-8">
                                 <h4>RENTAL DETAILS</h4>
                                 <hr />
-                                <CheckoutProductInfo item={item} rentalItem={rentalItem} />
+                                <CheckoutProductInfo item={item} rentalItem={rentalItem} dayDiff={dayDiff} />
                             </div>
                         </div>
 
@@ -116,43 +118,37 @@ const Checkout = () => {
                                 <div className="form-group row">
                                     <div className="form-group col-md-6">
                                         <label className="fw-bold">First Name</label>
-                                        <input type="text" class="form-control" value={user.fname} readOnly={true} />
+                                        <input type="text" class="form-control" value={user.firstname} readOnly={true} />
                                     </div>
                                     <div className="form-group col-md-6">
                                         <label className="fw-bold">Last Name</label>
-                                        <input type="text" class="form-control" value={user.lname} readOnly={true} />
+                                        <input type="text" class="form-control" value={user.lastname} readOnly={true} />
                                     </div>
                                 </div>
-                                <div className="form-group mb-2">
-                                    <label className="fw-bold">Email</label>
-                                    <input type="email" className="form-control" value={user.email} readOnly={true} />
-                                </div>
 
-                                {/* These will need to be filled in*/}
                                 <div className="form-group mb-2">
-                                    <label className="fw-bold" required>Address (required)</label>
-                                    <input type="text" className="form-control" onChange={handleAddressOnChange} />
+                                    <label className="fw-bold" required>Address</label>
+                                    <input type="text" className="form-control" value={user.address} onChange={handleAddressOnChange} />
                                 </div>
                                 <div className="form-group mb-2">
-                                    <label className="fw-bold" required>Phone Number (required)</label>
-                                    <input type="text" className="form-control" onChange={handlePhoneNumberOnChange} />
+                                    <label className="fw-bold" required>Phone Number</label>
+                                    <input type="text" className="form-control" value={user.phone} onChange={handlePhoneNumberOnChange} />
                                 </div>
                             </form>
                         </div>
 
-                        {address !== "" && phoneNumber !== "" &&
-                            <StripeCheckout
-                                stripeKey={process.env.REACT_APP_STRIPE_KEY}
-                                token={handleToken}
-                                email={user.email}
-                                amount={item.price * 100}
-                                product={item.name}
-                                name="Checkout"
-                                currency="CAD"
-                            >
-                                <button className="btn btn-warning checkout-btn">Pay With Card</button>
-                            </StripeCheckout>
-                        }
+                        <StripeCheckout
+                            stripeKey={process.env.REACT_APP_STRIPE_KEY}
+                            token={handleToken}
+                            email={user.email}
+                            amount={item.price * dayDiff * 100}
+                            product={item.name}
+                            name="Checkout"
+                            currency="CAD"
+                        >
+                            <button className="btn btn-warning checkout-btn">Pay With Card</button>
+                        </StripeCheckout>
+
 
                     </div>
                 </div>

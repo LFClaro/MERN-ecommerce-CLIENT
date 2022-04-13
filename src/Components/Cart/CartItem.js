@@ -4,13 +4,14 @@ import { useHistory } from "react-router-dom";
 // api
 import { getItem } from '../../Api/itemApi'
 
-const CartItem = ({ id, itemId }) => {
+const CartItem = ({ id, itemId, token }) => {
 
     const [item, setItem] = useState({})
 
     useEffect(() => {
-
-        getItem(itemId).then((data) => {
+        console.log(itemId)
+        console.log(token)
+        getItem(itemId, token).then((data) => {
             setItem(data)
             console.log(data)
         })

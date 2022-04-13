@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Input, InputAdornment, InputLabel, MenuItem, Pagination, Select, Typography } from '@mui/material';
+import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, Typography } from '@mui/material';
 import ItemCard from '../Components/Item/ItemCard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MapIcon from '@mui/icons-material/Map';
@@ -10,38 +10,18 @@ import GoogleMapStyle from '../Components/GoogleMapStyle';
 import { GoogleMap, InfoWindow, LoadScript, Marker, useLoadScript, } from '@react-google-maps/api';
 import axios from 'axios';
 import decode from 'jwt-decode';
-import Search from '@mui/icons-material/Search';
-import "../App.css"
 
 // const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
 const constants = require('../lib/constants');
 const categories = constants.CATEGORY_CONSTANT;
 
 // TODO: only get partial data from the database according to the pagination
-const ItemList = () => {
+const ItemListUser = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
+    const [categorySelected, setcategorySelected] = useState([]);
     const [items, setItems] = useState([]);
-    const [seletedCategories, setseletedCategories] = useState([]);
     const [sort, setSort] = useState();         //sort handle
-
-    //Keyword search settings
-    const [keyword, setKeyword] = useState("");
-    const onKeywordChange = (e) => { setKeyword(e.target.value); }
-    const handleClickSearch = () => {
-        if (!keyword.length == 0) {
-            setItems(items.filter(k => (k.name.includes(keyword))));
-        }
-    }
-
-    //check the value, fing the category in the items, and take it
-    const categorySelected = (e) => {
-        // console.log(e.target.defaultValue);
-        // if (!seletedCategories.inculdes(e.target.defaultValue)) {
-        //     setseletedCategories(seletedCategories.filter(categories => (categories !== e.target.defaultValue)))
-        // }else{ //if the categoray is already in the list
-        //     set
-        // }
-    }
+    const [LoadingStatus, setLoadingStatus] = useState(true);
 
     // pagination settings
     const [currentPage, setCurrentPage] = useState(1);
@@ -95,7 +75,7 @@ const ItemList = () => {
                 },
             };
             const response = await axios.get(
-                process.env.REACT_APP_API_URL + '/api/items/products',
+                process.env.REACT_APP_API_URL + '/api/items/',
                 config
             );
             setItems(response.data);
@@ -109,6 +89,7 @@ const ItemList = () => {
     };
 
     const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length //get the overall rating
+    
     return (
         <div>
             <section id="hero" className="d-flex justify-content-center h-auto">
@@ -121,49 +102,31 @@ const ItemList = () => {
                         <div className="col-3 ps-1">
                             <p className='h6 fw-bold'>Departments</p>
                             <FormGroup>
-                                {categories.map((category, index) => (<FormControlLabel key={index} control={<Checkbox value={category} onClick={(e) => categorySelected(e)} />} label={category} />))}
+                                {categories.map((category, index) => (<FormControlLabel key={index} control={<Checkbox />} label={category} />))}
                             </FormGroup>
                         </div>
 
                         <Grid>
                             {/* formControl: list view, map view, and sort by */}
-                            <div className='d-flex justify-content-between column mb-2'>
-                                <div>
-                                    <FormControl variant="filled">
-                                        <Input id="confirmPassword" name="confirmPassword" required
-                                            onChange={onKeywordChange}
-                                            endAdornment={
-                                                <InputAdornment position="end">
-                                                    <IconButton onClick={handleClickSearch}>
-                                                        <SearchIcon />
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
-                                        />
-                                    </FormControl>
-                                </div>
+                            <div className='d-flex justify-content-end column mb-2'>
+                                <IconButton onClick={() => { setListMode('normal'); }} >
+                                    <ListAltIcon />
+                                </IconButton>
+                                <IconButton onClick={() => { setListMode('map'); }}>
+                                    <MapIcon />
+                                </IconButton>
 
-                                <div>
-                                    <IconButton onClick={() => { setListMode('normal'); }} >
-                                        <ListAltIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => { setListMode('map'); }}>
-                                        <MapIcon />
-                                    </IconButton>
-
-
-                                    {/* //Items sorting */}
-                                    <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
-                                        <InputLabel id="demo-simple-select-label">Features</InputLabel>
-                                        <Select labelId="demo-simple-select-label" id="demo-simple-select"
-                                            label="Features" value={sort}>
-                                            <MenuItem onClick={() => { sortItems("dateASC"); setSort("Newest") }}>Newest</MenuItem>
-                                            <MenuItem onClick={() => { sortItems("dateDESC"); setSort("Oldest") }}>Oldest</MenuItem>
-                                            <MenuItem onClick={() => { sortItems("priceASC"); setSort("Price-low to highest") }}>Price-low to high</MenuItem>
-                                            <MenuItem onClick={() => { sortItems("priceDESC"); setSort("Price-high to low") }}>Price-high to low</MenuItem>:
-                                        </Select>
-                                    </FormControl>
-                                </div>
+                                {/* //Items sorting */}
+                                <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
+                                    <InputLabel id="demo-simple-select-label">Features</InputLabel>
+                                    <Select labelId="demo-simple-select-label" id="demo-simple-select"
+                                        label="Features" onChange={handleSortChanges} value={sort}>
+                                        <MenuItem onClick={() => { sortItems("dateASC"); setSort("Newest") }}>Newest</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("dateDESC"); setSort("Oldest") }}>Oldest</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("priceASC"); setSort("Price-low to highest") }}>Price-low to high</MenuItem>
+                                        <MenuItem onClick={() => { sortItems("priceDESC"); setSort("Price-high to low") }}>Price-high to low</MenuItem>:
+                                    </Select>
+                                </FormControl>
 
                             </div>
 
@@ -186,10 +149,15 @@ const ItemList = () => {
                                 {/* Display when the user click the map option */}
                                 {listMode === 'map' &&
                                     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-                                        <GoogleMap mapContainerStyle={{ width: '800px', height: '700px' }}
+                                        <GoogleMap
+                                            mapContainerStyle={{
+                                                width: '800px',
+                                                height: '700px'
+                                            }}
                                             center={pinSelected || { lat: 43.6532, lng: -79.3832, }}
+                                            zoom={13}
                                             options={{ disableDefaultUI: true, styles: GoogleMapStyle, zoomControl: true, }}
-                                            onLoad={onMapLoad} zoom={13}
+                                            onLoad={onMapLoad}
                                         >
                                             { /* Child components, such as markers, info windows, etc. */}
                                             {items.map((item, index) => {
@@ -223,7 +191,7 @@ const ItemList = () => {
     );
 };
 
-export default ItemList
+export default ItemListUser;
 
 
 // const Search = styled('div')(({ theme }) => ({

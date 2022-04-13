@@ -9,8 +9,6 @@ import MessagesConversation from '../Components/Messages/MessagesConversation'
 
 const Messages = () => {
 
-
-
     // tmp
     let conversatiomImg = "https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-User-essential-collection-bearicons-glyph-bearicons.png"
 
@@ -33,6 +31,7 @@ const Messages = () => {
         setIsMessageSelected(true)
         setReceiverId(e.currentTarget.id)
         setReceiverDisplayName(displayName)
+
     }
 
     const handleInputChange = (input) => {
@@ -52,7 +51,7 @@ const Messages = () => {
         setMessageData("")
     }
 
-    const handleRefresh = ()  => {
+    const handleRefresh = () => {
         getMessages(token, receiverId).then((data) =>
             setSelectedMessages(data))
     }
@@ -68,6 +67,7 @@ const Messages = () => {
             // call api here
             getContacts(storageToken).then((data) => {
                 setContacts(data)
+
             })
 
         }
@@ -75,6 +75,7 @@ const Messages = () => {
     }, []);
 
     useEffect(() => {
+        //console.log(receiverId)
         handleRefresh()
     }, [receiverId]);
 
@@ -90,8 +91,8 @@ const Messages = () => {
                         <div className="messages-contacts-list">
                             {contacts.map((c) => (
                                 <>
-                                    <button id={c._id} onClick={(e) => handleSelectMsg(e, c.fname + " " + c.lname)}>
-                                        <MessagesContact img={conversatiomImg} name={c.fname + " " + c.lname} />
+                                    <button id={c.user} onClick={(e) => handleSelectMsg(e, c.firstname + " " + c.lastname)}>
+                                        <MessagesContact img={c.image} name={c.firstname + " " + c.lastname} />
                                     </button>
                                 </>
                             ))}
@@ -103,12 +104,14 @@ const Messages = () => {
 
                     <div className="col messages-convo">
 
-                        <h3>
-                            {receiverDisplayName}
-                            <button className="btn btn-primary" style={{ float: "right" }} onClick={handleRefresh} >Refresh Chat</button>
-                        </h3>
+
                         {isMessageSelected &&
                             <>
+
+                                <h3>
+                                    {receiverDisplayName}
+                                    <button className="btn btn-primary" style={{ float: "right" }} onClick={handleRefresh} >Refresh Chat</button>
+                                </h3>
                                 <div className="messages-chat-history">
                                     {selectedMessages.map((m) => {
 
