@@ -50,45 +50,45 @@ export const Profile = () => {
   // <Posts post={post} key={post._id} />
   // ))}
 
- 
-if(profileInfo === null){
-  return (
-    <section id="services" className="services section-bg">
-      <div className="container" data-aos="fade-up">
-        <h1 className="text-center mb-4">My Profile</h1>
-        <div className="main-body">
-          <div className="row">
-            {/* <ProfileList/> */}
 
-            {/* {profileInfo.map((post) => ( */}
-              <ProfileList2/>
-            {/* ))} */}
+  if (profileInfo === null) {
+    return (
+      <section id="services" className="services section-bg">
+        <div className="container" data-aos="fade-up">
+          <h1 className="text-center mb-4">My Profile</h1>
+          <div className="main-body">
+            <div className="row">
+              {/* <ProfileList/> */}
+
+              {/* {profileInfo.map((post) => ( */}
+              <ProfileList2 />
+              {/* ))} */}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-else {
-  return (
-    <section id="services" className="services section-bg">
-      <div className="container" data-aos="fade-up">
-        <h1 className="text-center mb-4">My Profile</h1>
-        <div className="main-body">
-          <div className="row">
-            {/* <ProfileList/> */}
+      </section>
+    );
+  }
+  else {
+    return (
+      <section id="services" className="services section-bg">
+        <div className="container" data-aos="fade-up">
+          <h1 className="text-center mb-4">My Profile</h1>
+          <div className="main-body">
+            <div className="row">
+              {/* <ProfileList/> */}
 
-            {profileInfo.map((post) => (
-              <ProfileList post={post} key={post._id} />
-            ))}
+              {profileInfo.map((post) => (
+                <ProfileList post={post} key={post._id} />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
+    );
+  }
 
-  
+
 };
 /*
 const ProfileList2 = (props) => {
@@ -106,10 +106,10 @@ const ProfileList = (props) => {
     firstname: props.post.firstname,
     lastname: props.post.lastname,
     phone: props.post.phone,
-    address: props.post.address,    
+    address: props.post.address,
   });
 
-  
+
   // break down form data into fields
   const { firstname, lastname, phone, address } = formData;
 
@@ -138,7 +138,7 @@ const ProfileList = (props) => {
   };
 
   const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value }) ;
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   let formIsValid = true;
   const handleValidation = async (e) => {
@@ -169,7 +169,7 @@ const ProfileList = (props) => {
     }
 
     var str = new String(address);
-    if (str.length > 3 ) {
+    if (str.length > 3) {
       formIsValid = false;
       setAddressErr("please only provide the first 3 digits of your postal code");
       console.log("issues with address - more than 3 digits");
@@ -204,11 +204,11 @@ const ProfileList = (props) => {
       //   image,
       // };
       let data = new FormData();
-            data.append('firstname', firstname);
-            data.append('lastname', lastname);
-            data.append('phone', phone);
-            data.append('address', address);
-            data.append('myFile', myFile);
+      data.append('firstname', firstname);
+      data.append('lastname', lastname);
+      data.append('phone', phone);
+      data.append('address', address);
+      data.append('myFile', myFile);
       try {
         const response = await axios.put(
           process.env.REACT_APP_API_URL + "/api/profile",
@@ -228,75 +228,101 @@ const ProfileList = (props) => {
       console.log(formIsValid);
     }
   };
-  
+
+  //Populating items list
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    sendApiRequest();
+  }, []);
+
+  const sendApiRequest = async () => {
+    try {
+      let token = localStorage.getItem("token");
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      };
+      const response = await axios.get(
+        process.env.REACT_APP_API_URL + "/api/items",
+        config
+      );
+      setItems(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
-    <form onSubmit={(e) => onSubmit(e)}>
-      <div className="row row-eq-height">
-        <div className="col-lg-4">
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex flex-column align-items-center text-center">
-                <img
-                  src={props.post.image}
-                  alt="Admin"
-                  className="rounded-circle p-1 bg-primary"
-                  width="110"
-                  height="110"
-                />
-                <div className="mt-3">
-                  <h4>
-                    {props.post.firstname} {props.post.lastname}
-                  </h4>  
+      <form onSubmit={(e) => onSubmit(e)}>
+        <div className="row row-eq-height">
+          <div className="col-lg-4">
+            <div className="card">
+              <div className="card-body">
+                <div className="d-flex flex-column align-items-center text-center">
+                  <img
+                    src={props.post.image}
+                    alt="Admin"
+                    className="rounded-circle p-1 bg-primary"
+                    width="110"
+                    height="110"
+                  />
+                  <div className="mt-3">
+                    <h4>
+                      {props.post.firstname} {props.post.lastname}
+                    </h4>
+                  </div>
+                </div>
+                <div className="d-flex flex-column text-center">
+                  <DropzoneUploader setFile={setFile} />
                 </div>
               </div>
-              <div className="d-flex flex-column text-center">
-                <DropzoneUploader setFile={setFile} />
-              </div>             
             </div>
           </div>
-        </div>
 
-        <div className="col-lg-8">
-          <div className="card">
-            <div className="card-body ">
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">First Name</h6>
+          <div className="col-lg-8">
+            <div className="card">
+              <div className="card-body ">
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">First Name</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="firstname"
+                      className="form-control"
+                      id="firstname"
+                      value={firstname}
+                      placeholder="First Name"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{firstnameError}</span>
+                  </div>
                 </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="firstname"
-                    className="form-control"
-                    id="firstname"
-                    value={firstname}
-                    placeholder="First Name"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{firstnameError}</span>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Last Name</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="lastname"
+                      className="form-control"
+                      id="lastname"
+                      value={lastname}
+                      placeholder="Last Name"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{lastnameError}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Last Name</h6>
-                </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="lastname"
-                    className="form-control"
-                    id="lastname"
-                    value={lastname}
-                    placeholder="Last Name"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{lastnameError}</span>
-                </div>
-              </div>
-              {/* <div className="row mb-3">
+                {/* <div className="row mb-3">
                 <div className="col-sm-3">
                   <h6 className="mb-0">Email</h6>
                 </div>
@@ -304,85 +330,77 @@ const ProfileList = (props) => {
                   <input type="text" className="form-control" value={props.post.email} />
                 </div>
               </div> */}
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Phone</h6>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Phone</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="phone"
+                      className="form-control"
+                      id="phone"
+                      value={phone}
+                      placeholder="Phone"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{phoneError}</span>
+                  </div>
                 </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="phone"
-                    className="form-control"
-                    id="phone"
-                    value={phone}
-                    placeholder="Phone"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{phoneError}</span>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Address </h6>
+                    <p className="text-primary">* First 3 Digits of Postal Code</p>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="address"
+                      className="form-control"
+                      id="address"
+                      value={address}
+                      placeholder="First 3 digits of postal code"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{addressError}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Address </h6>
-                  <p className="text-primary">* First 3 Digits of Postal Code</p>
-                </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="address"
-                    className="form-control"
-                    id="address"
-                    value={address}
-                    placeholder="First 3 digits of postal code"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{addressError}</span>
-                </div>
-              </div>
-              
-              <div className="row">
-                <div className="col-sm-3"></div>
-                <div className="col-sm-9 text-secondary">
-                  <input
-                    type="submit"
-                    className="btn btn-primary px-4"
-                    value="Save Changes"
-                  />
+
+                <div className="row">
+                  <div className="col-sm-3"></div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="submit"
+                      className="btn btn-primary px-4"
+                      value="Save Changes"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div></form>
+        </div></form>
 
       <div className="row mt-4">
         <div className="card">
           <div className="card-body">
             <h5 className="text-center">Available Products for Lease</h5>
-            <div className="col-lg-2 d-inline p-2">
-              <img
-                src="assets/img/snowboard.png"
-                className="img-fluid animated rounded"
-                alt="Snowboard"
-                width="100"
-                height="100"
+            {items.map((item, index) => (
+              <ItemRow
+                key={index}
+                id={item._id}
+                image={item.image}
+                title={item.name}
+                description={item.description}
               />
-            </div>
-            <div className="col-lg-10 d-inline p-2">
-              <p className="d-inline p-2">
-                <b>Description:</b> Burton Snowboard for 1 week or longer
-              </p>
-              <p className="d-inline p-2">
-                <b>Next Availability: </b> Next week
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="row mt-4">
+      {/* <div className="row mt-4">
         <div className="card">
           <div className="card-body">
             <h5 className="text-center">Products Currently Renting</h5>
@@ -405,7 +423,7 @@ const ProfileList = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
@@ -415,10 +433,10 @@ const ProfileList2 = () => {
     firstname: "",
     lastname: "",
     phone: "",
-    address: "",    
+    address: "",
   });
 
-  
+
   // break down form data into fields
   const { firstname, lastname, phone, address } = formData;
 
@@ -447,7 +465,7 @@ const ProfileList2 = () => {
   };
 
   const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value }) ;
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   let formIsValid = true;
   const handleValidation = async (e) => {
@@ -514,11 +532,11 @@ const ProfileList2 = () => {
       //   image,
       // };
       let data = new FormData();
-            data.append('firstname', firstname);
-            data.append('lastname', lastname);
-            data.append('phone', phone);
-            data.append('address', address);
-            data.append('myFile', myFile);
+      data.append('firstname', firstname);
+      data.append('lastname', lastname);
+      data.append('phone', phone);
+      data.append('address', address);
+      data.append('myFile', myFile);
       try {
         const response = await axios.put(
           process.env.REACT_APP_API_URL + "/api/profile",
@@ -538,76 +556,76 @@ const ProfileList2 = () => {
       console.log(formIsValid);
     }
   };
-  
+
   return (
     <>
-    <form onSubmit={(e) => onSubmit(e)}>
-      <div className="row row-eq-height">
-        <div className="col-lg-4">
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex flex-column align-items-center text-center">
-                <img
-                  src="assets/img/profile-default.png"
-                  alt="Default profile Image"
-                  className="rounded-circle p-1 bg-primary"
-                  width="110"
-                  height="110"
-                />
-                {/* <AccountCircleIcon fontSize="large"/> */}
-                <div className="mt-3">
-                  <h4>
-                    {/* {props.post.firstname} {props.post.lastname} */}
-                  </h4>  
+      <form onSubmit={(e) => onSubmit(e)}>
+        <div className="row row-eq-height">
+          <div className="col-lg-4">
+            <div className="card">
+              <div className="card-body">
+                <div className="d-flex flex-column align-items-center text-center">
+                  <img
+                    src="assets/img/profile-default.png"
+                    alt="Default profile Image"
+                    className="rounded-circle p-1 bg-primary"
+                    width="110"
+                    height="110"
+                  />
+                  {/* <AccountCircleIcon fontSize="large"/> */}
+                  <div className="mt-3">
+                    <h4>
+                      {/* {props.post.firstname} {props.post.lastname} */}
+                    </h4>
+                  </div>
+                </div>
+                <div className="d-flex flex-column text-center">
+                  <DropzoneUploader setFile={setFile} />
                 </div>
               </div>
-              <div className="d-flex flex-column text-center">
-                <DropzoneUploader setFile={setFile} />
-              </div>             
             </div>
           </div>
-        </div>
 
-        <div className="col-lg-8">
-          <div className="card">
-            <div className="card-body ">
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">First Name</h6>
+          <div className="col-lg-8">
+            <div className="card">
+              <div className="card-body ">
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">First Name</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="firstname"
+                      className="form-control"
+                      id="firstname"
+                      value={firstname}
+                      placeholder="First Name"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{firstnameError}</span>
+                  </div>
                 </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="firstname"
-                    className="form-control"
-                    id="firstname"
-                    value={firstname}
-                    placeholder="First Name"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{firstnameError}</span>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Last Name</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="lastname"
+                      className="form-control"
+                      id="lastname"
+                      value={lastname}
+                      placeholder="Last Name"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{lastnameError}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Last Name</h6>
-                </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="lastname"
-                    className="form-control"
-                    id="lastname"
-                    value={lastname}
-                    placeholder="Last Name"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{lastnameError}</span>
-                </div>
-              </div>
-              {/* <div className="row mb-3">
+                {/* <div className="row mb-3">
                 <div className="col-sm-3">
                   <h6 className="mb-0">Email</h6>
                 </div>
@@ -615,83 +633,75 @@ const ProfileList2 = () => {
                   <input type="text" className="form-control" value={props.post.email} />
                 </div>
               </div> */}
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Phone</h6>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Phone</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="phone"
+                      className="form-control"
+                      id="phone"
+                      value={phone}
+                      placeholder="Phone"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{phoneError}</span>
+                  </div>
                 </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="phone"
-                    className="form-control"
-                    id="phone"
-                    value={phone}
-                    placeholder="Phone"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{phoneError}</span>
+                <div className="row mb-3">
+                  <div className="col-sm-3">
+                    <h6 className="mb-0">Address </h6>
+                    <p className="text-primary">* First 3 Digits of Postal Code</p>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="text"
+                      name="address"
+                      className="form-control"
+                      id="address"
+                      value={address}
+                      placeholder="First 3 digits of postal code"
+                      onChange={(e) => onChange(e)}
+                      required
+                    />
+                    <span style={{ color: "red" }}>{addressError}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Address </h6>
-                  <p className="text-primary">* First 3 Digits of Postal Code</p>
-                </div>
-                <div className="col-sm-9 text-secondary">
-                <input
-                    type="text"
-                    name="address"
-                    className="form-control"
-                    id="address"
-                    value={address}
-                    placeholder="First 3 digits of postal code"
-                    onChange={(e) => onChange(e)}
-                    required
-                  />
-                  <span style={{ color: "red" }}>{addressError}</span>
-                </div>
-              </div>
-              
-              <div className="row">
-                <div className="col-sm-3"></div>
-                <div className="col-sm-9 text-secondary">
-                  <input
-                    type="submit"
-                    className="btn btn-primary px-4"
-                    value="Save Changes"
-                  />
+
+                <div className="row">
+                  <div className="col-sm-3"></div>
+                  <div className="col-sm-9 text-secondary">
+                    <input
+                      type="submit"
+                      className="btn btn-primary px-4"
+                      value="Save Changes"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div></form>
+        </div></form>
 
-      <div className="row mt-4">
+      {/* <div className="row mt-4">
         <div className="card">
           <div className="card-body">
             <h5 className="text-center">Available Products for Lease</h5>
-            <div className="col-lg-2 d-inline p-2">
-              <img
-                src="assets/img/snowboard.png"
-                className="img-fluid animated rounded"
-                alt="Snowboard"
-                width="100"
-                height="100"
+            {items.map((item, index) => (
+              <ItemRow
+                key={index}
+                id={item._id}
+                image={item.image}
+                title={item.name}
+                description={item.description}
               />
-            </div>
-            <div className="col-lg-10 d-inline p-2">
-              <p className="d-inline p-2">
-                <b>Description:</b> Burton Snowboard for 1 week or longer
-              </p>
-              <p className="d-inline p-2">
-                <b>Next Availability: </b> Next week
-              </p>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="row mt-4">
         <div className="card">
@@ -717,6 +727,36 @@ const ProfileList2 = () => {
           </div>
         </div>
       </div>
+    </>
+  );
+};
+
+const ItemRow = ({ id, image, title, description }) => {
+  return (
+    <>
+      <Link to={"/item/" + id}>
+        <div className="col-lg-2 d-inline p-2">
+          <img
+            src={image}
+            className="img-fluid animated rounded"
+            alt="Item"
+            width="100"
+            height="100"
+          />
+        </div>
+        <div className="col-lg-10 d-inline p-2">
+          <div className="row d-inline">
+            <h5 className="d-inline">{title}</h5>
+            <br />
+          </div>
+          <div className="row d-inline">
+            <p className="d-inline p-2">
+              <b>Description:</b> {description}
+            </p>
+          </div>
+        </div>
+      </Link>
+      <hr />
     </>
   );
 };
