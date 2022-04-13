@@ -112,24 +112,24 @@ const ProfileList = (props) => {
   });
   const [token, setToken] = useState(localStorage.getItem("token"))
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // check if this user is authenticated
-    let storageToken = localStorage.getItem("token");
-    console.log(storageToken)
+  //   // check if this user is authenticated
+  //   let storageToken = localStorage.getItem("token");
+  //   console.log(storageToken)
 
-    // set the token and load initial api calls here
-    if (storageToken) {
-      setToken(storageToken)
-      setIsAuthenticated(true)
-      // call api here
-      getRentals(storageToken).then((data) => {
-        setCartItems(data.filter(i => !i.rentalDate))
-        setCartHistoryItems(data.filter(i => i.rentalDate))
-      })
+  //   // set the token and load initial api calls here
+  //   if (storageToken) {
+  //     setToken(storageToken)
+  //     setIsAuthenticated(true)
+  //     // call api here
+  //     getRentals(storageToken).then((data) => {
+  //       setCartItems(data.filter(i => !i.rentalDate))
+  //       setCartHistoryItems(data.filter(i => i.rentalDate))
+  //     })
 
-    }
-  }, []);
+  //   }
+  // }, []);
 
 
   // break down form data into fields
@@ -422,7 +422,7 @@ const ProfileList = (props) => {
         </div>
       </div>
 
-      <div className="row mt-4">
+      {/* <div className="row mt-4">
         <div className="card">
           <div className="card-body">
             <h5 className="text-center">Available Products for Lease</h5>
@@ -437,7 +437,7 @@ const ProfileList = (props) => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* <div className="row mt-4">
         <div className="card">
