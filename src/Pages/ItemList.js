@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, InputLabel, MenuItem, Pagination, Select, Typography } from '@mui/material';
+import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Input, InputAdornment, InputLabel, MenuItem, Pagination, Select, Typography } from '@mui/material';
 import ItemCard from '../Components/Item/ItemCard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MapIcon from '@mui/icons-material/Map';
@@ -10,31 +10,68 @@ import GoogleMapStyle from '../Components/GoogleMapStyle';
 import { GoogleMap, InfoWindow, LoadScript, Marker, useLoadScript, } from '@react-google-maps/api';
 import axios from 'axios';
 import decode from 'jwt-decode';
+import Search from '@mui/icons-material/Search';
+import "../App.css"
 
-const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
-const dummy = [{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '1Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '2Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '3Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '4Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '5Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '6Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '7Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-{ image: "https://www.inexhibit.com/wp-content/uploads/2016/06/Microsoft-Hololens-augmented-reality-headset.jpg", price: "8.999", name: '8Hololens/Microsoft/2nd generation', overallRating: 2.5 },
-]
+// const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
+const constants = require('../lib/constants');
+const categories = constants.CATEGORY_CONSTANT;
 
 // TODO: only get partial data from the database according to the pagination
 const ItemList = () => {
     const [listMode, setListMode] = useState("normal");  //mode to different list styles.
-
-    const [categorySelected, setcategorySelected] = useState([]);    
     const [items, setItems] = useState([]);
- 
+    const [seletedCategories, setseletedCategories] = useState([]);
+    const [sort, setSort] = useState();         //sort handle
 
-    //sort handle
-    const [sort, setSort] = useState();
-    const handleSortChanges= async (e)=>{
-        console.log(e.target.value);        
-        axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
+    //Keyword search settings
+    const [keyword, setKeyword] = useState("");
+    const onKeywordChange = (e) => { setKeyword(e.target.value); }
+    const handleClickSearch = () => {
+        if (!keyword.length == 0) {
+            setItems(items.filter(k => (k.name.includes(keyword))));
+        }
+    }
+
+    //check the value, fing the category in the items, and take it
+    const categorySelected = (e) => {
+        // console.log(e.target.defaultValue);
+        // if (!seletedCategories.inculdes(e.target.defaultValue)) {
+        //     setseletedCategories(seletedCategories.filter(categories => (categories !== e.target.defaultValue)))
+        // }else{ //if the categoray is already in the list
+        //     set
+        // }
+    }
+
+    // pagination settings
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(6); //############set the number of items per page#########
+    const handlePageChange = (e, p) => { setCurrentPage(p); }
+
+    // Get current page items
+    const indexOfLastItem = currentPage * itemsPerPage; //last item in curernt page
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // first item in current page
+    // console.log("items status", items);
+    const currentPageItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+    //GoogleMap settings
+    const [pinSelected, setPinSelected] = useState();
+    const [selectedItem, setSelectedItem] = useState({ image: "", price: 0, title: "", overallRating: 0 });
+    const mapRef = React.useRef();
+    const onMapLoad = React.useCallback((map) => { mapRef.current = map; }, []);
+
+    // Sort items arry by date and price
+    const sortItems = (rule) => {
+        items.sort(function (a, b) {
+            switch (rule) {
+                case "dateASC": return new Date(b.updated) - new Date(a.updated);
+                case "dateDESC": return new Date(a.updated) - new Date(b.updated);
+                case "priceASC": return new Number(a.price) - Number(b.price);
+                case "priceDESC": return new Number(b.price) - Number(a.price);
+                default: return items;
+            }
+        });
+        // console.log("after sorting: ", items);
     }
 
     let decodetoken = decode(localStorage.getItem('token'));
@@ -53,59 +90,21 @@ const ItemList = () => {
                 },
             };
             const response = await axios.get(
-                process.env.REACT_APP_API_URL + '/api/items/',
+                process.env.REACT_APP_API_URL + '/api/items/products',
                 config
             );
             setItems(response.data);
-            console.log(response);
+            // console.log(items);
         } catch (err) {
             console.log(err);
         }
     };
 
-    const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length
-
-    // Get Posts from database
-    // useEffect(async () => {
-    //     await axios.get(`${process.env.REACT_APP_API_URL}/api/items`)
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             setPosts(res.data);
-    //             setLoadingStatus(false);
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // }, []);
-    const [posts, setPosts] = useState(dummy);
-    const [LoadingStatus, setLoadingStatus] = useState(true);
-
-    // pagination settings
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(6); //############set the number of posts per page#########
-    const handlePageChange = (e, p) => { setCurrentPage(p); }
-
-    // Get current posts
-    const indexOfLastPost = currentPage * postsPerPage; //last post in curernt page
-    const indexOfFirstPost = indexOfLastPost - postsPerPage; // first post in current page
-    const currentPagePosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
-    //GoogleMap settings
-    // console.log(process.env.REACT_APP_GOOGLE_MAP_API_KEY);
-    const [pinSelected, setPinSelected] = useState();
-    const [userLocations, setUserLocations] = useState([{ lat: 43.6532, lng: -79.3832, }])
-    const mapRef = React.useRef();
-    const onMapLoad = React.useCallback((map) => { mapRef.current = map; }, []);
-
-
+    const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length //get the overall rating
 
     return (
         <div>
             <section id="hero" className="d-flex justify-content-center h-auto">
-                {/* searchBar
-                <div className='searchBar'>
-                </div> */}
-
                 <div className='container bg-light pb-5'>
 
                     {/* content for filter and itemList */}
@@ -115,80 +114,97 @@ const ItemList = () => {
                         <div className="col-3 ps-1">
                             <p className='h6 fw-bold'>Departments</p>
                             <FormGroup>
-                                {categories.map((category) => (<FormControlLabel control={<Checkbox />} label={category} />))}
+                                {categories.map((category, index) => (<FormControlLabel key={index} control={<Checkbox value={category} onClick={(e) => categorySelected(e)} />} label={category} />))}
                             </FormGroup>
                         </div>
 
                         <Grid>
-
                             {/* formControl: list view, map view, and sort by */}
-                            <div className='d-flex justify-content-end column mb-2'>
-                                <IconButton onClick={() => { setListMode('normal'); console.log(listMode) }} >
-                                    <ListAltIcon />
-                                </IconButton>
-                                <IconButton onClick={() => { setListMode('map'); console.log(listMode) }}>
-                                    <MapIcon />
-                                </IconButton>
+                            <div className='d-flex justify-content-between column mb-2'>
+                                <div>
+                                    <FormControl variant="filled">
+                                        <Input id="confirmPassword" name="confirmPassword" required
+                                            onChange={onKeywordChange}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton onClick={handleClickSearch}>
+                                                        <SearchIcon />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                        />
+                                    </FormControl>
+                                </div>
 
-                                {/* //posts sorting */}
-                                <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
-                                    <InputLabel id="demo-simple-select-label">Features</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={sort}
-                                        label="Features"
-                                        onChange={handleSortChanges}
-                                    >
-                                        <MenuItem value={'newest'}>Newest</MenuItem>
-                                        <MenuItem value={'oldest'}>Oldest</MenuItem>
-                                        <MenuItem value={'lowToHigh'}>Price-low to high</MenuItem>
-                                        <MenuItem value={'HighToLow'}>Price-high to low</MenuItem>
-                                    </Select>
-                                </FormControl>
+                                <div>
+                                    <IconButton onClick={() => { setListMode('normal'); }} >
+                                        <ListAltIcon />
+                                    </IconButton>
+                                    <IconButton onClick={() => { setListMode('map'); }}>
+                                        <MapIcon />
+                                    </IconButton>
+
+
+                                    {/* //Items sorting */}
+                                    <FormControl size='small' style={{ minWidth: 200 + 'px' }}>
+                                        <InputLabel id="demo-simple-select-label">Features</InputLabel>
+                                        <Select labelId="demo-simple-select-label" id="demo-simple-select"
+                                            label="Features" value={sort}>
+                                            <MenuItem onClick={() => { sortItems("dateASC"); setSort("Newest") }}>Newest</MenuItem>
+                                            <MenuItem onClick={() => { sortItems("dateDESC"); setSort("Oldest") }}>Oldest</MenuItem>
+                                            <MenuItem onClick={() => { sortItems("priceASC"); setSort("Price-low to highest") }}>Price-low to high</MenuItem>
+                                            <MenuItem onClick={() => { sortItems("priceDESC"); setSort("Price-high to low") }}>Price-high to low</MenuItem>:
+                                        </Select>
+                                    </FormControl>
+                                </div>
 
                             </div>
 
                             <Grid container direction="row" justifyContent="center" alignItems="center" border={'1px solid yellow'}>
 
+                                {/* Display when the user click the list option */}
                                 {listMode === 'normal' && <>
                                     {/* itemList */}
                                     <Grid container spacing={1} justifyContent={'space-evenly'} alignItems={'center'} border={'1px solid black'} gap={1}>
-                                        {currentPagePosts.map(item => (
-                                            <ItemCard image={item.image} price={item.price} title={item.name} rate={item.overallRating} />
+                                        {/* {currentPageItems.map(item => { console.log(item) })} */}
+                                        {currentPageItems.map((item, index) => (
+                                            <ItemCard key={index} id={item._id} image={item.image} price={item.price} title={item.name} rate={arrAvg(item.overallRating)} date={item.updated} />
                                         ))}
                                     </Grid>
 
                                     {/* Pagination */}
-                                    <Pagination count={Math.ceil(posts.length / postsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
+                                    <Pagination count={Math.ceil(items.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} size='large' />
                                 </>}
 
                                 {/* Display when the user click the map option */}
                                 {listMode === 'map' &&
                                     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}>
-                                        <GoogleMap
-                                            mapContainerStyle={{
-                                                width: '800px',
-                                                height: '700px'
-                                            }}
+                                        <GoogleMap mapContainerStyle={{ width: '800px', height: '700px' }}
                                             center={pinSelected || { lat: 43.6532, lng: -79.3832, }}
-                                            zoom={13}
                                             options={{ disableDefaultUI: true, styles: GoogleMapStyle, zoomControl: true, }}
-                                            onLoad={onMapLoad}
+                                            onLoad={onMapLoad} zoom={13}
                                         >
                                             { /* Child components, such as markers, info windows, etc. */}
-                                            {userLocations.map((userLocation, index) => (
-                                                <Marker key={index} position={userLocation} onClick={() => { setPinSelected(userLocation) }} />
+                                            {items.map((item, index) => {
+                                                if (item.lat) {
+                                                    return <Marker key={index} position={{ lat: item.lat, lng: item.lng }}
+                                                        onClick={() => {
+                                                            setPinSelected({ lat: item.lat, lng: item.lng });
+                                                            setSelectedItem(item); //make a state when the user click a pin on the google map
+                                                        }} />
+                                                }
+                                            })}
 
-                                            ))}
-
-                                            {/* ^^^^^^^^^^^^^^^^^^^need to connect with the real data */}
+                                            {/* the popup info window after pin clicked */}
                                             {pinSelected ?
                                                 <InfoWindow position={pinSelected} onCloseClick={() => { setPinSelected(null); }}>
                                                     <Grid>
-                                                        <ItemCard image={dummy[0].image} price={dummy[0].price} title={dummy[0].name} rate={dummy[0].overallRating} />
+                                                        <ItemCard id={selectedItem._id} image={selectedItem.image} price={selectedItem.price}
+                                                            title={selectedItem.name} rate={selectedItem.overallRating}
+                                                            date={selectedItem.updated} />
                                                     </Grid>
                                                 </InfoWindow> : null}
+
                                         </GoogleMap>
                                     </LoadScript>
                                 }
