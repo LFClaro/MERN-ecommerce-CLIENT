@@ -62,8 +62,8 @@ const Login = ({ setAuthorized, adminLogInFun }) => {
                 navigate('/');
             }
 
-            // setAuthorized(true);
-            // navigate('/');
+            setAuthorized(true);
+            navigate('/');
         } else {
             alert(`unknow error`);
         }
