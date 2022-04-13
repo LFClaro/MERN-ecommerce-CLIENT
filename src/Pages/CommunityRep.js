@@ -95,12 +95,20 @@ let postid = id; // hard coding cause cant get id atm
     setFormData({ ...formData, [e.target.name]: e.target.value });
 let formIsValid = true;
   const handleValidation = async (e) => {
-    //Reply   
+    //Reply 
+    var str = new String(reply);   
     if (reply.trim() === "" || reply == null) {
       formIsValid = false;
       setReplyErr("reply can not be empty");  
       console.log("issues with reply - empty")      
     }
+  if (str.length > 9 || str.length < 10 ) {
+      formIsValid = false;
+      setReplyErr("Your reply must be at least 10 chars long");
+      console.log("issues with reply - not 9 chars long");
+    }
+
+    
         
     return formIsValid;
     
