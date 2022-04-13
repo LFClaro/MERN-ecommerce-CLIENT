@@ -534,6 +534,14 @@ const ProfileList2 = () => {
       console.log("issues with name - empty");
     }
 
+    // just added this line 
+    var str = new String(address);
+    if (str.length > 3 ) {
+      formIsValid = false;
+      setAddressErr("please only provide the first 3 digits of your postal code");
+      console.log("issues with address - more than 3 digits");
+    }
+
     return formIsValid;
   };
   const [myFile, setFile] = useState();
