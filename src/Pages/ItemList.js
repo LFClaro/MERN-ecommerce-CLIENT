@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import { Autocomplete, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Input, InputAdornment, InputLabel, MenuItem, Pagination, Select, Typography } from '@mui/material';
+import { FormControl, FormGroup, Grid, IconButton, Input, InputAdornment, InputLabel, MenuItem, Pagination, Select, Typography } from '@mui/material';
 import ItemCard from '../Components/Item/ItemCard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MapIcon from '@mui/icons-material/Map';
@@ -10,8 +8,6 @@ import GoogleMapStyle from '../Components/GoogleMapStyle';
 import { GoogleMap, InfoWindow, LoadScript, Marker, useLoadScript, } from '@react-google-maps/api';
 import axios from 'axios';
 import decode from 'jwt-decode';
-import Search from '@mui/icons-material/Search';
-import "../App.css"
 import { Button } from 'react-bootstrap';
 
 // const categories = ['House', 'Car', 'Leisure', 'Baby', 'Beauty', 'Books', 'Clothing', 'Electronics', 'Grocery', 'Furniture', 'Everything Else',];
@@ -27,11 +23,11 @@ const ItemList = () => {
     //category click settings
     const [unfilteredItems, setUnfilteredItems] = useState([]); //keep a origin copy of the item list
     const handleClickCategory = (e) => {
-        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items into it.
+        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items which will be the full list into it.
         setItems(unfilteredItems.filter(c => (c.category.toLowerCase() == e.target.value.toLowerCase())));
     }
     const handleClickAll = () => {
-        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items into it.
+        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items which will be the full list into it.
         setItems(unfilteredItems);
     }
 
@@ -39,7 +35,7 @@ const ItemList = () => {
     const [keyword, setKeyword] = useState("");
     const onKeywordChange = (e) => { setKeyword(e.target.value); }
     const handleClickSearch = () => {
-        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items into it.
+        if (unfilteredItems.length == 0) { setUnfilteredItems(items); } //if the unfilteredItems array is empty, then add items which will be the full list into it.
         if (!keyword.length == 0) {
             setItems(unfilteredItems.filter(k => (k.name.includes(keyword))));
         }
@@ -119,7 +115,7 @@ const ItemList = () => {
                             <p className='h6 fw-bold'>Departments</p>
                             <Button variant='text' onClick={handleClickAll} style={{ textAlign: 'left' }}>All</Button>
                             <FormGroup>
-                                {categories.map((category, index) => (<Button variant='text' value={category} onClick={handleClickCategory} style={{ textAlign: 'left' }}>{category}</Button>))}
+                                {categories.map((category, index) => (<Button key={index} variant='text' value={category} onClick={handleClickCategory} style={{ textAlign: 'left' }}>{category}</Button>))}
                             </FormGroup>
                         </div>
 
