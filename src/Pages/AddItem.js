@@ -130,8 +130,7 @@ const AddItem = () => {
             setAlertMsg(`Oops! ${payload.errors}`);
           } else if (response.status === 200) {
             console.log("Item added");
-            setAlertExist(true);
-            setAlertMsg("Your item has been added!");
+            alert("Your item has been added!");
             // window.location.href = "/profile";
             navigate("/profile");
           }
@@ -192,8 +191,8 @@ const AddItem = () => {
                     <option disabled selected>
                       Choose a category
                     </option>
-                    {categories.map((category, index) => (
-                      <option value={index}>{category}</option>
+                    {categories.map((category) => (
+                      <option value={category}>{category}</option>
                     ))}
                   </select>
                   <span style={{ color: "red" }}>{categoryError}</span>

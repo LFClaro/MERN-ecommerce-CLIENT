@@ -250,8 +250,7 @@ const ItemUser = (props) => {
         );
 
         console.log("Item updated");
-        setAlertExist(true);
-        setAlertMsg("Your item has been updated!");
+        alert("Your item has been updated!");
         window.location.reload(); // refreshes the page
       } catch (err) {
         console.log(err.response.data.errors);
@@ -348,8 +347,8 @@ const ItemUser = (props) => {
                       defaultValue={category}
                       required
                     >
-                      {categories.map((category, index) => (
-                        <option value={index}>{category}</option>
+                      {categories.map((category) => (
+                        <option value={category}>{category}</option>
                       ))}
                     </select>
                     <span style={{ color: "red" }}>{categoryError}</span>
