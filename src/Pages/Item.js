@@ -3,6 +3,7 @@ Developer: Luiz Claro
 
 */
 import { React, useState, useEffect } from "react";
+import { Alert } from '@mui/material';
 import { useParams } from "react-router-dom";
 import axios from "axios";
 // React-Dropzone Uploader
@@ -150,6 +151,10 @@ const ItemUser = (props) => {
 
   const { id, name, category, description, price } = formData;
 
+  // MUI Alert handling
+  const [alertExist, setAlertExist] = useState(false);
+  const [alertMsg, setAlertMsg] = useState();
+
   const [nameError, setNameError] = useState("");
   const setNameErr = (String) => {
     setNameError(String);
@@ -245,13 +250,15 @@ const ItemUser = (props) => {
         );
 
         console.log("Item updated");
-        alert("Your item has been updated!");
+        setAlertExist(true);
+        setAlertMsg("Your item has been updated!");
         window.location.reload(); // refreshes the page
       } catch (err) {
         console.log(err.response.data.errors);
       }
     } else {
-      alert("Your item form has errors.");
+      setAlertExist(true);
+      setAlertMsg("Your item form has errors.");
       console.log(formIsValid);
     }
   };
@@ -279,6 +286,8 @@ const ItemUser = (props) => {
               </div>
             </div>
           </div>
+
+          {alertExist && <Alert severity="warning" onClose={() => { setAlertExist(false) }}>{alertMsg}</Alert>}
 
           <div className="col-lg-6">
             <div className="card">

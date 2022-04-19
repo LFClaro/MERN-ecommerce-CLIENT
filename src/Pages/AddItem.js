@@ -3,6 +3,7 @@ Developer(s): Luiz Claro
 
 */
 import React from "react";
+import { Alert } from '@mui/material';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,6 +14,10 @@ const constants = require("../lib/constants");
 const categories = constants.CATEGORY_CONSTANT;
 
 const AddItem = () => {
+  // MUI Alert handling
+  const [alertExist, setAlertExist] = useState(false);
+  const [alertMsg, setAlertMsg] = useState();
+
   const navigate = useNavigate();
   // for from data
   const [formData, setFormData] = useState({
@@ -88,6 +93,10 @@ const AddItem = () => {
     // this.props.history.push('/contact')
 
     if (formIsValid == true) {
+      setNameErr("");
+      setCatErr("");
+      setDescErr("");
+      setPriceErr("");
       let token = localStorage.getItem("token");
       let config = {
         headers: {
@@ -97,7 +106,8 @@ const AddItem = () => {
       };
 
       if (myFile === undefined) {
-        alert("Item image hasn't been uploaded; please try again.");
+        setAlertExist(true);
+        setAlertMsg("Item image hasn't been uploaded; please try again.");
       } else {
         let data = new FormData();
         data.append("name", name);
@@ -112,16 +122,26 @@ const AddItem = () => {
             config
           );
 
-          console.log("Item added");
-          alert("Your item has been added!");
-          // window.location.href = "/profile";
-          navigate("/profile");
+          // Setting the alert to read the error responses
+          const payload = await response.json();
+
+          if (response.status >= 400) {
+            setAlertExist(true)
+            setAlertMsg(`Oops! ${payload.errors}`);
+          } else if (response.status === 200) {
+            console.log("Item added");
+            setAlertExist(true);
+            setAlertMsg("Your item has been added!");
+            // window.location.href = "/profile";
+            navigate("/profile");
+          }
         } catch (err) {
           console.log(err);
         }
       }
     } else {
-      alert("Your item form has errors.");
+      setAlertExist(true);
+      setAlertMsg("Your item form has errors.");
       console.log(formIsValid);
     }
   };
@@ -143,6 +163,7 @@ const AddItem = () => {
                 </div>
               </div>
 
+              {alertExist && <Alert severity="warning" onClose={() => { setAlertExist(false) }}>{alertMsg}</Alert>}
               <br />
 
               <div className="row">
