@@ -102,7 +102,7 @@ let formIsValid = true;
       setReplyErr("reply can not be empty");  
       console.log("issues with reply - empty")      
     }
-  if (str.length > 9 || str.length < 10 ) {
+  if (str.length < 10) {
       formIsValid = false;
       setReplyErr("Your reply must be at least 10 chars long");
       console.log("issues with reply - not 9 chars long");
