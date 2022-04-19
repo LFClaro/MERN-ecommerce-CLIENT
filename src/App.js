@@ -44,12 +44,16 @@ import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
 
 function App() {
-  const [authorized, setAuthorized] = useState(false); 
+  const [authorized, setAuthorized] = useState(true); 
 // if token exist 
   // set usestae to true 
 // else 
   // set toke to false 
-
+  // let token = localStorage.getItem("token");
+  // if(!token){
+  //   setAuthorized(false);
+  // }
+  
 
 
 
