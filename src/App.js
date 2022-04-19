@@ -44,7 +44,15 @@ import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
 
 function App() {
-  const [authorized, setAuthorized] = useState(true); 
+  const [authorized, setAuthorized] = useState(false); 
+// if token exist 
+  // set usestae to true 
+// else 
+  // set toke to false 
+
+
+
+
   const [isAdminLogged, setIsAdminLogged] = useState(false);
 
   //This function is used to redirect user to admin panel
