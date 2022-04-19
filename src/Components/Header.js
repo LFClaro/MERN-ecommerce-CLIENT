@@ -56,7 +56,7 @@ export default function Header({ authorized, setAuthorized }) {
                   </NavDropdown>
                   
                 }                
-                {authorized &&
+                {authorized && 
                 <>
                 <Nav.Link href="/cart">
                   Cart

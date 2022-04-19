@@ -48,9 +48,7 @@ export const Profile = () => {
       console.log(err);
     }
   };
-  // {postInfo.map((post) => (
-  // <Posts post={post} key={post._id} />
-  // ))}
+  
 
 
   if (profileInfo === null) {
@@ -92,15 +90,7 @@ export const Profile = () => {
 
 
 };
-/*
-const ProfileList2 = (props) => {
-    const [formData, setFormData] = useState({
-      firstname: "",
-      lastname: "",
-      phone: "",
-      address: "",    
-    });
-*/
+
 
 
 const ProfileList = (props) => {
@@ -111,25 +101,7 @@ const ProfileList = (props) => {
     address: props.post.address,
   });
   const [token, setToken] = useState(localStorage.getItem("token"))
-
-  // useEffect(() => {
-
-  //   // check if this user is authenticated
-  //   let storageToken = localStorage.getItem("token");
-  //   console.log(storageToken)
-
-  //   // set the token and load initial api calls here
-  //   if (storageToken) {
-  //     setToken(storageToken)
-  //     setIsAuthenticated(true)
-  //     // call api here
-  //     getRentals(storageToken).then((data) => {
-  //       setCartItems(data.filter(i => !i.rentalDate))
-  //       setCartHistoryItems(data.filter(i => i.rentalDate))
-  //     })
-
-  //   }
-  // }, []);
+ 
 
 
   // break down form data into fields
@@ -218,13 +190,7 @@ const ProfileList = (props) => {
         },
       };
 
-      // let data = {
-      //   firstname,
-      //   lastname,
-      //   phone,
-      //   address,
-      //   image,
-      // };
+      
       let data = new FormData();
       data.append('firstname', firstname);
       data.append('lastname', lastname);
@@ -344,14 +310,7 @@ const ProfileList = (props) => {
                     <span style={{ color: "red" }}>{lastnameError}</span>
                   </div>
                 </div>
-                {/* <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Email</h6>
-                </div>
-                <div className="col-sm-9 text-secondary">
-                  <input type="text" className="form-control" value={props.post.email} />
-                </div>
-              </div> */}
+                
                 <div className="row mb-3">
                   <div className="col-sm-3">
                     <h6 className="mb-0">Phone</h6>
@@ -420,49 +379,7 @@ const ProfileList = (props) => {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* <div className="row mt-4">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="text-center">Available Products for Lease</h5>
-            {items.map((rental) => (
-              <ProfileItemCurrentRentals
-                key={rental._id}
-                id={rental._id}
-                itemId={rental.item}
-                rental={rental}
-                token={token}
-              />
-            ))}
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div className="row mt-4">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="text-center">Products Currently Renting</h5>
-            <div className="col-lg-2 d-inline p-2">
-              <img
-                src="assets/img/snowboard.png"
-                className="img-fluid animated rounded"
-                alt="Snowboard"
-                width="100"
-                height="100"
-              />
-            </div>
-            <div className="col-lg-10 d-inline p-2">
-              <p className="d-inline p-2">
-                <b>Description:</b> Burton Snowboard for 1 week or longer
-              </p>
-              <p className="d-inline p-2">
-                <b>Due to return: </b> Next week
-              </p>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      </div>      
     </>
   );
 };
@@ -563,13 +480,7 @@ const ProfileList2 = () => {
         },
       };
 
-      // let data = {
-      //   firstname,
-      //   lastname,
-      //   phone,
-      //   address,
-      //   image,
-      // };
+      
       let data = new FormData();
       data.append('firstname', firstname);
       data.append('lastname', lastname);
@@ -664,14 +575,7 @@ const ProfileList2 = () => {
                     <span style={{ color: "red" }}>{lastnameError}</span>
                   </div>
                 </div>
-                {/* <div className="row mb-3">
-                <div className="col-sm-3">
-                  <h6 className="mb-0">Email</h6>
-                </div>
-                <div className="col-sm-9 text-secondary">
-                  <input type="text" className="form-control" value={props.post.email} />
-                </div>
-              </div> */}
+                
                 <div className="row mb-3">
                   <div className="col-sm-3">
                     <h6 className="mb-0">Phone</h6>
@@ -725,47 +629,7 @@ const ProfileList2 = () => {
           </div>
         </div></form>
 
-      {/* <div className="row mt-4">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="text-center">Available Products for Lease</h5>
-            {items.map((item, index) => (
-              <ItemRow
-                key={index}
-                id={item._id}
-                image={item.image}
-                title={item.name}
-                description={item.description}
-              />
-            ))}
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div className="row mt-4">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="text-center">Products Currently Renting</h5>
-            <div className="col-lg-2 d-inline p-2">
-              <img
-                src="assets/img/snowboard.png"
-                className="img-fluid animated rounded"
-                alt="Snowboard"
-                width="100"
-                height="100"
-              />
-            </div>
-            <div className="col-lg-10 d-inline p-2">
-              <p className="d-inline p-2">
-                <b>Description:</b> Burton Snowboard for 1 week or longer
-              </p>
-              <p className="d-inline p-2">
-                <b>Due to return: </b> Next week
-              </p>
-            </div>
-          </div>
-        </div>
-      </div> */}
+      
     </>
   );
 };
