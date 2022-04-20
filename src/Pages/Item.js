@@ -247,11 +247,19 @@ const ItemUser = (props) => {
           process.env.REACT_APP_API_URL + "/api/items/",
           data,
           config
-        );
+        ).catch(function (error) {
+          if (error.response) {
+            let payload = error.response.data.errors[0];
+            setAlertExist(true);
+            setAlertMsg(`Oops! ${payload.msg}`);
+          }
+        });
 
-        console.log("Item updated");
-        alert("Your item has been updated!");
-        window.location.reload(); // refreshes the page
+        if (response.status === 200) {
+          console.log("Item updated");
+          alert("Your item has been updated!");
+          window.location.reload(); // refreshes the page
+        }
       } catch (err) {
         console.log(err.response.data.errors);
       }
@@ -261,9 +269,44 @@ const ItemUser = (props) => {
       console.log(formIsValid);
     }
   };
+  const onSubmitDelete = async (e) => {
+    e.preventDefault();
+
+    let config = {
+      headers: {
+        "Content-Type": "application/json"
+      },
+    };
+
+    try {
+      const response = await axios.delete(
+        process.env.REACT_APP_API_URL + "/api/items/", {
+        config,
+        data: {
+          "id": props.item._id
+        }
+      }
+      ).catch(function (error) {
+        if (error.response) {
+          let payload = error.response.data.errors[0];
+          setAlertExist(true);
+          setAlertMsg(`Oops! ${payload.msg}`);
+        }
+      });
+
+      if (response.status === 200) {
+        console.log("Item deleted");
+        alert("Your item has been deleted!");
+        window.location.href = "/profile"; // goes back to profile
+      }
+    } catch (err) {
+      console.log(err.response.data.errors);
+    }
+  };
 
   return (
     <>
+      <form id="formDelete" onSubmit={(e) => onSubmitDelete(e)}></form>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="row row-eq-height">
           <div className="col-lg-6">
@@ -373,13 +416,20 @@ const ItemUser = (props) => {
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-sm-3"></div>
-                  <div className="col-sm-9 text-secondary">
+                <div className="row justify-content-md-center">
+                  <div className="col-sm-6 d-flex justify-content-start">
                     <input
                       type="submit"
                       className="btn btn-primary px-4"
                       value="Save Changes"
+                    />
+                  </div>
+                  <div className="col-sm-6 d-flex justify-content-end">
+                    <input form="formDelete" type="hidden" value={props.item._id} />
+                    <input form="formDelete"
+                      type="submit"
+                      className="btn btn-danger px-4"
+                      value="Delete Item"
                     />
                   </div>
                 </div>

@@ -120,16 +120,16 @@ const AddItem = () => {
             process.env.REACT_APP_API_URL + "/api/items/",
             data,
             config
-          );
+          ).catch(function (error) {
+            if (error.response) {
+              let payload = error.response.data.errors[0];
+              setAlertExist(true);
+              setAlertMsg(`Oops! ${payload.msg}`);
+            }
+          });
 
-          // Setting the alert to read the error responses
-          const payload = await response.json();
-
-          if (response.status >= 400) {
-            setAlertExist(true)
-            setAlertMsg(`Oops! ${payload.errors}`);
-          } else if (response.status === 200) {
-            console.log("Item added");
+          if (response.status === 200) {
+            console.log(response.status.data);
             alert("Your item has been added!");
             // window.location.href = "/profile";
             navigate("/profile");
