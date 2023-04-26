@@ -1,6 +1,7 @@
 {
   "name": "mernmaniacs",
   "version": "0.1.0",
+  "homepage": "https://lfclaro.github.io/MERN-ecommerce-CLIENT",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -38,6 +39,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -60,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
   }
 }
