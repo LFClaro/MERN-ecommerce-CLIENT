@@ -1,0 +1,221 @@
+/*--------------------------------------------------------------
+# Checkout
+--------------------------------------------------------------*/
+
+.cart button {
+    background: #5846f9;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 5px;
+  }
+.cart button:hover {
+    background: #7b27d8;
+    color: #fff;
+
+}
+
+/*--------------------------------------------------------------
+# Checkout
+--------------------------------------------------------------*/
+
+.checkout-box {
+    background-color: #fff;
+    /* border-radius: 10px; */
+    padding: 20px 20px 30px 20px;
+    box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
+}
+
+.checkout-btn {
+    width: 100%;
+}
+
+/*--------------------------------------------------------------
+# Messages
+--------------------------------------------------------------*/
+
+.messages-box {
+    background-color: #ffffff;
+    width: 95%;
+    height: 85vh;
+    /* border-radius: 10px; */
+    
+}
+
+.messages-box textarea {
+    resize: none;
+    width: 95%;
+}
+
+.messages-chat-history {
+    background-color: #f0f0f0;
+    margin-top: 10px;
+    overflow: auto;
+    height: 70vh;
+}
+
+.messages-chat-history-data-right {
+    background-color: rgba(116, 15, 214, 0.9) ;
+    padding: 10px;
+    margin: 10px;
+    float: right;
+    margin-top: 10px;
+    width: 30%;
+    display:block;
+    clear: both;
+    color: #fff;
+}
+
+.messages-chat-history-data-left {
+    background-color: rgba(86, 58, 250, 0.9);
+    padding: 10px;
+    margin: 10px;
+    float: left;
+    margin-top: 10px;
+    width: 30%;
+    display:block;
+    clear: both;
+    color: #fff;
+}
+
+.messages-chat-box {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.messages-contacts {
+    margin-top: 10px;
+    border-right: 1px solid #b6b5b5;
+    height: 98%;
+}
+
+.messages-convo {
+    margin-top: 10px;
+}
+
+.messages-contacts-list{
+    overflow: auto;
+    height: 70vh;
+
+}
+
+.messages-contacts button {
+    background-color: transparent;
+    width: 100%;
+    border: none;
+}
+
+.messages-textarea {
+    resize: none;
+}
+
+.contact-box {
+    width: 100%;
+}
+
+.messages button[type=submit] {
+    background: #5846f9;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 5px;
+  }
+.messages button[type=submit]:hover {
+    background: #7b27d8;
+    color: #fff;
+
+}
+@-webkit-keyframes animate-loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+@keyframes animate-loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+/*--------------------------------------------------------------
+# Schedule
+--------------------------------------------------------------*/
+
+.schedule form {
+    background-color: #fff;
+    /* border-radius: 10px; */
+    padding: 10px;
+    margin: 3px;
+}
+
+.schedule button {
+    background: #5846f9;
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 5px;
+  }
+.schedule button:hover {
+    background: #7b27d8;
+    color: #fff;
+
+}
+@-webkit-keyframes animate-loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+@keyframes animate-loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+/*--------------------------------------------------------------
+# Terms
+--------------------------------------------------------------*/
+
+.terms-box {
+    padding-top: 16px;
+    background-color: darkslateblue;
+    height: 75vh;
+    overflow: auto;
+}
+
+
+/*--------------------------------------------------------------
+# Scrollbars
+--------------------------------------------------------------*/
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+    
+::-webkit-scrollbar-track {
+    background: none;
+    border-radius: 10px;
+}
+    
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ccc;  
+}
+    
+::-webkit-scrollbar-thumb:hover {
+    background: #999;  
+}
