@@ -12,7 +12,7 @@ export default function Main() {
                             <h2>We have just the solution!</h2>                            
                         </div>
                         <div className="col-xl-4 col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="150">
-                            <img src="assets/img/hero-img.png" className="img-fluid animated" alt="" />
+                            <img src={process.env.PUBLIC_URL + "/assets/img/hero-img.png"} className="img-fluid animated" alt="" />
                         </div>
                     </div>
                 </div>

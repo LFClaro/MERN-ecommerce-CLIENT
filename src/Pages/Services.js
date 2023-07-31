@@ -12,19 +12,19 @@ export const Services = () => {
     {
       title: "Lease Products",
       notes: "Got some items laying around the house and looking to make some extra cash? We Got You Covered!",
-      picture: "assets/img/lease.svg",
+      picture: `${process.env.PUBLIC_URL}/assets/img/lease.svg`,
       id: v4(),
     },
     {
       title: "Rent Items",
       notes: "Need something quick to complete your set up or wanna try out a new hobby? We Got You Covered!",
-      picture: "assets/img/rent.svg",
+      picture: `${process.env.PUBLIC_URL}/assets/img/rent.svg`,
       id: v4(),
     },
     {
       title: "Our Community",
       notes: "Want to be part of a community that shares & discusses great new products? We Got You Covered! ",
-      picture: "assets/img/hangout.svg",
+      picture: `${process.env.PUBLIC_URL}/assets/img/hangout.svg`,
       id: v4(),
     },    
   ]);

@@ -41,7 +41,7 @@ const Team = () => {
                     data-aos-delay="150"
                   >
                     <img
-                      src="assets/img/team/cezmi-profile.jpeg"
+                      src={process.env.PUBLIC_URL + "/assets/img/team/cezmi-profile.jpeg"}
                       className="img-fluid animated rounded"
                       alt="Cezmi Aktepe"
                       width="200"
@@ -86,7 +86,7 @@ const Team = () => {
                     data-aos-delay="150"
                   >
                     <img
-                      src="assets/img/team/tim-profile.jpeg"
+                      src={process.env.PUBLIC_URL + "/assets/img/team/tim-profile.jpeg"}
                       className="img-fluid animated rounded"
                       alt="Tim Burns"
                       width="200"
@@ -134,7 +134,7 @@ const Team = () => {
                     data-aos-delay="150"
                   >
                     <img
-                      src="assets/img/team/luiz-profile.jpeg"
+                      src={process.env.PUBLIC_URL + "/assets/img/team/luiz-profile.jpeg"} 
                       className="img-fluid animated rounded"
                       alt="Luiz Claro"
                       width="200"
@@ -180,7 +180,7 @@ const Team = () => {
                     data-aos-delay="150"
                   >
                     <img
-                      src="assets/img/team/christine-profile.jpeg"
+                      src={process.env.PUBLIC_URL + "/assets/img/team/christine-profile.jpeg"}
                       className="img-fluid animated rounded"
                       alt="Christine Ebeo"
                       width="200"
@@ -226,7 +226,7 @@ const Team = () => {
                     data-aos-delay="150"
                   >
                     <img
-                      src="assets/img/team/alex-profile.jpeg"
+                      src={process.env.PUBLIC_URL + "/assets/img/team/alex-profile.jpeg"} 
                       className="img-fluid animated rounded"
                       alt="Alex Xu"
                       width="200"
