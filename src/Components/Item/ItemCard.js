@@ -17,7 +17,7 @@ const ItemCard = ({ id, image, price, title, rate, date, numOfComments }) => {
 
             {/* to the item details page */}
             {/* <Link to={url} className="text-light">View Post</Link> */}
-            <CardActionArea component={Link} to={process.env.PUBLIC_URL + "/item/" + id} disableRipple>
+            <CardActionArea component={Link} to={process.env.PUBLIC_URL + "/#/item/" + id} disableRipple>
                 <CardMedia component="img" height="194" image={image} alt="item image" style={{ padding: 4 }} />
                 <CardContent>
                     <Typography>${price}</Typography>

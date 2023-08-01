@@ -137,7 +137,7 @@ let formIsValid = true;
 
         console.log("message sent");
         alert("Your message has been received, please check your email");
-        window.location.href = process.env.PUBLIC_URL + "/contact";
+        window.location.href = process.env.PUBLIC_URL + "/#/contact";
       } catch (e) {
         console.log(e.response.data.errors);
       }

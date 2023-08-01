@@ -132,7 +132,7 @@ const AddItem = () => {
             console.log(response.status.data);
             alert("Your item has been added!");
             // window.location.href = "/profile";
-            navigate(process.env.PUBLIC_URL + "/profile");
+            navigate(process.env.PUBLIC_URL + "/#/profile");
           }
         } catch (err) {
           console.log(err);

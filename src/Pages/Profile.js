@@ -206,7 +206,7 @@ const ProfileList = (props) => {
 
         console.log("profile updated sent");
         // alert("Your message has been received, please check your email");
-        window.location.href = process.env.PUBLIC_URL + "/profile"; // refreshes the page
+        window.location.href = process.env.PUBLIC_URL + "/#/profile"; // refreshes the page
         // console.log(data);
       } catch (e) {
         console.log(e.response.data.errors);
@@ -496,7 +496,7 @@ const ProfileList2 = () => {
 
         console.log("profile updated sent");
         // alert("Your message has been received, please check your email");
-        window.location.href = process.env.PUBLIC_URL + "/profile"; // refreshes the page
+        window.location.href = process.env.PUBLIC_URL + "/#/profile"; // refreshes the page
         // console.log(data);
       } catch (e) {
         console.log(e.response.data.errors);

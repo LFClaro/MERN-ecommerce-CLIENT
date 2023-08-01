@@ -77,7 +77,7 @@ const Checkout = () => {
 
         checkoutRentalItem(token, stripeToken, checkoutItem)
             .then((data) => {
-                window.open(process.env.PUBLIC_URL + "/cart", "_self")
+                window.open(process.env.PUBLIC_URL + "/#/cart", "_self")
             })
 
     }

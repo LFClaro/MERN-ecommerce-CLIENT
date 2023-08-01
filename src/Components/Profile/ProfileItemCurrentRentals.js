@@ -27,7 +27,7 @@ export const ProfileItemCurrentRentals = ({ id, itemId, rental, token }) => {
     const handleCheckout = (event) => {
         // redirect to schedule page
 
-        window.open(process.env.PUBLIC_URL + "/schedule?id=" + id, "_self")
+        window.open(process.env.PUBLIC_URL + "/#/schedule?id=" + id, "_self")
     }
 
     const handleReviewTitleOnChange = (input) => {
