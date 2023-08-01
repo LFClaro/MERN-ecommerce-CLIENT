@@ -12,7 +12,7 @@ const NavbarAdm = () => {
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <Link className="nav-link" to="/">Home</Link>
+                            <Link className="nav-link" to={process.env.PUBLIC_URL}>Home</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="users">Users</Link>

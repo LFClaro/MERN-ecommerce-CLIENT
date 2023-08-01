@@ -75,7 +75,7 @@ const Schedule = () => {
 
         updateRentalDateTime(token, id, rentalItem, { pickup: pickupDate, dropoff: date })
             .then((data) => {
-                window.open("/checkout?id=" + id, "_self")
+                window.open(process.env.PUBLIC_URL + "/checkout?id=" + id, "_self")
             })
     }
 

@@ -8,24 +8,24 @@ export default function Header({ authorized, setAuthorized }) {
     <>
       <header id="header" className="fixed-top ">
         <div className="container d-flex align-items-center justify-content-between">
-          <h1 className="logo"><a href="/">MERN Maniacs</a></h1>
+          <h1 className="logo"><a href={process.env.PUBLIC_URL}>MERN Maniacs</a></h1>
           <Navbar collapseOnSelect expand="lg" variant="dark">
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav" >
               <Nav className="mr-auto ">
-                <Nav.Link href="/about">
+                <Nav.Link href={process.env.PUBLIC_URL + "/about"}>
                   About
                 </Nav.Link>
-                <Nav.Link href="/services">
+                <Nav.Link href={process.env.PUBLIC_URL + "/services"}>
                   Services
                 </Nav.Link>
-                <Nav.Link href="/team">
+                <Nav.Link href={process.env.PUBLIC_URL + "/team"}>
                   Team
                 </Nav.Link>
-                <Nav.Link href="/profile">
+                <Nav.Link href={process.env.PUBLIC_URL + "/profile"}>
                   Profile
                 </Nav.Link>
-                <Nav.Link href="/community">
+                <Nav.Link href={process.env.PUBLIC_URL + "/community"}>
                   Community
                 </Nav.Link>
                 {authorized &&
@@ -35,20 +35,20 @@ export default function Header({ authorized, setAuthorized }) {
                     menuVariant="light"
                   >
                     <NavDropdown.Item
-                      href="/addItem"
+                      href={process.env.PUBLIC_URL + "/addItem"}
                       style={{ color: "indigo" }}
                     >
                       Add Item
                     </NavDropdown.Item>
                     <NavDropdown.Item
-                      href="/products"
+                      href={process.env.PUBLIC_URL + "/products"}
                       style={{ color: "indigo" }}
                     >
                       Rent Item
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item
-                      href="/yourProducts"
+                      href={process.env.PUBLIC_URL + "/yourProducts"}
                       style={{ color: "indigo" }}
                     >
                       See your Items
@@ -58,23 +58,23 @@ export default function Header({ authorized, setAuthorized }) {
                 }                
                 {authorized && 
                 <>
-                <Nav.Link href="/cart">
+                <Nav.Link href={process.env.PUBLIC_URL + "/cart"}>
                   Cart
                 </Nav.Link>
-                <Nav.Link href="/messages">
+                <Nav.Link href={process.env.PUBLIC_URL + "/messages"}>
                   Messages
                 </Nav.Link>
                 </>
                 }
               </Nav>
               <Nav>
-                <Nav.Link href="/contact">
+                <Nav.Link href={process.env.PUBLIC_URL + "/contact"}>
                   Contact
                 </Nav.Link>
-                <Nav.Link href="/faq">
+                <Nav.Link href={process.env.PUBLIC_URL + "/faq"}>
                   FAQ
                 </Nav.Link>
-                {authorized === false && <Link className="getstarted scrollto" to="/login">Get Started</Link>}
+                {authorized === false && <Link className="getstarted scrollto" to={process.env.PUBLIC_URL + "/login"}>Get Started</Link>}
                 {authorized && <HeaderAvatar setAuthorized={setAuthorized} />}
               </Nav>
             </Navbar.Collapse>

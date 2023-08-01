@@ -17,7 +17,7 @@ const ItemCard = ({ id, image, price, title, rate, date, numOfComments }) => {
 
             {/* to the item details page */}
             {/* <Link to={url} className="text-light">View Post</Link> */}
-            <CardActionArea component={Link} to={"/item/" + id} disableRipple>
+            <CardActionArea component={Link} to={process.env.PUBLIC_URL + "/item/" + id} disableRipple>
                 <CardMedia component="img" height="194" image={image} alt="item image" style={{ padding: 4 }} />
                 <CardContent>
                     <Typography>${price}</Typography>
@@ -34,10 +34,10 @@ const ItemCard = ({ id, image, price, title, rate, date, numOfComments }) => {
                     <Grid item>
                         <Rating name="half-rating" defaultValue={rate} precision={0.5} size='small' readOnly />
                         <Typography variant="caption">({numOfComments ? numOfComments : 0})</Typography>
-                        <IconButton component={Link} to="/" aria-label="add to favorites">  <FavoriteIcon />  </IconButton>
+                        <IconButton component={Link} to={process.env.PUBLIC_URL} aria-label="add to favorites">  <FavoriteIcon />  </IconButton>
                     </Grid>
                     <Grid item>
-                        <IconButton component={Link} to="/" aria-label="add to cart">  <ShoppingCartIcon />  </IconButton>
+                        <IconButton component={Link} to={process.env.PUBLIC_URL} aria-label="add to cart">  <ShoppingCartIcon />  </IconButton>
                     </Grid>
                 </Grid>
             </CardActions>

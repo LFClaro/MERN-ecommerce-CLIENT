@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const ProfileItemRow = ({ id, image, title, description }) => {
   return (
     <>
-      <Link to={"/item/" + id}>
+      <Link to={process.env.PUBLIC_URL+ "/item/" + id}>
         <div className="col-lg-2 d-inline p-2">
           <img
             src={image}

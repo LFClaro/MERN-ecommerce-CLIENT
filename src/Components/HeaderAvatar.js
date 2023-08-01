@@ -38,7 +38,7 @@ const HeaderAvatar = ({ setAuthorized }) => {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="User Image" src="assets/img/profile-default.png" />
+                        <Avatar alt="User Image" src={process.env.PUBLIC_URL + "/assets/img/profile-default.png"} />
                     </IconButton>
                 </Tooltip>
                 <Menu

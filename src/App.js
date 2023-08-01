@@ -87,31 +87,31 @@ function App() {
       <BrowserRouter>
         <Header authorized={authorized} setAuthorized={setAuthorized} />
         <Routes>
-          <Route path='' element={<Main />} />
-          <Route path='about' element={<About />} />
-          <Route path='blog' element={<Blog />} />
-          <Route path='cart' element={<Cart />} />
-          <Route path='checkout' element={<Checkout />} />
-          <Route path='contact' element={<Contact />} />
-          <Route path='faq' element={<Faq />} />
-          <Route path='messages' element={<Messages />} />
-          <Route path='schedule' element={<Schedule />} />
-          <Route path='services' element={<Services />} />
-          <Route path='team' element={<Team />} />
-          <Route path='terms' element={<Terms />} />
-          <Route path='profile' element={<Profile />} />
-          <Route path='community' element={<Community />} />
-          <Route path='communityReply' element={<CommunityReply />} />
-          <Route path='communityRep/:id' element={<CommunityRep />} />
-          <Route path='item/:id' element={<Item />} />
-          <Route path='addItem' element={<AddItem />} />
-          <Route path='signup' element={<SignUp setAuthorized={setAuthorized} />} />
-          <Route path='login' element={<Login setAuthorized={setAuthorized} adminLogInFun={adminLogInFun} />} />
-          <Route path='products' element={<ItemList />} />
-          <Route path='yourProducts' element={<ItemListUser />} />
-          <Route path='signup' element={<SignUp />} />
-          <Route path='login' element={<Login />} />
-          <Route path='privacy' element={<PrivacyPolicy />} />
+          <Route path={process.env.PUBLIC_URL} element={<Main />} />
+          <Route path={process.env.PUBLIC_URL + '/about'} element={<About />} />
+          <Route path={process.env.PUBLIC_URL + '/blog'} element={<Blog />} />
+          <Route path={process.env.PUBLIC_URL + '/cart'} element={<Cart />} />
+          <Route path={process.env.PUBLIC_URL + '/checkout' } element={<Checkout />} />
+          <Route path={process.env.PUBLIC_URL + '/contact'} element={<Contact />} />
+          <Route path={process.env.PUBLIC_URL + '/faq'} element={<Faq />} />
+          <Route path={process.env.PUBLIC_URL + '/messages'} element={<Messages />} />
+          <Route path={process.env.PUBLIC_URL + '/schedule'} element={<Schedule />} />
+          <Route path={process.env.PUBLIC_URL + '/services'} element={<Services />} />
+          <Route path={process.env.PUBLIC_URL + '/team'} element={<Team />} />
+          <Route path={process.env.PUBLIC_URL + '/terms'} element={<Terms />} />
+          <Route path={process.env.PUBLIC_URL + '/profile'} element={<Profile />} />
+          <Route path={process.env.PUBLIC_URL + '/community'} element={<Community />} />
+          <Route path={process.env.PUBLIC_URL + '/communityReply'} element={<CommunityReply />} />
+          <Route path={process.env.PUBLIC_URL + '/communityRep/:id'} element={<CommunityRep />} />
+          <Route path={process.env.PUBLIC_URL + '/item/:id'} element={<Item />} />
+          <Route path={process.env.PUBLIC_URL + '/addItem'} element={<AddItem />} />
+          <Route path={process.env.PUBLIC_URL + '/signup'} element={<SignUp setAuthorized={setAuthorized} />} />
+          <Route path={process.env.PUBLIC_URL + '/login'} element={<Login setAuthorized={setAuthorized} adminLogInFun={adminLogInFun} />} />
+          <Route path={process.env.PUBLIC_URL + '/products'} element={<ItemList />} />
+          <Route path={process.env.PUBLIC_URL + '/yourProducts'} element={<ItemListUser />} />
+          <Route path={process.env.PUBLIC_URL + '/signup'} element={<SignUp />} />
+          <Route path={process.env.PUBLIC_URL + '/login'} element={<Login />} />
+          <Route path={process.env.PUBLIC_URL + '/privacy'} element={<PrivacyPolicy />} />
         </Routes>
         <Footer />
       </BrowserRouter>

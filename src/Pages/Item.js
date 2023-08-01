@@ -97,7 +97,7 @@ const ItemDetails = (props) => {
 
       console.log("Rental created");
       alert("Item added to cart!");
-      window.location.href = "/cart"; // redirect to cart
+      window.location.href = process.env.PUBLIC_URL + "/cart"; // redirect to cart
     } catch (err) {
       console.log(err.response.data.errors);
     }
@@ -297,7 +297,7 @@ const ItemUser = (props) => {
       if (response.status === 200) {
         console.log("Item deleted");
         alert("Your item has been deleted!");
-        window.location.href = "/profile"; // goes back to profile
+        window.location.href = process.env.PUBLIC_URL + "/profile"; // goes back to profile
       }
     } catch (err) {
       console.log(err.response.data.errors);
