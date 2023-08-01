@@ -87,7 +87,7 @@ function App() {
       <BrowserRouter>
         <Header authorized={authorized} setAuthorized={setAuthorized} />
         <Routes>
-          <Route path='/' element={<Main />} />
+          <Route path='' element={<Main />} />
           <Route path='about' element={<About />} />
           <Route path='blog' element={<Blog />} />
           <Route path='cart' element={<Cart />} />
